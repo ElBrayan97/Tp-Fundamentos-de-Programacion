@@ -136,6 +136,7 @@ var
 	Busc, Busc2, Busc3, B:Longint;
 	Mus:Museo;
 	Artist:Artista;
+	Aux:String;
 
 Begin
 Menu_Cargar_Obra_Part1;
@@ -157,13 +158,15 @@ If (Pos=-1) then // esto es si no lo encontro.
 	 TextColor(Green);
 	 Gotoxy(35,7);
 	 Read(obr.Material);
-
+	 
+	 Readkey;
+	 
 	 TextColor(Green);
 	 Gotoxy(31,9);
 	 Read(N1);
 	 X:=(31);
 	 Y:=(9);
-	 Validacion_Integer(N1,B,X,Y);
+	 Validacion_Integer2(N1,B,X,Y);
 	 obr.Anio:=B;
 
 	 TextColor(Green);

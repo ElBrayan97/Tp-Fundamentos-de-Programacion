@@ -88,7 +88,7 @@ las coordenadas, tienen X e Y}
 Procedure Aviso_Artista_Inexistente;
 Procedure Aviso_Museo_Inexistente;
 Procedure Aviso_Director_Inexistente;
-Procedure Dato_Ingresado_Erroneo(X:Byte; Y:Byte; Tamanio:Byte);
+Procedure Dato_Ingresado_Erroneo(X:Byte; Y:Byte);
 Procedure Aviso_Dato_Inexistente;
 Procedure Aviso_Carga_Exitosa;
 Procedure Aviso_Dato_Existente;
@@ -268,7 +268,7 @@ Begin
  Writeln ('| Ingrese el DNI del artista:                                \\');
  Writeln ('|------------------------------------------------------------\\');
  Writeln ('| Ingrese el Codigo del Museo:                               \\');
- Writeln (' \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\');
+ Write (' \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\');
 End;
 
 //ARTISTA
@@ -325,7 +325,7 @@ Begin
  Writeln ('|------------------------------------------------------\\');
  Writeln ('| Ingrese el DNI del Director:                         \\');
  Writeln ('|------------------------------------------------------\\'); 
- Writeln (' \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\');
+ Write (' \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\');
 End;
 
 
@@ -358,7 +358,7 @@ Begin
  Writeln ('|------------------------------------------------------\\');
  Writeln ('| Ingrese el el Telefono:                              \\'); 
  Writeln ('|______________________________________________________\\');
- Writeln (' \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\');
+ Write (' \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\');
 End;
 
 //MENUES DE EDICION
@@ -737,20 +737,18 @@ Begin
  Tick();
 End;
 
-Procedure Dato_Ingresado_Erroneo(X:Byte; Y:Byte; Tamanio:Byte);
+Procedure Dato_Ingresado_Erroneo(X:Byte; Y:Byte);
 Var
  A,B:Byte;
 Begin
  A:=37;
  B:=1;
  TextColor(Red);
- Gotoxy (A,B ) ; Write ('+----------------------------+');
- Gotoxy (A,B+1); Write ('| INGRESO UN DATO INCORRECTO |');
- Gotoxy (A,B+2); Write ('+----------------------------+');
+ Gotoxy (A,B ) ; Write ('+---------------------------------------------------+');
+ Gotoxy (A,B+1); Write ('| INGRESO UN DATO INCORRECTO, INTRO PARA REINTENTAR |');
+ Gotoxy (A,B+2); Write ('+---------------------------------------------------+');
  Readkey;
- Window(A,B,A+30,B+2);
- Clrscr;
- Window(X,Y,X+Tamanio,Y);
+ Window(A,B,A+53,B+2);
  Clrscr;
  Window(1,1,120,80);
 End;
