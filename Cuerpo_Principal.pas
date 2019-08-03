@@ -39,5 +39,5 @@ Window (1,1,120,35);
  Gotoxy (45,18); Writeln ('         1 -> NO            ');
  Gotoxy (45,19); Writeln ('                            ');
  Gotoxy (120,30); R:=Readkey;
-Until (R='0') or (R='s') or (R='S'); 
+Until (R='0') or (R='s') or (R='S');
 END.

@@ -5,9 +5,9 @@ Uses Crt;
 	
 Type
 Museo=Record
-	 Codigo,DNI:LongInt;
-	 Nombre, Calle, Ciudad, Pais,Telefono:String;
-	 Director:LongInt;
+	 Codigo, DNI, Telefono:Int64;
+	 Nombre, Calle, Ciudad, Pais:String;
+	 Director:Integer;
 	 Activo:Boolean;
 	End;
 	
@@ -25,12 +25,12 @@ Procedure GuardarM(Var Museos:Archivo_Museos; Var Mus:Museo);
 Procedure CerrarM(var Museos:Archivo_Museos);
 Procedure Cargar_Museos(var Museos:Archivo_Museos;var v:T_vec_mus;var d:integer);
 Procedure burbuja_mejorado(var v:T_vec_mus;d:integer);
-Procedure Buscar_Museo(var Museos:Archivo_Museos;var pos:integer;buscado:integer; var Mus:Museo);
+Procedure Buscar_Museo(var Museos:Archivo_Museos; var pos:integer; buscado:int64; var Mus:Museo);
 Implementation //Parte Privada
 
 Procedure AbrirM(var Museos:Archivo_Museos);
 Begin
-Assign(Museos,'X:\FERNANDO\ARCHMUS.dat');
+Assign(Museos,'X:\ARCHMUS.dat');
 Reset(Museos);
 If (ioresult <> 0) then
 	Begin
@@ -108,7 +108,7 @@ BEGIN
 	end;
 END;
 
-Procedure Buscar_Museo(var Museos:Archivo_Museos;var pos:integer;buscado:integer; var Mus:Museo);
+Procedure Buscar_Museo(var Museos:Archivo_Museos;var pos:integer;buscado:int64; var Mus:Museo);
 var posicion:integer;
 begin
 posicion:=0;

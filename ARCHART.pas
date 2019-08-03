@@ -5,7 +5,7 @@ Uses Crt;
 
 Type 
 Artista=Record
-	 DNI:LongInt;
+	 DNI:Int64;
 	 Nombre:String;
 	 Direccion:String;
 	 Fecha_Nacimiento:String;
@@ -25,14 +25,14 @@ Procedure GuardarA(var Artistas:Archivo_Artistas; Reg:Artista);
 Procedure CerrarA(var Artistas:Archivo_Artistas);
 Procedure Cargar_Artista(var Artistas:Archivo_Artistas;var v:T_vec_art;var d:integer);
 Procedure burbuja_mejorado(var v:T_vec_art;d:integer);
-Procedure Buscar_Artista(var Artistas:Archivo_Artistas; var Pos:integer; buscado:LongInt; var art:Artista);
+Procedure Buscar_Artista(var Artistas:Archivo_Artistas; var Pos:integer; buscado:Int64; var art:Artista);
 
 
 Implementation //Parte Privada
 
 Procedure AbrirA(Var Artistas:Archivo_Artistas);
 Begin
-Assign(Artistas,'X:\FERNANDO\ARCHART.dat');
+Assign(Artistas,'X:\ARCHART.dat');
 Reset(Artistas);
 If (IOResult <> 0) then
 	Begin
@@ -107,7 +107,7 @@ BEGIN
 	end;
 end;
 
-Procedure Buscar_Artista(var Artistas:Archivo_Artistas; var pos:integer; buscado:LongInt; var art:Artista);
+Procedure Buscar_Artista(var Artistas:Archivo_Artistas; var pos:integer; buscado:Int64; var art:Artista);
 var 
 	posicion:integer;
 

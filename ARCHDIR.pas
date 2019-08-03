@@ -6,11 +6,11 @@ Uses Crt;
 Type 
 Director=Record
 	 APyNom:String[30];
-	 DNI:LongInt;
+	 DNI:Int64;
 	 Direccion:String;
 	 Periodo_Asignacion_Inic:String;
 	 Periodo_Asignacion_Fin:String;
-	 Telefono:String;
+	 Telefono:String[20];
 	 Activo:boolean;
 	End;
 
@@ -29,13 +29,13 @@ Procedure GuardarD(var Directores:Archivo_Directores; Direct:Director);
 Procedure CerrarD(var Directores:Archivo_Directores);
 procedure Cargar_director(var Directores:archivo_Directores; var v:T_vec_dir; var d:integer);
 Procedure burbuja_mejorado(var v:T_vec_dir; d:integer);
-Procedure Buscar_Director(var Directores:Archivo_Directores;var pos:integer;buscado:LongInt; var Direct:Director);
+Procedure Buscar_Director(var Directores:Archivo_Directores;var pos:integer; buscado:Int64; var Direct:Director);
 
 Implementation //Parte Privada
 
 Procedure AbrirD(Var Directores:Archivo_Directores);
 Begin
-Assign(Directores,'X:\FERNANDO\ARCHDIR.dat');
+Assign(Directores,'X:\ARCHDIR.dat');
 Reset(Directores);
 If (ioresult <> 0) then
 	Begin
@@ -115,7 +115,7 @@ BEGIN
 	end;
 end;
 
-Procedure Buscar_Director (var Directores:Archivo_Directores;  var pos:integer;  buscado:LongInt;  var Direct:Director);
+Procedure Buscar_Director (var Directores:Archivo_Directores;  var pos:integer;  buscado:Int64;  var Direct:Director);
 var 
 	posicion:integer;
 	

@@ -5,7 +5,7 @@ Uses Crt;
 
 Type
 Obra=Record
-	 Artista:LongInt;
+	 Artista:Int64;
 	 Anio:Integer;
 	 Descripcion:String;
 	 Tipo:String;
@@ -15,8 +15,8 @@ Obra=Record
 	 Peso:Real;
 	 Completo:String[2];
 	 Partes:Byte;
-	 Codigo_Obra:LongInt;
-	 Codigo_Museo:LongInt;
+	 Codigo_Obra:Int64;
+	 Codigo_Museo:Int64;
 	 Activo:boolean;
 	End;
 T_vec_obras=array [1..100] of Obra;	
@@ -34,15 +34,15 @@ Procedure GuardarO (var Obras:Archivo_Obras; var Obr:Obra);
 Procedure CerrarO (var Obras:Archivo_Obras);
 Procedure Cargar_Obra (var Obras:Archivo_Obras;var v:T_vec_obras;var d:integer);
 Procedure burbuja_mejorado (var v:T_vec_obras;d:integer);
-Procedure Buscar_Obras (var Obras:Archivo_Obras;var pos:integer;buscado:integer; var obr:Obra);//el archivo solo va desde var hasta_obra
-Procedure Buscar_Museo_en_Obras (var Obras:Archivo_Obras;buscado:Longint;var obr:Obra);
-Procedure Buscar_Artista_en_Obras (var Obras:Archivo_Obras;buscado:LongInt;var obr:Obra);
+Procedure Buscar_Obras (var Obras:Archivo_Obras;var pos:integer;buscado:int64; var obr:Obra);//el archivo solo va desde var hasta_obra
+Procedure Buscar_Museo_en_Obras (var Obras:Archivo_Obras;buscado:Int64;var obr:Obra);
+Procedure Buscar_Artista_en_Obras (var Obras:Archivo_Obras; buscado:Int64; var obr:Obra);
 
 Implementation //Parte Privada
 
 Procedure AbrirO(Var Obras:Archivo_Obras);
 Begin
-Assign(Obras,'X:\FERNANDO\ARCHOBR.dat');
+Assign(Obras,'X:\ARCHOBR.dat');
 Reset(Obras);
 	If (ioresult <> 0) Then
 	Begin
@@ -123,7 +123,7 @@ BEGIN
 	end;
 end;
 
-Procedure Buscar_Obras(var Obras:Archivo_Obras;var pos:integer;buscado:integer;var Obr:Obra);
+Procedure Buscar_Obras(var Obras:Archivo_Obras;var pos:integer; buscado:int64; var Obr:Obra);
 var posicion:integer;
 begin
 posicion:=0;
@@ -139,7 +139,7 @@ while (not eof ( Obras)) and (pos=-1) do
 	end;	
 end;		
 
-Procedure Buscar_Museo_en_Obras(var Obras:Archivo_Obras;buscado:Longint;var Obr:Obra);// Con este procedure recorro el archivo, para mostrar las Obras que pertenecen a un determinado Museo.
+Procedure Buscar_Museo_en_Obras(var Obras:Archivo_Obras; buscado:Int64;var Obr:Obra);// Con este procedure recorro el archivo, para mostrar las Obras que pertenecen a un determinado Museo.
 var posicion:integer;                                                                 //Solo muestra, no devuelve ninguna posicion o dato.
 begin
 posicion:=0;
@@ -154,7 +154,7 @@ while (not eof ( Obras)) do
 	end;	
 End;
 
-Procedure Buscar_Artista_en_Obras(var Obras:Archivo_Obras;buscado:LongInt;var Obr:Obra);// Con este procedure recorro el archivo Obras, para mostrar los Obras que pertenecen a un determinado Artista.
+Procedure Buscar_Artista_en_Obras(var Obras:Archivo_Obras; buscado:Int64 ;var Obr:Obra);// Con este procedure recorro el archivo Obras, para mostrar los Obras que pertenecen a un determinado Artista.
 var posicion:integer;//Solo muestra, no devuelve ninguna posicion o dato.
 begin
 posicion:=0;
