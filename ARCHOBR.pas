@@ -18,8 +18,9 @@ Obra=Record
 	 Codigo_Obra:Int64;
 	 Codigo_Museo:Int64;
 	 Activo:boolean;
+	 Cantidad_Obras:Int64;
 	End;
-T_vec_obras=array [1..100] of Obra;	
+T_vec_obras=array [1..14] of Obra;	
 Archivo_Obras=file of Obra;
 
 Var
@@ -35,7 +36,7 @@ Procedure CerrarO (var Obras:Archivo_Obras);
 Procedure Cargar_Obra (var Obras:Archivo_Obras;var v:T_vec_obras;var d:integer);
 Procedure burbuja_mejorado (var v:T_vec_obras;d:integer);
 Procedure Buscar_Obras (var Obras:Archivo_Obras;var pos:integer;buscado:int64; var obr:Obra);//el archivo solo va desde var hasta_obra
-Procedure Buscar_Museo_en_Obras (var Obras:Archivo_Obras;buscado:Int64;var obr:Obra);
+Procedure Buscar_Museo_en_Obras (var Obras:Archivo_Obras; buscado:Int64; var obr:Obra);
 Procedure Buscar_Artista_en_Obras (var Obras:Archivo_Obras; buscado:Int64; var obr:Obra);
 
 Implementation //Parte Privada
@@ -86,7 +87,7 @@ while (not eof (Obras)) do
 		inc(d);
 		v[d].Artista:=obr.Artista;
 		v[d].Anio:=obr.Anio;
-		V[d].Tipo:=obr.Tipo;
+		v[d].Tipo:=obr.Tipo;
 		v[d].Material:=obr.Material;
 		v[d].Estilo:=obr.Estilo;
 		v[d].Altura:=obr.Altura;
@@ -140,7 +141,7 @@ while (not eof ( Obras)) and (pos=-1) do
 end;		
 
 Procedure Buscar_Museo_en_Obras(var Obras:Archivo_Obras; buscado:Int64;var Obr:Obra);// Con este procedure recorro el archivo, para mostrar las Obras que pertenecen a un determinado Museo.
-var posicion:integer;                                                                 //Solo muestra, no devuelve ninguna posicion o dato.
+var posicion:integer;                                                                //Solo muestra, no devuelve ninguna posicion o dato.
 begin
 posicion:=0;
 while (not eof ( Obras)) do

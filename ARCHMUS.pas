@@ -11,12 +11,12 @@ Museo=Record
 	 Activo:Boolean;
 	End;
 	
-T_vec_mus=array [1..100] of Museo;
+T_vec_mus=array [1..9] of Museo;
 Archivo_Museos = File of Museo;
 
 Var
-Museos:Archivo_Museos;
-Mus:Museo;
+	Museos:Archivo_Museos;
+	Mus:Museo;
 
 Procedure AbrirM(var Museos:Archivo_Museos);
 Procedure LeerM(var Museos:Archivo_Museos; var Mus:Museo; Pos:Integer);
@@ -26,6 +26,7 @@ Procedure CerrarM(var Museos:Archivo_Museos);
 Procedure Cargar_Museos(var Museos:Archivo_Museos;var v:T_vec_mus;var d:integer);
 Procedure burbuja_mejorado(var v:T_vec_mus;d:integer);
 Procedure Buscar_Museo(var Museos:Archivo_Museos; var pos:integer; buscado:int64; var Mus:Museo);
+
 Implementation //Parte Privada
 
 Procedure AbrirM(var Museos:Archivo_Museos);
@@ -62,7 +63,9 @@ Begin
 End;
 
 Procedure Cargar_Museos(var Museos:Archivo_Museos;var v:T_vec_mus;var d:integer);
-var pos:integer;
+var 
+	pos:integer;
+	
 Begin
 AbrirM (Museos);
 pos:=0;
@@ -87,11 +90,12 @@ End;
 
 Procedure burbuja_mejorado(var v:T_vec_mus;d:integer);
 var
-i:Integer;
-Muss:Museo;
-orden:boolean;
+	i:Integer;
+	Muss:Museo;
+	orden:boolean;
+
 BEGIN
-	orden:=false;
+orden:=false;
 	while not(orden)do//mientras no este ordenado 
 	begin;
 		orden:=true;
@@ -109,7 +113,9 @@ BEGIN
 END;
 
 Procedure Buscar_Museo(var Museos:Archivo_Museos;var pos:integer;buscado:int64; var Mus:Museo);
-var posicion:integer;
+var 
+	posicion:integer;
+
 begin
 posicion:=0;
 pos:=-1;
@@ -123,7 +129,6 @@ while (not eof (Museos)) and (pos=-1) do
 		inc(posicion)
 	end;	
 end;		
-
 
 begin
 end.

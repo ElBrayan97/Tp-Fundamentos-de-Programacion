@@ -14,7 +14,7 @@ Director=Record
 	 Activo:boolean;
 	End;
 
-T_vec_dir=array [1..100] of Director;	
+T_vec_dir=array [1..6] of Director;	
 Archivo_Directores=File of Director;
 
 Var 
@@ -57,8 +57,8 @@ End;
 
 Procedure GuardarD(var Directores:Archivo_Directores; Direct:Director);
 Begin
-Seek(Directores,FileSize(Directores));
-Write(Directores,Direct);
+seek(Directores,FileSize(Directores));
+write(Directores,Direct);
 End;
 
 Procedure CerrarD(Var Directores:Archivo_Directores);
@@ -88,9 +88,6 @@ while (not eof (Directores)) do
 	inc(pos);
 	End;
 End;
-
-
-
 
 Procedure burbuja_mejorado(var v:T_vec_dir;d:integer);
 var

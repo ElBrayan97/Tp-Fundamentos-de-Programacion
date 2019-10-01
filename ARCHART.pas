@@ -11,7 +11,7 @@ Artista=Record
 	 Fecha_Nacimiento:String;
 	 Activo:Boolean;
 	End;
-T_vec_art=array [1..100] of Artista;
+T_vec_art=array [1..5] of Artista;
 Archivo_Artistas=File of Artista;
 
 Var

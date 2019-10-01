@@ -64,10 +64,12 @@ Procedure Menu_Baja_Museo_Inexistente();
 Procedure Menu_Baja_Director();
 Procedure Menu_Baja_Director_Inexistente();
 
-{//Menues de Estadistica  ///////////////////////////////////////////////
+//Menues de Estadistica  ///////////////////////////////////////////////
 //OBRA
-Procedure Menu_Estadistica_Obra_Part1();
-Procedure Menu_Estadistica_Obra_Part2();
+Procedure Menu_Estadistica_Obra();
+
+{Procedure Menu_Estadistica_Obra_Part2();
+
 
 //ARTISTA
 Procedure Menu_Estadistica_Artista_Part1();
@@ -89,10 +91,12 @@ las coordenadas, tienen X e Y}
 Procedure Aviso_Artista_Inexistente;
 Procedure Aviso_Museo_Inexistente;
 Procedure Aviso_Director_Inexistente;
-Procedure Dato_Ingresado_Erroneo(X:Byte; Y:Byte);
+Procedure Dato_Ingresado_Erroneo();
 Procedure Aviso_Dato_Inexistente;
 Procedure Aviso_Carga_Exitosa;
 Procedure Aviso_Dato_Existente;
+Procedure Aviso_Dato_Oculto();
+Procedure Aviso_Restauracion_Exitosa();
 Procedure Aviso_Edicion_Exitosa;
 Procedure Aviso_Eliminacion_Exitosa;
 Procedure Dato_Encontrado_Obra;
@@ -205,19 +209,20 @@ Procedure Menu_Estadisticas_Graph;
 Begin
  Clrscr;
  TextColor (Green);
- Writeln (' ________________________');
- Writeln ('|--MENU DE ESTADISTICAS--\\');
+ Writeln (' ____________________________');
+ Writeln ('|--- MENU DE ESTADISTICAS ---\\'); //X = (1 A 31)
  TextColor (Blue); 
- Writeln ('|========================\\');
- Writeln ('|                        \\');
- Writeln ('|    1: OBRA             \\');
- Writeln ('|    2: ARTISTA          \\');
- Writeln ('|    3: MUSEO            \\');
- Writeln ('|    4: DIRECTOR         \\');
- Writeln ('|    5: MAS INFORMACION  \\');
- Writeln ('|                        \\');
- Writeln ('|    0: ATRAS            \\');
- Writeln ('|  ______________________\\');
+ Writeln ('|============================\\'); //Y = (1 A 16)
+ Writeln ('|                            \\');
+ Writeln ('|   1: PAIS CON MAS MUSEOS   \\');
+ Writeln ('|                            \\');
+ Writeln ('|   2: ARTISTA CON MAS OBRAS \\');
+ Writeln ('|                            \\');
+ Writeln ('|   3: MOSTRAR TODAS LAS     \\');
+ Writeln ('|   ESTADISTICAS DISPONIBLES \\');
+ Writeln ('|                            \\');
+ Writeln ('|   0: ATRAS                 \\');
+ Writeln ('|  __________________________\\');
  Writeln ('| /');
  Writeln ('| \');
  Write   ('|__> Ingrese una opcion: ');
@@ -431,14 +436,14 @@ Begin
  Gotoxy(70,1); Writeln  ('\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\');
  Gotoxy(70,2); Writeln  ('\\ ELIJA EL CAMPO QUE DESEA MODIFICAR  \\');
  Gotoxy(70,3); Writeln  ('\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\');
- Gotoxy(70,4); Writeln  ('\\-> 01- Descripcion |-> 09- Anio      \\');
- Gotoxy(70,5); Writeln  ('\\-> 02- Tipo        |-> 10- Artista   \\');
- Gotoxy(70,6); Writeln  ('\\-> 03- Material    |                 \\');
- Gotoxy(70,7); Writeln  ('\\-> 04- Estilo      |                 \\');
- Gotoxy(70,8); Writeln  ('\\-> 05- Altura      |                 \\');
- Gotoxy(70,9); Writeln  ('\\-> 06- Peso        |                 \\');
- Gotoxy(70,10); Writeln ('\\-> 07- Completo    |                 \\');
- Gotoxy(70,11); Writeln ('\\-> 08- Partes      |                 \\');
+ Gotoxy(70,4); Writeln  ('\\-> 1- Descripcion|-> 9- Anio         \\');
+ Gotoxy(70,5); Writeln  ('\\-> 2- Tipo       |-> 10- Artista     \\');
+ Gotoxy(70,6); Writeln  ('\\-> 3- Material   |-> 11- Codigo Museo\\');
+ Gotoxy(70,7); Writeln  ('\\-> 4- Estilo     |-> 12- Codigo Obra \\');
+ Gotoxy(70,8); Writeln  ('\\-> 5- Altura     |                   \\');
+ Gotoxy(70,9); Writeln  ('\\-> 6- Peso       |                   \\');
+ Gotoxy(70,10); Writeln ('\\-> 7- Completo   |                   \\');
+ Gotoxy(70,11); Writeln ('\\-> 8- Partes     |                   \\');
  Gotoxy(70,12); Writeln ('\\-------------------------------------\\');
  Gotoxy(70,13); Writeln ('\\--> 00- Salir                        \\');
  Gotoxy(70,14); Writeln ('\\-------------------------------------\\');
@@ -672,15 +677,31 @@ End;
 
 //Menues de ESTADISTICA
 //OBRA
-{Procedure Menu_Estadistica_Obra_Part1();
+Procedure Menu_Estadistica_Obra();
+Begin
+TextColor(Green);
+Gotoxy(33,1);  Writeln ('/////////////////////////////////////////////////////////////');
+Gotoxy(33,2);  Writeln ('//  MUSEOS CON MAS OBRAS DE:                               //');
+Gotoxy(33,3);  Writeln ('/////////////////////////////////////////////////////////////');
+Gotoxy(33,4);  Writeln ('//        PAIS          |        CANTIDAD DE MUSEOS        //');
+Gotoxy(33,5);  Writeln ('//======================|==================================//');
+Gotoxy(33,6);  Writeln ('//                      |                                  //');
+Gotoxy(33,7);  Writeln ('//                      |                                  //');
+Gotoxy(33,8);  Writeln ('//                      |                                  //');
+Gotoxy(33,9);  Writeln ('//                      |                                  //');
+Gotoxy(33,10); Writeln ('//                      |                                  //');
+Gotoxy(33,11); Writeln ('//                      |                                  //');
+Gotoxy(33,12); Writeln ('//                      |                                  //');
+Gotoxy(33,13); Writeln ('/////////////////////////////////////////////////////////////');
+Gotoxy(44,14); Writeln ('PRESIONE UNA TECLA PARA VOLVER ATRAS');
+Readkey;
+End;
+
+{Procedure Menu_Estadistica_Obra_Part2();
 Begin
 
 End;
 
-Procedure Menu_Estadistica_Obra_Part2();
-Begin
-
-End;
 
 //ARTISTA
 Procedure Menu_Estadistica_Artista_Part1();
@@ -775,8 +796,31 @@ Begin
  Gotoxy (40,15); Writeln ('||                             ||'); 
  Gotoxy (40,16); Writeln ('||         YA EXISTE!          ||');
  Gotoxy (40,17); Writeln ('|||||||                   |||||||');
- DelaY(2000);
+End;
+
+
+Procedure Aviso_Dato_Oculto();
+Begin
+ TextColor(Blue);
+ Gotoxy (30,19); Writeln ('+--------------------------------------------------+');
+ Gotoxy (30,20); Writeln ('|PARA ACCEDER A ESTE FORMULARIO DEBE RESTAURARLO...|');
+ Gotoxy (30,21); Writeln ('+--------------------------------------------------+');
+ Gotoxy (46,23); Writeln ('+--------------------+');
+ Gotoxy (46,24); Writeln ('+  RESTAURAR? S / N  +');
+ Gotoxy (46,25); Writeln ('+--------------------+');
+End;
+
+
+Procedure Aviso_Restauracion_Exitosa();
+Begin
  Clrscr;
+ TextColor(Green);
+ Gotoxy (40,8 );	Writeln ('  /////                   /////'); 
+ Gotoxy (40,9 );	Writeln ('//                             //');
+ Gotoxy (40,10);	Writeln ('//    Restauracion Exitosa!    //'); 
+ Gotoxy (40,11);	Writeln ('//                             //');
+ Gotoxy (40,12);	Writeln ('  /////                   /////');
+ Tick();
 End;
 
 
@@ -820,7 +864,7 @@ Begin
  Tick();
 End;
 
-Procedure Dato_Ingresado_Erroneo(X:Byte; Y:Byte);
+Procedure Dato_Ingresado_Erroneo();
 Var
  A,B:Byte;
 Begin
