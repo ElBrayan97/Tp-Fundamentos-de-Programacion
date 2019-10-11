@@ -170,12 +170,12 @@ Begin
  TextColor (Blue); 
  Writeln ('|========================\\');
  Writeln ('|                        \\');
- Writeln ('|    1: OBRA             \\');
- Writeln ('|    2: ARTISTA          \\');
- Writeln ('|    3: MUSEO            \\');
- Writeln ('|    4: DIRECTOR         \\');
+ Writeln ('|     1: OBRA            \\');
+ Writeln ('|     2: ARTISTA         \\');
+ Writeln ('|     3: MUSEO           \\');
+ Writeln ('|     4: DIRECTOR        \\');
  Writeln ('|                        \\');
- Writeln ('|    0: ATRAS            \\');
+ Writeln ('|     0: ATRAS           \\');
  Writeln ('|  ______________________\\');
  Writeln ('| /');
  Writeln ('| \');
@@ -192,12 +192,12 @@ Begin
  TextColor (Blue); 
  Writeln ('|========================\\');
  Writeln ('|                        \\');
- Writeln ('|    1: OBRA             \\');
- Writeln ('|    2: ARTISTA          \\');
- Writeln ('|    3: MUSEO            \\');
- Writeln ('|    4: DIRECTOR         \\');
+ Writeln ('|     1: OBRA            \\');
+ Writeln ('|     2: ARTISTA         \\');
+ Writeln ('|     3: MUSEO           \\');
+ Writeln ('|     4: DIRECTOR        \\');
  Writeln ('|                        \\');
- Writeln ('|    0: ATRAS            \\');
+ Writeln ('|     0: ATRAS           \\');
  Writeln ('|  ______________________\\');
  Writeln ('| /');
  Writeln ('| \');
@@ -776,7 +776,6 @@ End;
 
 Procedure Aviso_Dato_Inexistente();
 Begin
-
  TextColor(Red);
  Gotoxy (42,13); Writeln ('|||||||                   |||||||'); 
  Gotoxy (42,14); Writeln ('|| El dato que intenta Editar  ||');
@@ -796,6 +795,7 @@ Begin
  Gotoxy (40,15); Writeln ('||                             ||'); 
  Gotoxy (40,16); Writeln ('||         YA EXISTE!          ||');
  Gotoxy (40,17); Writeln ('|||||||                   |||||||');
+ Readkey;
 End;
 
 

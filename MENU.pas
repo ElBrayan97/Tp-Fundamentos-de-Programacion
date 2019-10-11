@@ -159,14 +159,14 @@ End;
 
 Procedure MCargar_OBR(var Obras:Archivo_Obras; var Museos:Archivo_Museos; var Artistas:Archivo_Artistas; var Arch_Stats:Archivo_Estadisticas);
 var
-	Pos, Pos2, Pos3:Integer; 
+	pos, pos2, pos3:Integer; 
 	CodigodelMuseo, DNI_Artista, B:Int64;
 	Mus:Museo;
 	restaurar:char;
 	Artist:Artista;
 
 Begin
-Pos:=-1;
+pos:=-1;
 Menu_Cargar_Obra_Part1;
 TextColor(Green);
 Gotoxy (33,5);
@@ -178,7 +178,7 @@ Busc:=B; //En el buscado se guarda el codigo de la  Obra que ingresa el usuario.
 
 AbrirO (Obras);
 Buscar_Obras(Obras,pos,Busc,obr); //la busqueda tiene que devolver si la obra existe (T/F) en el archivo, si no existe se agrega a la lista y se la ordena
-If (Pos=-1) then // esto es si no lo encontro.
+If (pos = -1) then // esto es si no lo encontro.
 	Begin
 	 obr.Codigo_Obra:=Busc;
 	 Menu_Cargar_Obra_Part2;
@@ -260,16 +260,18 @@ If (Pos=-1) then // esto es si no lo encontro.
 	 obr.Codigo_Museo := B;
 	 CodigodelMuseo := B;
 	 
-	 obr.activo:=true;
+	 obr.activo:= true;
 	 GuardarO(Obras,obr);
 	 CerrarO(Obras);
+	 
+	 Aviso_Carga_Exitosa();
 	 
 	 AbrirA(Artistas);//Entro al Archivo Artista y busco si exite para poder cargarlo en la Obra (xq estoy cargando la Obra).
 	 pos2:=-1;
 	 Buscar_Artista(Artistas,pos2,DNI_Artista,Artist); // La Variable Pos2,Busc2, Direct2... representa a la Variable pos,buscado y direct dentro del procedure buscar_director.
 	 CerrarA(Artistas);
 	 
-	 If (pos2=-1) then // esto pregunta solo si el Artista existe, si no existe lo cargo de la siguiente forma. 
+	 if (pos2 = -1) then // esto pregunta solo si el Artista existe, si no existe lo cargo de la siguiente forma. 
 		Begin
 		 Aviso_Artista_Inexistente;
 		 MCargar_ART(Artistas, Arch_Stats);
@@ -277,33 +279,34 @@ If (Pos=-1) then // esto es si no lo encontro.
 		
 	 AbrirM(Museos);//Entro al Archivo Museos y busco si exite para poder cargarlo en la Obra (xq estoy cargando la Obra).
 	 pos3:=-1;
-	 Buscar_Museo (Museos,pos3,CodigodelMuseo,Mus); // La Variable Pos3,Busc3, Mus... representa a la Variable pos,buscado y mus dentro del procedure buscar_Museo.
+	 Buscar_Museo (Museos, pos3, CodigodelMuseo, Mus); // La Variable Pos3,Busc3, Mus... representa a la Variable pos,buscado y mus dentro del procedure buscar_Museo.
 	 CerrarM(Museos);
 	 
-	 If (pos3=-1) then // esto pregunta solo si el Museo existe, Entonces cargo el Museo de la siguiente forma. 
+	 if (pos3 = -1) then // esto pregunta solo si el Museo existe, Entonces cargo el Museo de la siguiente forma. 
 		Begin
 		 Aviso_Museo_Inexistente;
-		 MCargar_MUS(Museos,Directores,Arch_Stats);
+		 MCargar_MUS(Museos, Directores, Arch_Stats);
         End;
 	
 	End
 	Else
 	 Aviso_Dato_Existente();
-	
-	 If (obr.Activo=false) then
+	 If (obr.Activo = false) then
 		Begin
 		 Aviso_Dato_Oculto();
-		 restaurar := Readkey;
-		 If (restaurar ='S') or (restaurar ='s') then
-			Begin
-			 obr.Activo:=true;
-			 Aviso_Restauracion_Exitosa;
-			End;
+			Repeat
+			 restaurar := readkey;
+			Until (restaurar = 'N') or (restaurar ='n') or (restaurar = 'S') or (restaurar ='s');
+			
+			If (restaurar ='S') or (restaurar ='s') then
+				Begin
+				 clrscr;
+				 obr.Activo := true;
+				 ModificarO(Obras,obr,pos);
+				 Aviso_Restauracion_Exitosa;
+				End;
 		End;
-	
-	 CerrarO(Obras);
-	 Menu_Cargar();
-
+{
 //Actuaizacion de los datos del archivo de estadisticas
 AbrirStat(Arch_Stats);
 Stat.cant_obras:= (Stat.cant_obras + 1);
@@ -311,8 +314,9 @@ ModificarStat(Arch_Stats,Stat,1);
 GuardarStat(Arch_Stats,Stat);
 CerrarStat(Arch_Stats);
 //fin de actualizacion 
-
-Aviso_Carga_Exitosa();
+}
+CerrarO(Obras);
+Menu_Cargar();
 End;
 
 
@@ -627,14 +631,14 @@ If (Pos<>-1) then
 			If (Obr.Activo=False) then
 			Begin
 			 Menu_Baja_Obra_Inexistente;
-			 Gotoxy (65,9); Write (Bus);
+			 Gotoxy (65,9); Writeln(Bus); Gotoxy (65,9);
 			 Readkey;		 
 			End;
 	End
 		Else
 		Begin
 		 Menu_Baja_Obra_Inexistente;
-		 Gotoxy (65,9); Write (Bus);
+		 Gotoxy (65,9); Writeln(Bus); Gotoxy (65,9);
 		 Readkey;
 		End;
 CerrarO(Obras);
@@ -918,19 +922,20 @@ Begin
 Pos:=-1;
 Menu_Editar_Obra_Part1();
 TextColor(Green);
-Gotoxy (52,4); Readln(N1);
+Gotoxy (52,4);
+Readln(N1);
 X:=52;
 Y:=4;
 Validacion_Integer2(N1,Bus,X,Y);
 AbrirO(Obras);
-Buscar_Obras(Obras,Pos,Bus,obr);
+Buscar_Obras(Obras,Pos,Bus,obr); //Obras (el archivo) pos(posicion del registro de la obra en el archivo) Bus(codigo de la obra que se busca) obr(registro de la obra buscada)
 If (Pos<>-1) then
 	Begin
-     LeerO(Obras,obr,Pos);//Aca llamo al Procedure leer de la unit Obras (controlar si los parametros estan bien puestos)
-     If (obr.Activo=True) then
+     LeerO(Obras,obr,Pos); //Obras(el archivo) registro(del archivo) y posicion del registro en el archivo
+     If (obr.Activo <> false) then
 		Begin
 		 Dato_Encontrado_Obra;
-		 Repeat// el Repeat y el Until se utiliza para mostrar los datos de aca abajo hasta que el usuario seleccione una de las opciones (1,2,3,4,5,6,7,8,a)
+		 Repeat
 			 Gotoxy(1,1);
 			 Menu_Editar_Obra_Part2();
 			 TextColor(Green);
@@ -952,107 +957,104 @@ If (Pos<>-1) then
              Cuadro_Edicion();
              Readln(Opc);
              Clrscr;
-             
-				Begin
-					Case Opc of
-						'1':Begin
-							 Writeln('Descripcion: ');
-							 Gotoxy (70,17); Readln(obr.Descripcion);
-							 Clrscr;
-							 ModificarO(Obras,obr,pos);//llamar a la funcion modificar de la unit Obras (controlar si los parametros estan bien puestos)
-							End;
-						'2':Begin
-							 Writeln('Tipo: ');
-							 Gotoxy (70,17); Readln(obr.Tipo);
-							 Clrscr;
-							 ModificarO(Obras,obr,pos);
-							End;
-						'3':Begin
-							 Writeln('Material: ');
-							 Gotoxy (70,17); Readln(obr.Material);
-							 Clrscr;
-							 ModificarO(Obras,obr,pos);
-							End;
-						'4':Begin
-							 Writeln('Estilo: ');
-							 Gotoxy (70,17); Readln(obr.Estilo);
-							 Clrscr;
-							 ModificarO(Obras,obr,pos);
-							End;
-						'5':Begin
+				Case Opc of
+					'1':Begin
+						 Writeln('Descripcion: ');
+						 Gotoxy (70,17); Readln(obr.Descripcion);
+						 Clrscr;
+						 ModificarO(Obras,obr,pos);//llamar a la funcion modificar de la unit Obras (controlar si los parametros estan bien puestos)
+						End;
+					'2':Begin
+						 Writeln('Tipo: ');
+						 Gotoxy (70,17); Readln(obr.Tipo);
+						 Clrscr;
+						 ModificarO(Obras,obr,pos);
+						End;
+					'3':Begin
+						 Writeln('Material: ');
+						 Gotoxy (70,17); Readln(obr.Material);
+						 Clrscr;
+						 ModificarO(Obras,obr,pos);
+						End;
+					'4':Begin
+						 Writeln('Estilo: ');
+						 Gotoxy (70,17); Readln(obr.Estilo);
+						 Clrscr;
+						 ModificarO(Obras,obr,pos);
+						End;
+					'5':Begin
 
-							 Writeln('Altura: ');
-							 Gotoxy (70,17); Readln(N1);
-							 Validacion_Int_Edicion_Obras(N1,Bus);
-							 obr.Altura:=Bus;
-							 Clrscr;
-							 ModificarO(Obras,obr,pos);
-							End;
-						'6':Begin
-							 Writeln('Peso: ');
-							 Gotoxy (70,17); Readln(N1);
-							 Validacion_Int_Edicion_Obras(N1,Bus);
-							 obr.Peso:=Bus;
-							 Clrscr;
-							 ModificarO(Obras,obr,pos);
-							End;
-						'7':Begin
-							 Writeln('Completo: ');
-							 Gotoxy (70,17); Readln(obr.Completo);
-							 Clrscr;
-							 ModificarO(Obras,obr,pos);
-							End;
-						'8':Begin
-							 Writeln('Partes: ');
-							 Gotoxy (70,17); Readln(N1);
-							 Validacion_Int_Edicion_Obras(N1,Bus);
-							 obr.Partes:=Bus;
-							 Clrscr;
-							 ModificarO(Obras,obr,pos);
-							End;
-						'9':Begin
-							 Writeln('Anio: ');
-							 Gotoxy (70,17); Readln(N1);
-							 Validacion_Int_Edicion_Obras(N1,Bus);
-							 obr.Anio:=Bus;
-							 Clrscr;
-							 ModificarO(Obras,obr,pos);
-							End;
-						'10':Begin
-							 Writeln('D.N.I. Artista: ');
-							 Gotoxy (70,17); Readln(N1);
-							 Validacion_Int_Edicion_Obras(N1,Bus);
-							 obr.Artista:=Bus;
-							 Clrscr;
-							 ModificarO(Obras,obr,pos);							 
-							End;
-						'11':Begin
-							 Writeln('Codigo del Museo: ');
-							 Gotoxy (70,17); Readln(N1);
-							 Validacion_Int_Edicion_Obras(N1,Bus);
-							 obr.Codigo_Museo:=Bus;
-							 Clrscr;
-							 ModificarO(Obras,obr,pos);							
-							End;
-						'12':Begin
-							 Writeln('Codigo de la Obra: ');
-							 Gotoxy (70,17); Readln(N1);
-							 Validacion_Int_Edicion_Obras(N1,Bus);
-							 obr.Codigo_Obra:=Bus;
-							 Clrscr;
-							 ModificarO(Obras,obr,pos);								
-							End;
-					End;
+						 Writeln('Altura: ');
+						 Gotoxy (70,17); Readln(N1);
+						 Validacion_Int_Edicion_Obras(N1,Bus);
+						 obr.Altura:=Bus;
+						 Clrscr;
+						 ModificarO(Obras,obr,pos);
+						End;
+					'6':Begin
+						 Writeln('Peso: ');
+						 Gotoxy (70,17); Readln(N1);
+						 Validacion_Int_Edicion_Obras(N1,Bus);
+						 obr.Peso:=Bus;
+						 Clrscr;
+						 ModificarO(Obras,obr,pos);
+						End;
+					'7':Begin
+						 Writeln('Completo: ');
+						 Gotoxy (70,17); Readln(obr.Completo);
+						 Clrscr;
+						 ModificarO(Obras,obr,pos);
+						End;
+					'8':Begin
+						 Writeln('Partes: ');
+						 Gotoxy (70,17); Readln(N1);
+						 Validacion_Int_Edicion_Obras(N1,Bus);
+						 obr.Partes:=Bus;
+						 Clrscr;
+						 ModificarO(Obras,obr,pos);
+						End;
+					'9':Begin
+						 Writeln('Anio: ');
+						 Gotoxy (70,17); Readln(N1);
+						 Validacion_Int_Edicion_Obras(N1,Bus);
+						 obr.Anio:=Bus;
+						 Clrscr;
+						 ModificarO(Obras,obr,pos);
+						End;
+					'10':Begin
+						 Writeln('D.N.I. Artista: ');
+						 Gotoxy (70,17); Readln(N1);
+						 Validacion_Int_Edicion_Obras(N1,Bus);
+						 obr.Artista:=Bus;
+						 Clrscr;
+						 ModificarO(Obras,obr,pos);							 
+						End;
+					'11':Begin
+						 Writeln('Codigo del Museo: ');
+						 Gotoxy (70,17); Readln(N1);
+						 Validacion_Int_Edicion_Obras(N1,Bus);
+						 obr.Codigo_Museo:=Bus;
+						 Clrscr;
+						 ModificarO(Obras,obr,pos);							
+						End;
+					'12':Begin
+						 Writeln('Codigo de la Obra: ');
+						 Gotoxy (70,17); Readln(N1);
+						 Validacion_Int_Edicion_Obras(N1,Bus);
+						 obr.Codigo_Obra:=Bus;
+						 Clrscr;
+						 ModificarO(Obras,obr,pos);								
+						End;
 				End;
 			 Window(1,1,120,35);
 			Until (Opc='0') or (Opc='00');
 		 Aviso_Carga_Exitosa();
-		End;
+		End
+		Else
+		 Aviso_Dato_Inexistente();
 	End
-	Else 
+	Else
 	 Aviso_Dato_Inexistente();
-	 CerrarO(Obras);
-	 Menu_Editar();
 CerrarO(Obras);
 Menu_Editar();
 End;

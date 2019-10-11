@@ -1,5 +1,4 @@
 unit VALIDACIONES;
-//{$MODE OBJFPC} necesario para usar el Try
 
 Interface
 uses crt,iconos_carteles,sysutils;
