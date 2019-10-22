@@ -7,17 +7,13 @@ Type
 Museo=Record
 	 Codigo, DNI, Telefono:Int64;
 	 Nombre, Calle, Ciudad, Pais:String;
-	 Director:Integer;
 	 Activo:Boolean;
 	End;
-	
 T_vec_mus=array [1..9] of Museo;
 Archivo_Museos = File of Museo;
-
 Var
 	Museos:Archivo_Museos;
 	Mus:Museo;
-
 Procedure AbrirM(var Museos:Archivo_Museos);
 Procedure LeerM(var Museos:Archivo_Museos; var Mus:Museo; Pos:Integer);
 Procedure ModificarM(var Museos:Archivo_Museos; var Mus:Museo; Pos:integer);
@@ -80,8 +76,8 @@ while (not eof (Museos)) do
 		V[d].Telefono:=Mus.Telefono;
 		v[d].Ciudad:=Mus.Ciudad;
 		v[d].Calle:=Mus.Calle;
-		v[d].Director:=Mus.Director;
 		v[d].Pais:=Mus.Pais;
+		v[d].Nombre:=Mus.Nombre;
 		v[d].Activo:=Mus.Activo;
 		End;
 	inc(pos);

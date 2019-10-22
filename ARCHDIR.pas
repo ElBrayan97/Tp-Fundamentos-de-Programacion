@@ -5,7 +5,7 @@ Uses Crt;
 
 Type 
 Director=Record
-	 APyNom:String[30];
+	 APyNom:String;
 	 DNI:Int64;
 	 Direccion:String;
 	 Periodo_Asignacion_Inic:String;
