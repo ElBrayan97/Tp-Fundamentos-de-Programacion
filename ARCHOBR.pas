@@ -45,7 +45,7 @@ Procedure AbrirO(Var Obras:Archivo_Obras);
 Begin
 Assign(Obras,'X:\ARCHOBR.dat');
 Reset(Obras);
-	If (ioresult <> 0) Then
+If (ioresult <> 0) Then
 	Begin
 	 ReWrite(Obras);
 	End;
