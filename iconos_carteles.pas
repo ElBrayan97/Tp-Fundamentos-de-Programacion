@@ -67,7 +67,7 @@ Procedure Menu_Baja_Director_Inexistente();
 
 //Menues de Estadistica  ///////////////////////////////////////////////
 //OBRA
-Procedure Menu_Estadistica_Obra();
+Procedure Menu_Estadistica_ObrasxAutor();
 
 {Procedure Menu_Estadistica_Obra_Part2();
 
@@ -215,9 +215,9 @@ Begin
  TextColor (Blue); 
  Writeln ('|============================\\'); //Y = (1 A 16)
  Writeln ('|                            \\');
- Writeln ('|   1: PAIS CON MAS MUSEOS   \\');
+ Writeln ('|   1: ARTISTA Y SUS OBRAS   \\');
  Writeln ('|                            \\');
- Writeln ('|   2: ARTISTA CON MAS OBRAS \\');
+ Writeln ('|   2: MUSEO Y SUS OBRAS     \\');
  Writeln ('|                            \\');
  Writeln ('|   3: MOSTRAR TODAS LAS     \\');
  Writeln ('|   ESTADISTICAS DISPONIBLES \\');
@@ -684,13 +684,13 @@ End;
 
 //Menues de ESTADISTICA
 //OBRA
-Procedure Menu_Estadistica_Obra();
+Procedure Menu_Estadistica_ObrasxAutor();
 Begin
-TextColor(Green);
+TextColor(Blue);
 Gotoxy(33,1);  Writeln ('/////////////////////////////////////////////////////////////');
-Gotoxy(33,2);  Writeln ('//  MUSEOS CON MAS OBRAS DE:                               //');
+Gotoxy(33,2);  Writeln ('// OBRAS DEL AUTOR:          ,                             //');
 Gotoxy(33,3);  Writeln ('/////////////////////////////////////////////////////////////');
-Gotoxy(33,4);  Writeln ('//        PAIS          |        CANTIDAD DE MUSEOS        //');
+Gotoxy(33,4);  Writeln ('//     TIPO DE OBRA     |        CODIGO DE LA OBRA         //');
 Gotoxy(33,5);  Writeln ('//======================|==================================//');
 Gotoxy(33,6);  Writeln ('//                      |                                  //');
 Gotoxy(33,7);  Writeln ('//                      |                                  //');
@@ -699,9 +699,25 @@ Gotoxy(33,9);  Writeln ('//                      |                              
 Gotoxy(33,10); Writeln ('//                      |                                  //');
 Gotoxy(33,11); Writeln ('//                      |                                  //');
 Gotoxy(33,12); Writeln ('//                      |                                  //');
-Gotoxy(33,13); Writeln ('/////////////////////////////////////////////////////////////');
-Gotoxy(44,14); Writeln ('PRESIONE UNA TECLA PARA VOLVER ATRAS');
-Readkey;
+Gotoxy(33,13); Writeln ('//                      |                                  //');
+Gotoxy(33,14); Writeln ('//                      |                                  //');
+Gotoxy(33,15); Writeln ('//                      |                                  //');
+Gotoxy(33,16); Writeln ('//                      |                                  //');
+Gotoxy(33,17); Writeln ('//                      |                                  //');
+Gotoxy(33,18); Writeln ('//                      |                                  //');
+Gotoxy(33,19); Writeln ('//                      |                                  //');
+Gotoxy(33,20); Writeln ('//                      |                                  //');
+Gotoxy(33,21); Writeln ('//                      |                                  //');
+Gotoxy(33,22); Writeln ('//                      |                                  //');
+Gotoxy(33,23); Writeln ('//                      |                                  //');
+Gotoxy(33,24); Writeln ('//                      |                                  //');
+Gotoxy(33,25); Writeln ('//                      |                                  //');
+Gotoxy(33,26); Writeln ('//                      |                                  //');
+Gotoxy(33,27); Writeln ('//                      |                                  //');
+Gotoxy(33,28); Writeln ('//                      |                                  //');
+Gotoxy(33,29); Writeln ('//                      |                                  //');
+Gotoxy(33,30); Writeln ('/////////////////////////////////////////////////////////////');
+Gotoxy(44,31); Writeln ('PRESIONE UNA TECLA PARA VOLVER AL MENU');
 End;
 
 {Procedure Menu_Estadistica_Obra_Part2();

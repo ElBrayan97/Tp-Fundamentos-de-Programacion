@@ -1,6 +1,6 @@
 Unit MENU;
 Interface
-uses crt,iconos_carteles,ARCHART,ARCHDIR,ARCHMUS,ARCHOBR, ARCHSTATS,VALIDACIONES;
+uses crt,iconos_carteles,ARCHART,ARCHDIR,ARCHMUS,ARCHOBR,VALIDACIONES;
 
 VAR	
  Opc:char;
@@ -18,15 +18,15 @@ Procedure Menu_Borrar;
 Procedure Menu_Estadisticas;
 
 //Cargar (verificar museo, las demas funcionan)
-Procedure MCargar_OBR (var Obras:Archivo_Obras;var Museos:Archivo_Museos;var Artistas:Archivo_Artistas; var Arch_Stats:Archivo_Estadisticas);
-Procedure MCargar_ART (var Artistas:Archivo_Artistas; var Arch_Stats:Archivo_Estadisticas);
-Procedure MCargar_MUS (var Museos:Archivo_Museos; var Directores:Archivo_Directores; var Arch_Stats:Archivo_Estadisticas);
+Procedure MCargar_OBR (var Obras:Archivo_Obras;var Museos:Archivo_Museos;var Artistas:Archivo_Artistas);
+Procedure MCargar_ART (var Artistas:Archivo_Artistas);
+Procedure MCargar_MUS (var Museos:Archivo_Museos; var Directores:Archivo_Directores);
 Procedure MCargar_Director (var Directores:Archivo_Directores);
 
 //Baja (todas funcionan)
-Procedure MBajar_obr (var Obras:Archivo_Obras; var Arch_Stats:Archivo_Estadisticas);
-Procedure MBajar_Art (var Artistas:Archivo_Artistas; var Arch_Stats:Archivo_Estadisticas);
-Procedure MBajar_Mus (var Museos:Archivo_Museos; var Arch_Stats:Archivo_Estadisticas);
+Procedure MBajar_obr (var Obras:Archivo_Obras);
+Procedure MBajar_Art (var Artistas:Archivo_Artistas);
+Procedure MBajar_Mus (var Museos:Archivo_Museos);
 Procedure MBajar_Dir (var Directores:Archivo_Directores);
 
 //Modificar (verificar que los carteles y marcos no se superponen)
@@ -35,14 +35,16 @@ Procedure MModificar_Artista(var Artistas:Archivo_Artistas);
 procedure MModificar_Museo(var Museos:Archivo_Museos);
 Procedure MModificar_Director(var Directores:Archivo_Directores);
 
-//Estadistica (hay que hacerlo con un archivo, es mas simple)
-Procedure Museosxpais(var Arch_Stats:Archivo_Estadisticas);
+//Estadistica (algoritmos al final)
+
 {Procedure artistas_con_mas_obras();
 
 Procedure Segun_Obra_Mostrar_Artista_Museo (var Obras:Archivo_Obras);
 Procedure Segun_Museo_Mostrar_Director_Obras (var Museos:Archivo_Museos;Var Obras:Archivo_Obras);
-Procedure Segun_Artista_Mostrar_Obras (Var Obras:Archivo_Obras;Var Artistas:Archivo_Artistas);
 }
+
+Procedure Segun_Artista_Mostrar_Obras(var Obras:Archivo_Obras; var Artistas:Archivo_Artistas);
+
 ///////////////////////////////////////
 
 Implementation
@@ -59,10 +61,7 @@ Opc:='0';
 	 '2':Menu_Editar();
 	 '3':Menu_Borrar();
 	 '4':Menu_Estadisticas();
-	 '0':Begin
-		  Clrscr;
-		  exit;
-		 End;
+	 '0':Exit;
 	End;
 End;
 
@@ -74,9 +73,9 @@ Begin
 	Until ((Opc='1') or (Opc='2') or (Opc='3') or (Opc='4') or (Opc='0'));
 	
 	Case (Opc) of
-	 '1':MCargar_OBR(Obras,Museos,Artistas, Arch_Stats);
-	 '2':MCargar_ART (Artistas,Arch_Stats);
-	 '3':MCargar_MUS(Museos,Directores,Arch_Stats);
+	 '1':MCargar_OBR(Obras,Museos,Artistas);
+	 '2':MCargar_ART (Artistas);
+	 '3':MCargar_MUS(Museos,Directores);
 	 '4':MCargar_Director(Directores);
 	 '0':Menu_Principal;
 	End;
@@ -106,9 +105,9 @@ Begin
 	 Opc:=Readkey;
 	Until ((Opc='1') or (Opc='2') or (Opc='3') or (Opc='4') or (Opc='0'));
 	Case (Opc) of
-	 '1':MBajar_obr (Obras, Arch_Stats);
-	 '2':MBajar_Art (Artistas, Arch_Stats);
-	 '3':MBajar_Mus (Museos, Arch_Stats);
+	 '1':MBajar_obr (Obras);
+	 '2':MBajar_Art (Artistas);
+	 '3':MBajar_Mus (Museos);
 	 '4':MBajar_Dir (Directores);
 	 '0':Menu_Principal;
 	End;
@@ -122,36 +121,13 @@ Begin
 	 Opc:=Readkey;
 	Until ((Opc='1') or (Opc='2') or (Opc='3') or (Opc='4') or (Opc='0') or (Opc='5'));
 	Case (Opc) of
-	 '1':Museosxpais(Arch_Stats);
+	 '1':Segun_Artista_Mostrar_Obras(Obras, Artistas);
 	 '0':Menu_Principal;
 	End;
 Menu_Estadisticas;
 End;
 
-Procedure Museosxpais(var Arch_Stats:Archivo_Estadisticas);
-var
-	pos:integer;
-	Y:integer;
-
-Begin
-Menu_Estadistica_Obra;
-AbrirStat(Arch_Stats);
-pos:=1;
-Y:=6;
-while (not eof(Arch_Stats)) or (pos=2) do
-	Begin
-	 LeerStat(Arch_Stats,Stat,pos);
-	 Gotoxy(36,Y); Writeln (Stat.pais);
-	 Gotoxy(72,Y); Writeln (Stat.museosxpais);
-	 Y:=(Y+1);
-	 pos:=(pos+1);
-	End;
-Close(Museos);
-Readkey();
-Clrscr;
-End;
-
-Procedure MCargar_OBR(var Obras:Archivo_Obras; var Museos:Archivo_Museos; var Artistas:Archivo_Artistas; var Arch_Stats:Archivo_Estadisticas);
+Procedure MCargar_OBR(var Obras:Archivo_Obras; var Museos:Archivo_Museos; var Artistas:Archivo_Artistas);
 var
 	pos, pos2, pos3:Integer; 
 	CodigodelMuseo, DNI_Artista, B:Int64;
@@ -265,7 +241,7 @@ If (pos = -1) then // esto es si no lo encontro.
 	 if (pos2 = -1) then // El Artista Existe?
 		Begin
 		 Aviso_Artista_Inexistente;
-		 MCargar_ART(Artistas, Arch_Stats);
+		 MCargar_ART(Artistas);
 		End;
 
 	 AbrirM(Museos);//Entro al Archivo Museos y busco si exite para poder cargarlo en la Obra (xq estoy cargando la Obra).
@@ -276,7 +252,7 @@ If (pos = -1) then // esto es si no lo encontro.
 	 if (pos3 = -1) then // El Museo Existe?
 		Begin
 		 Aviso_Museo_Inexistente;
-		 MCargar_MUS(Museos, Directores, Arch_Stats);
+		 MCargar_MUS(Museos, Directores);
         End;
      Exit;
 	End
@@ -301,18 +277,9 @@ If (pos = -1) then // esto es si no lo encontro.
 		End
 		Else
 		 CerrarO(Obras);
-{
-//Actuaizacion de los datos del archivo de estadisticas
-AbrirStat(Arch_Stats);
-Stat.cant_obras:= (Stat.cant_obras + 1);
-ModificarStat(Arch_Stats,Stat,1);
-GuardarStat(Arch_Stats,Stat);
-CerrarStat(Arch_Stats);
-//fin de actualizacion 
-}
 End;
 
-Procedure MCargar_ART(var Artistas:Archivo_Artistas; var Arch_Stats:Archivo_Estadisticas);
+Procedure MCargar_ART(var Artistas:Archivo_Artistas);
 var
 	restaurar:char;
 	Pos:integer;
@@ -339,12 +306,6 @@ If (Pos = -1) then
 	 Gotoxy (35,12); Readln (Artist.Fecha_Nacimiento);
 	 GuardarA (Artistas,Artist);
 	 CerrarA (Artistas);
-
-	 AbrirStat(Arch_Stats); //Actuaizacion de los datos del archivo de estadisticas
-	 Stat.cant_artistas:= (Stat.cant_artistas + 1);
-	 ModificarStat(Arch_Stats,Stat,1);
-	 GuardarStat(Arch_Stats,Stat);
-	 CerrarStat(Arch_Stats); //Fin de actualizacion
 
 	 Aviso_Carga_Exitosa;
 	 Exit;
@@ -373,10 +334,9 @@ If (Pos = -1) then
 		 CerrarA(Artistas);
 End;
 
-Procedure MCargar_MUS(var Museos:Archivo_Museos; Var Directores:Archivo_Directores; var Arch_Stats:Archivo_Estadisticas); //esto permite declarar los archivos a los cuales se puede acceder en este procedimiento que son Director y Museo.
+Procedure MCargar_MUS(var Museos:Archivo_Museos; Var Directores:Archivo_Directores); //esto permite declarar los archivos a los cuales se puede acceder en este procedimiento que son Director y Museo.
 var
 	X, Y, pos, Pos2 : Integer;
-	Pais_museo : String;
 	Busc, Busc2 : Int64;
 	Mus : Museo;
 	Direct2 : Director;
@@ -392,7 +352,7 @@ Validacion_Integer(N1,Busc,X,Y);
 AbrirM (Museos);
 Buscar_Museo (Museos,pos,Busc,Mus);
 If (pos = -1) then // Si el codigo no existe en el archivo
-	begin
+	Begin
 	 Menu_Cargar_Museo_Part2;
 	 TextColor (Green);
 	 Mus.Codigo:=Busc; // Almacenamiento del Codigo
@@ -401,7 +361,6 @@ If (pos = -1) then // Si el codigo no existe en el archivo
 	 Gotoxy (31,10); Readln (Mus.Calle); // Calle
 	 Gotoxy (32,12); Readln (Mus.Ciudad); // Ciudad
 	 Gotoxy (30,14); Readln (Mus.Pais); // Pais
-	 Pais_museo:=Mus.Pais;
 
 	 Gotoxy (24,16); Readln (N1); //Telefono
 	 X:=24;
@@ -429,25 +388,6 @@ If (pos = -1) then // Si el codigo no existe en el archivo
 		 Aviso_Director_Inexistente;
 		 MCargar_Director(Directores);
 		End;
-
-	 //Actuaizacion de estadisticas
-	 pos:=-1;
-	 AbrirStat(Arch_Stats);
-	 Buscar_Stat_pais(Arch_Stats,pos,Pais_museo,Stat);
-	 if (pos <> -1) then
-		Begin
-		 Stat.cant_museos:= (Stat.cant_museos + 1);
-		 ModificarStat(Arch_Stats,Stat,pos);
-		 CerrarStat(Arch_Stats); 
-		End
-			Else
-			Begin
-			 Stat.cant_museos:=(Stat.cant_museos + 1);
-			 Stat.pais:=Pais_museo;
-			 GuardarStat(Arch_Stats,Stat);
-			 CerrarStat(Arch_Stats);
-			End;
-	 //Fin de actualizacion de estadisticas
 	 Exit;
 	End
 	Else // aviso de museo existente
@@ -470,7 +410,7 @@ If (pos = -1) then // Si el codigo no existe en el archivo
 			 CerrarM(Museos);
 			End;
 		End;
-	 CerrarD(Directores);
+	 CerrarM(Museos);	 
 End;
 
 Procedure MCargar_Director(var Directores:Archivo_Directores);// Estas son las altas
@@ -502,7 +442,7 @@ If (pos = -1) then
 	 CerrarD (Directores);
 	 Exit;
 	End
-	 Else // aviso de datos existentes
+	Else // si los datos existen. aviso de datos existentes
 	 Clrscr;
 	 Aviso_Dato_Existente;
 	 LeerD(Directores,Direct,Pos);
@@ -526,7 +466,7 @@ If (pos = -1) then
 		 CerrarD(Directores);
 End;
 
-Procedure MBajar_Art(var Artistas:Archivo_Artistas; var Arch_Stats:Archivo_Estadisticas);//Estas son las bajas
+Procedure MBajar_Art(var Artistas:Archivo_Artistas);//Estas son las bajas
 Var 
 	Bus:int64;
     Pos:integer;
@@ -605,12 +545,11 @@ Clrscr;
 Menu_Borrar();
 End;
 
-Procedure MBajar_Mus(var Museos:Archivo_Museos; var Arch_Stats:Archivo_Estadisticas);//Estas son las bajas
+Procedure MBajar_Mus(var Museos:Archivo_Museos);//Estas son las bajas
 Var
 	Bus:int64;
     Pos:integer;
     Mus:Museo;
-    Stat:Estadistica;
 
 Begin
 Menu_Baja_Museo;
@@ -625,13 +564,6 @@ If (Pos<>-1) then
          Mus.Activo:=False;
          ModificarM(Museos,mus,pos);//llamar a la funcion modificar de la unit Artista (controlar si los parametros estan bien puestos)
 		 Aviso_Eliminacion_Exitosa();
-		 
-		 //Actualizacion del archivo de estadisticas con la nueva eliminacion del museo
-		 AbrirStat(Arch_Stats);
-		 LeerStat(Arch_Stats,Stat,1);
-		 Stat.cant_museos:=(Stat.cant_museos-1);
-		 ModificarStat(Arch_Stats,Stat,1);
-		 CerrarStat(Arch_Stats);
         End
         Else
 			If (Mus.Activo=False) then
@@ -652,7 +584,7 @@ Clrscr;
 Menu_Borrar();
 End;
 
-Procedure MBajar_obr(var Obras:Archivo_Obras; var Arch_Stats:Archivo_Estadisticas);//Estas son las bajas
+Procedure MBajar_obr(var Obras:Archivo_Obras);//Estas son las bajas
 Var 
 	Bus:int64;
     Pos:integer;
@@ -1143,10 +1075,10 @@ End;
 
 Procedure Segun_Museo_Mostrar_Director_Obras(var Museos:Archivo_Museos;Var Obras:Archivo_Obras);
 var
-Buscado:Integer;
-pos:Integer;
-Mus:Museo;//El Record se llama Museo y el Archivo Museos,
-obr:Obra;
+	Buscado:Integer;
+	pos:Integer;
+	Mus:Museo;//El Record se llama Museo y el Archivo Museos,
+	obr:Obra;
 Begin
 	pos:=-1;
 	Writeln('Ingrese el Codigo del Museo: ');
@@ -1164,53 +1096,45 @@ Begin
 CerrarM(Museos);
 CerrarO(Obras);
 End;
+}
 
-Procedure Segun_Artista_Mostrar_Obras(Var Obras:Archivo_Obras;Var Artistas:Archivo_Artistas);
+Procedure Segun_Artista_Mostrar_Obras(var Obras:Archivo_Obras; var Artistas:Archivo_Artistas);
 var
-Buscado,pos:Integer;
-Obr:Obra;////El Record se llama Obr y el Archivo Obras.
-art:Artista;
+	busc:Int64;
+	Obr:Obra;
+	artist:Artista;
+	name:String;
 Begin
-	pos:=-1;
-	Writeln('Ingrese el DNI del Artista para ver sus Obras: ');
-	Readln(Buscado);
-	AbrirA(Artistas);
-	Buscar_Artista(Artistas,pos,Buscado,art);
-	If pos<>-1 then // con la posicion -1 digo que el Artista Existe.
+clrscr;
+Write('Ingrese el DNI del Artista para ver sus Obras: ');
+Readln(busc);
+clrscr;
+AbrirA(Artistas);
+Buscar_Artista(Artistas,pos,busc,artist);
+If (pos<>-1) then
 	Begin
+	 LeerA(Artistas,artist,pos);
+	 name:=artist.Nombre;
+	 CerrarA(Artistas);
 	 AbrirO(Obras);
-	 Writeln('Las Obras del Artista son: ');
-	 Buscar_Artista_en_Obras(Obras,Buscado,Obr);
-	 Writeln (Obr.Codigo_Obra);
-	End;
-CerrarO(Obras);
-CerrarA(Artistas);
-End; 
-
-Procedure Menu_Estadisticas(Obras:Archivo_Obras; buscado:String; var total:Integer);
-var 
-	ac1,ac2:Integer;
-	obr:Obras;
-
-Begin
-	Repeat
-	 Writeln ('Elija una opcion');
-	 Writeln ('1- Estadistica por Museo');
-	 Writeln ('2- Estadistica por Artista');
-	 Writeln ('3- Estadistica por ');
-	 Clrscr;
-	 ac1:=0;
-	 ac2:=0;
-		repeat
-		 inc(ac1);
-			If(obr.tipo=buscado) then
-			Begin
-			 inc(ac2);
-			 inc(ac1);
-			End;
-		until (ac1:=filesize);
-	 Until (nocquevaak!!! :V)
-End;}
+	 Menu_Estadistica_ObrasxAutor(); // cuadro graph
+	 Buscar_Artista_en_Obras(Obras,busc,Obr,66,6); //busca en el archivo las obras del artista
+	 textcolor(green);
+	 Gotoxy(54,2); Writeln(busc); // escribe el dni del artista
+	 Gotoxy(64,2); Writeln(name); // escribe el nombre del artista
+	 Gotoxy(82,31);
+	 readkey;
+	 clrscr;
+	 CerrarO(Obras);
+	 Exit;
+	End
+	Else;
+		Begin
+		 CerrarA(Artistas);
+		 Writeln('El D.N.I. ingresado no pertenece a ningun artista');
+		 Readkey;
+		End;
+End;
 
 BEGIN
 END.

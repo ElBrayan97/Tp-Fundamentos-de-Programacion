@@ -37,7 +37,7 @@ Procedure Cargar_Obra (var Obras:Archivo_Obras;var v:T_vec_obras;var d:integer);
 Procedure burbuja_mejorado (var v:T_vec_obras;d:integer);
 Procedure Buscar_Obras (var Obras:Archivo_Obras;var pos:integer;buscado:int64; var obr:Obra);//el archivo solo va desde var hasta_obra
 Procedure Buscar_Museo_en_Obras (var Obras:Archivo_Obras; buscado:Int64; var obr:Obra);
-Procedure Buscar_Artista_en_Obras (var Obras:Archivo_Obras; buscado:Int64; var obr:Obra);
+Procedure Buscar_Artista_en_Obras (var Obras:Archivo_Obras; buscado:Int64 ;var Obr:Obra; x:Byte; y:Byte);
 
 Implementation //Parte Privada
 
@@ -155,20 +155,28 @@ while (not eof ( Obras)) do
 	end;	
 End;
 
-Procedure Buscar_Artista_en_Obras(var Obras:Archivo_Obras; buscado:Int64 ;var Obr:Obra);// Con este procedure recorro el archivo Obras, para mostrar los Obras que pertenecen a un determinado Artista.
-var posicion:integer;//Solo muestra, no devuelve ninguna posicion o dato.
+Procedure Buscar_Artista_en_Obras(var Obras:Archivo_Obras; buscado:Int64 ;var Obr:Obra; x:Byte; y:Byte);// Con este procedure recorro el archivo Obras, para mostrar los Obras que pertenecen a un determinado Artista.
+var 
+	posicion:integer;
+
 begin
 posicion:=0;
-while (not eof ( Obras)) do
+textcolor(green);
+while (not eof (Obras)) do
 	begin
 		LeerO(Obras,Obr,posicion);
 		if Obr.Artista=buscado then
 		begin
-			Writeln(Obr.Codigo_Obra);//Mostraria por ej enccontrado tal cosa...
+		 Gotoxy(36,y);
+		 Writeln(Obr.Tipo);
+		 Gotoxy(x,y);
+		 Writeln(Obr.Codigo_Obra); //muestra el codigo de la obra
 		end;
-		inc(posicion)
+		inc(posicion);
+		inc(y);
 	end;	
 End;
+
 
 Begin
 End.
