@@ -12,16 +12,14 @@ Procedure Menu_Estadisticas_Graph;
 
 //Menues de Carga //////////////////////////////////////////////////////
 //OBRA
-Procedure Menu_Cargar_Obra_Part1();
-Procedure Menu_Cargar_Obra_Part2();
+Procedure Menu_Cargar_Obra();
 
 //ARTISTA
 Procedure Menu_Cargar_Artista_Part1();
 Procedure Menu_Cargar_Artista_Part2();
 
 //MUSEO
-Procedure Menu_Cargar_Museo_Part1();
-Procedure Menu_Cargar_Museo_Part2();
+Procedure Menu_Cargar_Museo();
 
 //DIRECTOR
 Procedure Menu_Cargar_Director_Part1();
@@ -50,15 +48,15 @@ Procedure Menu_Editar_Director_Part3();
 
 //Menues de Borrado  ///////////////////////////////////////////////////
 //OBRA
-Procedure Menu_Baja_Obra();
+Procedure Menu_Baja_Obra(var Nombre:String);
 Procedure Menu_Baja_Obra_Inexistente();
 
 //ARTISTA
-Procedure Menu_Baja_Artista();
+Procedure Menu_Baja_Artista(var Buscado:String);
 Procedure Menu_Baja_Artista_Inexistente();
 
 //MUSEO
-Procedure Menu_Baja_Museo();
+Procedure Menu_Baja_Museo(var Busc:String);
 Procedure Menu_Baja_Museo_Inexistente();
 
 //DIRECTOR
@@ -67,7 +65,8 @@ Procedure Menu_Baja_Director_Inexistente();
 
 //Menues de Estadistica  ///////////////////////////////////////////////
 //OBRA
-Procedure Menu_Estadistica_ObrasxAutor();
+Procedure Menu_Estadistica_ObrasxAutor(busc:int64; name:string);
+Procedure Menu_Estadistica_Dni_Artista(var busc:int64);
 
 {Procedure Menu_Estadistica_Obra_Part2();
 
@@ -230,13 +229,24 @@ Begin
 End;
 
 
+Procedure Menu_Estadistica_Dni_Artista(var busc:int64);
+Begin
+ Textcolor(blue);
+ Gotoxy (34,4); Writeln ('////////////////////////////////////////////////////////////////');
+ Gotoxy (34,5); Writeln ('//Ingrese el DNI del Artista para ver sus obras:              //');
+ Gotoxy (34,6); Writeln ('////////////////////////////////////////////////////////////////');
+ textcolor(green);
+ Gotoxy (83,5); Readln(busc);
+End;
+
+
 //MENUES DE CARGA
 {
 A partir de aqui se declaran los menues
  graficos para la carga de datos}
 
 //OBRA
-Procedure Menu_Cargar_Obra_Part1();
+Procedure Menu_Cargar_Obra();
 Begin
  Clrscr;
  TextColor(Blue);
@@ -244,13 +254,10 @@ Begin
  Writeln ('|                                \\');
  Write   ('|     '); TextColor(Green); Write('MENU DE CARGA DE OBRA'); TextColor(Blue); Writeln ('      \\');
  Writeln ('|________________________________\\__________________________');
- Writeln ('| Ingrese el Codigo de la Obra:                              \\');
+ Writeln ('| Ingrese el Nombre de la Obra:                              \\');
  Writeln ('|------------------------------------------------------------\\');
-End;
-Procedure Menu_Cargar_Obra_Part2();
-Begin
- TextColor(Blue);
- Gotoxy(1,7);
+ Writeln ('| Codigo asignado a la Obra:                                 \\');
+ Writeln ('|------------------------------------------------------------\\');
  Writeln ('| Ingrese el Material de la Obra:                            \\');
  Writeln ('|------------------------------------------------------------\\');
  Writeln ('| Ingrese el Anio de la Obra:                                \\'); 
@@ -272,7 +279,7 @@ Begin
  Writeln ('|                                                            \\');
  Writeln ('|                                                            \\');
  Writeln ('|------------------------------------------------------------\\');
- Writeln ('| Ingrese el DNI del artista:                                \\');
+ Writeln ('| Ingrese el Nombre del artista:                             \\');
  Writeln ('|------------------------------------------------------------\\');
  Writeln ('| Ingrese el Codigo del Museo:                               \\');
  Write (' \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\');
@@ -288,14 +295,14 @@ Begin
  Write   ('|    '); TextColor(Green); Write('MENU DE CARGA DE ARTISTAS'); TextColor(Blue); Writeln ('    \\');
  Writeln ('|_________________________________\\___________________');
  Writeln ('|                                                      \\');
- Writeln ('| Ingrese el DNI del Artista:                          \\');
+ Writeln ('| Ingrese el Nombre del artista:                       \\');
  Writeln ('|------------------------------------------------------\\');
 End;
 Procedure Menu_Cargar_Artista_Part2();
 Begin
  TextColor(Blue);
  Writeln ('|------------------------------------------------------\\');
- Writeln ('| Ingrese el Nombre del artista:                       \\');
+ Writeln ('| Ingrese el DNI del Artista:                          \\');
  Writeln ('|------------------------------------------------------\\');
  Writeln ('| Ingrese la Direccion del Artista:                    \\');
  Writeln ('|------------------------------------------------------\\');
@@ -306,7 +313,7 @@ End;
 
 
 //MUSEO
-Procedure Menu_Cargar_Museo_Part1();
+Procedure Menu_Cargar_Museo();
 Begin
  Clrscr;
  TextColor(Blue);
@@ -315,14 +322,9 @@ Begin
  Write ('|    '); TextColor(Green); Write('MENU DE CARGA DE MUSEO'); TextColor(Blue); Writeln ('      \\');
  Writeln ('|________________________________\\___________________________');
  Writeln ('|                                                             \\');
- Writeln ('| Ingrese el Codigo de Museo:                                 \\');
- Writeln ('|-------------------------------------------------------------\\');
-End;
-Procedure Menu_Cargar_Museo_Part2();
-Begin
- TextColor (Blue);
- Writeln ('|-------------------------------------------------------------\\');
  Writeln ('| Ingrese el Nombre del Museo:                                \\');
+ Writeln ('|-------------------------------------------------------------\\');
+ Writeln ('| Codigo asignado al Museo:                                   \\');
  Writeln ('|-------------------------------------------------------------\\');
  Writeln ('| Ingrese la Calle del Museo:                                 \\');
  Writeln ('|-------------------------------------------------------------\\');
@@ -334,7 +336,7 @@ Begin
  Writeln ('|-------------------------------------------------------------\\');
  Writeln ('| Ingrese el DNI del Director:                                \\');
  Writeln ('|-------------------------------------------------------------\\');
- Write (' \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\');
+ Write   (' \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\');
 End;
 
 
@@ -411,10 +413,10 @@ Begin
  Gotoxy (30,1); Writeln ('/////////////////////////////////////////////////////////'); 
  Gotoxy (30,2); Writeln ('///                                                   ///');
  Gotoxy (30,3); Writeln ('/////////////////////////////////////////////////////////');
- Gotoxy (30,4); Writeln ('/////////////////////               /////////////////////');
+ Gotoxy (30,4); Writeln ('//                                                     //');
  Gotoxy (30,5); Writeln ('/////////////////////////////////////////////////////////');
  TextColor(Green);
- Gotoxy (34,2); Write('Ingrese el codigo de la obra que desea modificar');
+ Gotoxy (34,2); Write('Ingrese el Nombre de la obra que desea modificar');
 End;
 
 Procedure Menu_Editar_Obra_Part2();
@@ -469,12 +471,12 @@ Begin
  Clrscr;
  TextColor(Blue);
  Gotoxy (30,1); Writeln ('/////////////////////////////////////////////////////////'); 
- Gotoxy (30,2); Writeln ('///                                                   ///');
+ Gotoxy (30,2); Writeln ('//                                                     //');
  Gotoxy (30,3); Writeln ('/////////////////////////////////////////////////////////');
- Gotoxy (30,4); Writeln ('/////////////////////              //////////////////////');
+ Gotoxy (30,4); Writeln ('//                                                     //');
  Gotoxy (30,5); Writeln ('/////////////////////////////////////////////////////////');
  TextColor(Green);
- Gotoxy (35,2); Write('Ingrese el DNI del artista que desea modificar');
+ Gotoxy (35,2); Write('Ingrese el Nombre del artista que desea modificar');
 End;
 
 Procedure Menu_Editar_Artista_Part2();
@@ -516,10 +518,10 @@ Begin
  Gotoxy (30,1); Writeln ('/////////////////////////////////////////////////////////'); 
  Gotoxy (30,2); Writeln ('///                                                   ///');
  Gotoxy (30,3); Writeln ('/////////////////////////////////////////////////////////');
- Gotoxy (30,4); Writeln ('/////////////////////              //////////////////////');
+ Gotoxy (30,4); Writeln ('//                                                     //');
  Gotoxy (30,5); Writeln ('/////////////////////////////////////////////////////////');
  TextColor(Green);
- Gotoxy (35,2); Write('Ingrese el Codigo del Museo que desea modificar');
+ Gotoxy (35,2); Write('Ingrese el Nombre del Museo que desea modificar');
 End;
 
 Procedure Menu_Editar_Museo_Part2();
@@ -563,13 +565,13 @@ Procedure Menu_Editar_Director_Part1();
 Begin
  Clrscr;
  TextColor(Blue);
- Gotoxy (30,1); Writeln ('/////////////////////////////////////////////////////////'); 
- Gotoxy (30,2); Writeln ('///                                                   ///');
- Gotoxy (30,3); Writeln ('/////////////////////////////////////////////////////////');
- Gotoxy (30,4); Writeln ('/////////////////////               /////////////////////');
- Gotoxy (30,5); Writeln ('/////////////////////////////////////////////////////////');
+ Gotoxy (30,1); Writeln ('//////////////////////////////////////////////////////////'); 
+ Gotoxy (30,2); Writeln ('///                                                    ///');
+ Gotoxy (30,3); Writeln ('//////////////////////////////////////////////////////////');
+ Gotoxy (30,4); Writeln ('//                                                      //');
+ Gotoxy (30,5); Writeln ('//////////////////////////////////////////////////////////');
  TextColor(Green);
- Gotoxy (34,2); Write('Ingrese el D.N.I del Director que desea modificar');
+ Gotoxy (34,2); Write('Ingrese el Nombre del Director que desea modificar');
 End;
 
 Procedure Menu_Editar_Director_Part2();
@@ -614,13 +616,13 @@ Begin
  Gotoxy (64,13); Writeln ('|                                         \\');
 End;
 
-//Menues de BORRADO
+//Menus de BORRADO
 //OBRA
-Procedure Menu_Baja_Obra();
+Procedure Menu_Baja_Obra(var Nombre:String);
 Begin
  TextColor(Green);
  Gotoxy (30,4); Writeln ('/////////////////////////////////////////////////////////////////////'); 
- Gotoxy (30,5); Writeln ('//Ingrese el Codigo de la Obra que desea dar de baja:              //');
+ Gotoxy (30,5); Writeln ('//Ingrese el Nombre de la Obra que desea dar de baja:              //');
  Gotoxy (30,6); Writeln ('/////////////////////////////////////////////////////////////////////'); 
 End;
 
@@ -633,36 +635,46 @@ Begin
 End;
 
 //ARTISTA
-Procedure Menu_Baja_Artista();
+Procedure Menu_Baja_Artista(var Buscado:String);
 Begin
  Textcolor(Green);
- Gotoxy (30,4); Writeln ('////////////////////////////////////////////////////////////////');
- Gotoxy (30,5); Writeln ('//Ingrese el DNI del Artista que desea dar de baja:           //');
- Gotoxy (30,6); Writeln ('////////////////////////////////////////////////////////////////');
+ Gotoxy (35,4);  Writeln ('/////////////////////////////////////////////////////////');
+ Gotoxy (35,5);  Writeln ('// Ingrese el Nombre del Artista que desea dar de baja //');
+ Gotoxy (35,6);  Writeln ('/////////////////////////////////////////////////////////');
+ 
+ Gotoxy (34,8);  Writeln ('///////////////////////////////////////////////////////////');
+ Gotoxy (34,9);  Writeln ('//                                                       //');
+ Gotoxy (34,10); Writeln ('///////////////////////////////////////////////////////////');
+ Gotoxy (37,9); TextColor (Red); Readln(Buscado);
 End;
 Procedure Menu_Baja_Artista_Inexistente();
 Begin
- TextColor(Red);
- Gotoxy (36,8); Write ('///////////////////////////////////////////////////');
- Gotoxy (36,9); Write ('// El Artista con el D.N.I.           NO EXISTE! //');
- Gotoxy (36,10); Write ('///////////////////////////////////////////////////');
+ TextColor(Red); 
+ Gotoxy (54,12); Writeln ('/////////////////');
+ Gotoxy (54,13); Writeln ('//  NO EXISTE! //');
+ Gotoxy (54,14); Writeln ('/////////////////');
 End;
 
 //MUSEO
-Procedure Menu_Baja_Museo();
+Procedure Menu_Baja_Museo( var Busc:String);
 Begin
  TextColor (Green);
- Gotoxy (30,4); Writeln ('/////////////////////////////////////////////////////////////////////');
- Gotoxy (30,5); Writeln ('// Ingrese el Codigo del Museo que desea dar de baja:              //');
- Gotoxy (30,6); Writeln ('/////////////////////////////////////////////////////////////////////');
+ Gotoxy (35,4); Writeln ('///////////////////////////////////////////////////////');
+ Gotoxy (35,5); Writeln ('// Ingrese el Nombre del Museo que desea dar de baja //');
+ Gotoxy (35,6); Writeln ('///////////////////////////////////////////////////////');
+ 
+ Gotoxy (33,8); Writeln ('///////////////////////////////////////////////////////////');
+ Gotoxy (33,9); Writeln ('//                                                       //');
+ Gotoxy (33,10);Writeln ('///////////////////////////////////////////////////////////');
+ Gotoxy (36,9); TextColor(Red); Readln(Busc);
 End;
 
 Procedure Menu_Baja_Museo_Inexistente();
 Begin
  TextColor(Red);
- Gotoxy (38,8); Write ('////////////////////////////////////////////////////');
- Gotoxy (38,9); Write ('// El Museo con el Codigo              NO EXISTE! //');
- Gotoxy (38,10); Write ('////////////////////////////////////////////////////');
+ Gotoxy (54,12); Write  ('////////////////');
+ Gotoxy (54,13); Write  ('// NO EXISTE! //');
+ Gotoxy (54,14); Write ('////////////////');
 End;
 
 //DIRECTOR
@@ -684,7 +696,7 @@ End;
 
 //Menues de ESTADISTICA
 //OBRA
-Procedure Menu_Estadistica_ObrasxAutor();
+Procedure Menu_Estadistica_ObrasxAutor(busc:int64; name:string);
 Begin
 TextColor(Blue);
 Gotoxy(33,1);  Writeln ('/////////////////////////////////////////////////////////////');
@@ -715,9 +727,14 @@ Gotoxy(33,25); Writeln ('//                      |                              
 Gotoxy(33,26); Writeln ('//                      |                                  //');
 Gotoxy(33,27); Writeln ('//                      |                                  //');
 Gotoxy(33,28); Writeln ('//                      |                                  //');
-Gotoxy(33,29); Writeln ('//                      |                                  //');
-Gotoxy(33,30); Writeln ('/////////////////////////////////////////////////////////////');
-Gotoxy(44,31); Writeln ('PRESIONE UNA TECLA PARA VOLVER AL MENU');
+Gotoxy(33,29); Writeln ('//---------------------------------------------------------//');
+Gotoxy(33,30); Writeln ('// Total de obras del autor:                               //');
+Gotoxy(33,31); Writeln ('/////////////////////////////////////////////////////////////');
+Gotoxy(34,32); Writeln (' 1-Pagina Anterior   0-Volver al Menu   2-Pagina Siguiente');
+textcolor(green);
+Gotoxy(54,2); Writeln(busc); // escribe el dni del artista
+Gotoxy(64,2); Writeln(name); // escribe el nombre del artista
+Gotoxy(93,32);
 End;
 
 {Procedure Menu_Estadistica_Obra_Part2();

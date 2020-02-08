@@ -33,14 +33,14 @@ End;
 
 Procedure Validacion_Integer2(Dato_Str:String; var Dato_Int:Int64; X:Byte; Y:Byte);
 var 
-	Code:word;
-	Aux:Byte;
+	Code : word;
+	Aux : Byte;
 	
 Begin
 Aux:=Length(Dato_Str);
 	Repeat
 	 Val(Dato_Str,Dato_Int,Code);
-		If Code<>0 then
+		If (Code <> 0) then
 		Begin
 		 Window(X,Y,X+Aux,Y);
 		 Clrscr;
@@ -49,7 +49,7 @@ Aux:=Length(Dato_Str);
 		 Gotoxy(X,Y);
 		 Readln(Dato_Str);
 		End;
-	Until Code=0;
+	Until (Code = 0);
 End;
 
 Procedure Validacion_Int_Edicion_Obras (Dato_Str:String; var Dato_Int:Int64); //representa a un error pero por falta de espacio no hay un aviso de ingreso incorrecto!
@@ -59,7 +59,7 @@ var
 Begin
 	Repeat
 	 Val(Dato_Str,Dato_Int,Code);
-		If Code<>0 then
+		If (Code <> 0) then
 		Begin
 		 Window(70,17,108,23);
 		 Clrscr;
@@ -67,7 +67,7 @@ Begin
 		 Gotoxy(70,17);
 		 Readln(Dato_Str);
 		End;
-	Until Code=0;
+	Until (Code = 0);
 End;
 
 BEGIN

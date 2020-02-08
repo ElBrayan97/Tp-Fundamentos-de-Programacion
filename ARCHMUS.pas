@@ -5,27 +5,27 @@ Uses Crt;
 	
 Type
 Museo=Record
-	 Codigo, DNI, Telefono:Int64;
-	 Nombre, Calle, Ciudad, Pais:String;
-	 Activo:Boolean;
+	 Codigo, Telefono : Int64;
+	 Nombre, Calle, Ciudad, Pais, Name_Director : String;
+	 Activo : Boolean;
 	End;
 T_vec_mus=array [1..9] of Museo;
 Archivo_Museos = File of Museo;
 Var
 	Museos:Archivo_Museos;
 	Mus:Museo;
-Procedure AbrirM(var Museos:Archivo_Museos);
-Procedure LeerM(var Museos:Archivo_Museos; var Mus:Museo; Pos:Integer);
-Procedure ModificarM(var Museos:Archivo_Museos; var Mus:Museo; Pos:integer);
-Procedure GuardarM(Var Museos:Archivo_Museos; Var Mus:Museo);
-Procedure CerrarM(var Museos:Archivo_Museos);
-Procedure Cargar_Museos(var Museos:Archivo_Museos;var v:T_vec_mus;var d:integer);
-Procedure burbuja_mejorado(var v:T_vec_mus;d:integer);
-Procedure Buscar_Museo(var Museos:Archivo_Museos; var pos:integer; buscado:int64; var Mus:Museo);
-
+Procedure AbrirM( var Museos:Archivo_Museos);
+Procedure LeerM (var Museos:Archivo_Museos; var Mus:Museo; Pos:Integer);
+Procedure ModificarM (var Museos:Archivo_Museos; var Mus:Museo; Pos:integer);
+Procedure GuardarM (Var Museos:Archivo_Museos; Var Mus:Museo);
+Procedure CerrarM (var Museos:Archivo_Museos);
+Procedure Cargar_Museos (var Museos:Archivo_Museos;var v:T_vec_mus;var d:integer);
+Procedure burbuja_mejorado (var v:T_vec_mus;d:integer);
+Procedure Buscar_Museo_Codigo (var Museos:Archivo_Museos; var pos:int64; codigo_buscado:int64; var Mus:Museo);
+Procedure Buscar_Museo_Nombre (var Museos:Archivo_Museos;var pos:int64; Nombre:String; var Mus:Museo);
 Implementation //Parte Privada
 
-Procedure AbrirM(var Museos:Archivo_Museos);
+Procedure AbrirM(var Museos : Archivo_Museos);
 Begin
 Assign(Museos,'X:\ARCHMUS.dat');
 Reset(Museos);
@@ -72,7 +72,7 @@ while (not eof (Museos)) do
 		begin
 		inc(d);
 		v[d].Codigo:=Mus.Codigo;
-		v[d].DNI:=Mus.DNI;
+		v[d].Name_Director:=Mus.Name_Director;
 		V[d].Telefono:=Mus.Telefono;
 		v[d].Ciudad:=Mus.Ciudad;
 		v[d].Calle:=Mus.Calle;
@@ -108,23 +108,45 @@ orden:=false;
 	end;
 END;
 
-Procedure Buscar_Museo(var Museos:Archivo_Museos;var pos:integer;buscado:int64; var Mus:Museo);
+Procedure Buscar_Museo_Codigo(var Museos:Archivo_Museos;var pos:int64; codigo_buscado:int64; var Mus:Museo);
 var 
-	posicion:integer;
+	posicion:int64;
 
-begin
+Begin
+AbrirM(Museos); // Apertura del Archivo de Museos
 posicion:=0;
 pos:=-1;
-while (not eof (Museos)) and (pos=-1) do
-	begin
+While (not eof (Museos)) and (pos=-1) do
+	Begin
 		LeerM (Museos, Mus, posicion);
-		if Mus.Codigo=buscado then
-		begin
-			pos:=posicion
-		end;
-		inc(posicion)
-	end;	
-end;		
+		if (Mus.Codigo = codigo_buscado) then
+		Begin
+			pos:=posicion;
+		End;
+		inc(posicion);
+	End;
+CerrarM(Museos); // Cierre del Archivo de Museos
+End;
+
+Procedure Buscar_Museo_Nombre(var Museos:Archivo_Museos; var pos:int64; Nombre:String; var Mus:Museo);
+var
+	posicion : int64;
+
+Begin
+AbrirM(Museos); // Apertura del Archivo de Museos
+posicion := 0;
+pos := -1;
+While (not eof (Museos)) and (pos = -1) do
+	Begin
+	 LeerM(Museos, Mus, posicion);
+	 If (Mus.Nombre = Nombre)then
+		Begin
+		 pos := posicion;
+		End;
+	 inc(posicion);
+	End;
+CerrarM(Museos); // Cierre del Archivo de Museos
+End;
 
 begin
 end.

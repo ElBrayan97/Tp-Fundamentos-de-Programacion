@@ -25,7 +25,7 @@ Procedure GuardarA(var Artistas:Archivo_Artistas; Reg:Artista);
 Procedure CerrarA(var Artistas:Archivo_Artistas);
 Procedure Cargar_Artista(var Artistas:Archivo_Artistas;var v:T_vec_art;var d:integer);
 Procedure burbuja_mejorado(var v:T_vec_art;d:integer);
-Procedure Buscar_Artista(var Artistas:Archivo_Artistas; var Pos:integer; buscado:Int64; var art:Artista);
+Procedure Buscar_Artista(var Artistas:Archivo_Artistas; var Pos:int64; Nombre:String; var art:Artista);
 
 
 Implementation //Parte Privada
@@ -107,23 +107,25 @@ BEGIN
 	end;
 end;
 
-Procedure Buscar_Artista(var Artistas:Archivo_Artistas; var pos:integer; buscado:Int64; var art:Artista);
+Procedure Buscar_Artista(var Artistas:Archivo_Artistas; var pos:int64; Nombre:String; var art:Artista);
 var 
-	posicion:int64;
+	posicion : int64;
 
 Begin
+AbrirA(Artistas); // Apertura del Archivo
 Posicion:=0;
 pos:=-1;
-while (not eof ( Artistas)) and (pos=-1) do
+While (not eof ( Artistas)) and (pos=-1) do // Mientras no sea el final del archivo y la variable pos siga siendo -1
 	begin
-		LeerA (Artistas, Artist, Posicion);
-		if Artist.DNI=buscado then
-		begin
-		 pos:=Posicion
-		end;
-		Inc(Posicion)
-	end;	
-end;		
+		LeerA (Artistas, Artist, Posicion); // Se lee el registro del archivo que esta en la Posicion...
+		 If Artist.Nombre = Nombre then // Si el nombre del artista del registro coincide con el Nombre Buscado
+			begin
+			 pos := Posicion // se devuelve la posicion del registro en el archivo
+			end;
+		Inc(Posicion); 
+	End;	
+CerrarA(Artistas); // Cierre del Archivo
+End;		
 
 BEGIN
 END.

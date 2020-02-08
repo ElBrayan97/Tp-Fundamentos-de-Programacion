@@ -29,7 +29,7 @@ Procedure GuardarD(var Directores:Archivo_Directores; Direct:Director);
 Procedure CerrarD(var Directores:Archivo_Directores);
 procedure Cargar_director(var Directores:archivo_Directores; var v:T_vec_dir; var d:integer);
 Procedure burbuja_mejorado(var v:T_vec_dir; d:integer);
-Procedure Buscar_Director(var Directores:Archivo_Directores;var pos:integer; buscado:Int64; var Direct:Director);
+Procedure Buscar_Director(var Directores:Archivo_Directores; var pos:int64; buscado:String; var Direct:Director);
 
 Implementation //Parte Privada
 
@@ -112,22 +112,24 @@ BEGIN
 	end;
 end;
 
-Procedure Buscar_Director (var Directores:Archivo_Directores;  var pos:integer;  buscado:Int64;  var Direct:Director);
+Procedure Buscar_Director (var Directores:Archivo_Directores;  var pos:int64;  buscado:String;  var Direct:Director);
 var 
-	posicion:integer;
+	posicion:int64;
 	
 begin
+AbrirD(Directores);
 posicion:=0;
 pos:=-1;
 while (not eof ( Directores)) and (pos=-1) do
 	begin
 		LeerD (Directores, Direct, posicion);
-		If Direct.DNI=buscado then
+		If Direct.APyNom=buscado then
 		begin
 			pos:=posicion;
 		end;
 		inc(posicion);
 	end;	
+CerrarD(Directores);
 end;
 
 begin
