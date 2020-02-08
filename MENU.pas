@@ -212,16 +212,12 @@ Begin
 	 Window(1,1,120,35);
 
 	 TextColor(Green);
-	 Gotoxy(31,30);
-	 X:=(31);
-	 Y:=(30);
+	 Gotoxy(33,30);
 	 Readln(Nombre_Artista); // Leemos el Nombre del Artista
 	 obr.Artista := Nombre_Artista;
 
 	 TextColor(Green);
-	 Gotoxy(33,32);
-	 X:=(33);
-	 Y:=(32);
+	 Gotoxy(31,32);
 	 Readln(N_Mus); // Leemos el Nombre del Museo
 
 	 obr.Nombre_Museo := N_Mus;
@@ -333,79 +329,78 @@ var
 	Direct2 : Director;
 	restaurar:Char;
 
+Begin
+ Menu_Cargar_Museo; // Dibuja la interfaz
+ Gotoxy (32,6);
+ TextColor (Green);
+ Readln (Name); // Nombre
+ Buscar_Museo_Nombre(Museos, pos, Name, Mus);
+ If (pos = -1) then // Si el nombre no existe en el archivo
 	Begin
-	 Menu_Cargar_Museo; // Dibuja la interfaz
-	 Gotoxy (32,6);
+	 AbrirO(Obras);
+	
+		Repeat
+		 Code := Random(4294967295); // Codigo (debe ser de asignacion automatica)
+		 Buscar_Museo_Codigo(Museos, pos, Code, Mus); // Se busca si el codigo esta en uso
+		Until (pos = -1);
+
+	 Gotoxy (29,8);
+	 Writeln (Code);
+	 Mus.Codigo := Code;
+	 Mus.Nombre := Name;
 	 TextColor (Green);
-	 Readln (Name); // Nombre
-	 Buscar_Museo_Nombre(Museos, pos, Name, Mus);
 	 
-	 If (pos = -1) then // Si el nombre no existe en el archivo
+	 Gotoxy (31,10); Readln (Mus.Calle); // Calle
+	 Gotoxy (32,12); Readln (Mus.Ciudad); // Ciudad
+	 Gotoxy (30,14); Readln (Mus.Pais); // Pais
+	 Gotoxy (24,16); Readln (N1); //Telefono
+	 X:=24;
+	 Y:=16;
+	 Validacion_Integer(N1,B,X,Y);
+	 Mus.Telefono:=B; //Almacenamiento del Telefono
+
+	 Gotoxy (32,18); Readln (Busc2); // Nombre Director
+	 Mus.Name_Director := Busc2; //Almacenamiento del DNI
+
+	 Mus.activo:=true; // Estado
+	 GuardarM (Museos,Mus); // Guardar archivo museo
+	 CerrarM (Museos); // Cerrar archivo museo
+	 
+	 Aviso_Carga_Exitosa();
+	 AbrirD (Directores);//Entro al Archivo Directores
+	 Buscar_Director (Directores, Pos, Busc2, Direct2); // Busco si el Director relacionado a este museo que estoy cargndo Existe en el Archivo de Directores.
+	 CerrarD(Directores);
+	 //Busqueda del director
+	 If (Pos = -1) Then // Si el Director no existe lo cargo, sino solo se sale
 		Begin
-		 AbrirO(Obras);
-		
+		 Aviso_Director_Inexistente;
+		 MCargar_Director(Directores);
+		End;
+	 Exit;
+	End
+Else // aviso de museo existente
+	 Clrscr;
+	 Aviso_Dato_Existente;
+	 LeerM(Museos,Mus,Pos);
+	 If (Mus.Activo = False) then
+		Begin
+		 Aviso_Dato_Oculto;
 			Repeat
-			 Code := Random(4294967295); // Codigo (debe ser de asignacion automatica)
-			 Buscar_Museo_Codigo(Museos, pos, Code, Mus); // Se busca si el codigo esta en uso
-			Until (pos = -1);
+			 restaurar := readkey;
+			Until (restaurar = 'N') or (restaurar ='n') or (restaurar = 'S') or (restaurar ='s');
 
-		 Gotoxy (29,8);
-		 Writeln (Code);
-		 Mus.Codigo := Code;
-		 Mus.Nombre := Name;
-		 TextColor (Green);
-		 
-		 Gotoxy (31,10); Readln (Mus.Calle); // Calle
-		 Gotoxy (32,12); Readln (Mus.Ciudad); // Ciudad
-		 Gotoxy (30,14); Readln (Mus.Pais); // Pais
-		 Gotoxy (24,16); Readln (N1); //Telefono
-		 X:=24;
-		 Y:=16;
-		 Validacion_Integer(N1,B,X,Y);
-		 Mus.Telefono:=B; //Almacenamiento del Telefono
-
-		 Gotoxy (32,18); Readln (Busc2); // Nombre Director
-		 Mus.Name_Director := Busc2; //Almacenamiento del DNI
-
-		 Mus.activo:=true; // Estado
-		 GuardarM (Museos,Mus); // Guardar archivo museo
-		 CerrarM (Museos); // Cerrar archivo museo
-		 
-		 Aviso_Carga_Exitosa();
-		 AbrirD (Directores);//Entro al Archivo Directores
-		 Buscar_Director (Directores, Pos, Busc2, Direct2); // Busco si el Director relacionado a este museo que estoy cargndo Existe en el Archivo de Directores.
-		 CerrarD(Directores);
-		 //Busqueda del director
-		 If (Pos = -1) Then // Si el Director no existe lo cargo, sino solo se sale
+		 If (restaurar ='S') or (restaurar ='s') then
 			Begin
-			 Aviso_Director_Inexistente;
-			 MCargar_Director(Directores);
+			 Clrscr;
+			 Mus.Activo := True;
+			 ModificarM(Museos,Mus,Pos);
+			 Aviso_Restauracion_Exitosa;
+			 CerrarM(Museos);
 			End;
-		 Exit;
-		End
-	Else // aviso de museo existente
-		 Clrscr;
-		 Aviso_Dato_Existente;
-		 LeerM(Museos,Mus,Pos);
-		 If (Mus.Activo = False) then
-			Begin
-			 Aviso_Dato_Oculto;
-				Repeat
-				 restaurar := readkey;
-				Until (restaurar = 'N') or (restaurar ='n') or (restaurar = 'S') or (restaurar ='s');
-
-			 If (restaurar ='S') or (restaurar ='s') then
-				Begin
-				 Clrscr;
-				 Mus.Activo := True;
-				 ModificarM(Museos,Mus,Pos);
-				 Aviso_Restauracion_Exitosa;
-				 CerrarM(Museos);
-				End;
-			End;
-		 CerrarM(Museos);
-	 Menu_Principal
-	End;
+		End;
+	 CerrarM(Museos);
+ Menu_Principal
+End;
 
 Procedure MCargar_Director(var Directores:Archivo_Directores);// Estas son las altas
 var
@@ -417,28 +412,28 @@ var
 Begin
 Menu_Cargar_Director_Part1;
 TextColor (Green);
-Gotoxy (32,6); Readln(Name);
-AbrirD (Directores); //apertura del archivo
+Gotoxy (34,6); Readln(Name);
 Buscar_Director (Directores, pos, Name, Direct); //busqueda en el archivo
 If (pos = -1) then 
 	Begin //si los datos no existen
+	 AbrirD (Directores); //apertura del archivo
 	 Direct.ApyNom := Name;
 	 Direct.Activo:=True;
 	 Menu_Cargar_Director_Part2;
 	 TextColor (Green);
-	 Gotoxy (34,8); Readln (Direct.DNI);
-	 Gotoxy (37,10); Readln (Direct.Direccion);
-	 Gotoxy (36,14); Readln (Direct.Periodo_Asignacion_Inic);
-	 Gotoxy (32,16); Readln (Direct.Periodo_Asignacion_Fin);
-	 Gotoxy (24,18); Readln (Direct.Telefono);
+	 Gotoxy (33,8); Readln (Direct.DNI);
+	 Gotoxy (36,10); Readln (Direct.Direccion);
+	 Gotoxy (35,14); Readln (Direct.Periodo_Asignacion_Inic);
+	 Gotoxy (31,16); Readln (Direct.Periodo_Asignacion_Fin);
+	 Gotoxy (23,18); Readln (Direct.Telefono);
 	 GuardarD(Directores,Direct);
 	 Aviso_Carga_Exitosa();
 	 CerrarD (Directores);
-	 Exit;
 	End
 	Else // si los datos existen. aviso de datos existentes
 	 Clrscr;
 	 Aviso_Dato_Existente;
+	 AbrirD(Directores);
 	 LeerD(Directores,Direct,Pos);
 	 If (Direct.Activo = False) then
 		Begin
@@ -800,11 +795,11 @@ Menu_Editar_Director_Part1();
 TextColor(Green);
 Gotoxy(33,4);
 Readln(Bus);
-AbrirD(Directores);
 Buscar_Director(Directores, Pos, Bus, direct);
 	If (Pos <> -1) then
 	Begin
-     LeerD(Directores,direct,Pos);//Aca llamo al Procedure leer de la unit Directores (controlar si los parametros estan bien puestos)
+	 AbrirD(Directores);
+     LeerD(Directores, direct, Pos);//Aca llamo al Procedure leer de la unit Directores (controlar si los parametros estan bien puestos)
      If (direct.Activo <> false) then
 		Begin
 		 Dato_Encontrado_Director;
@@ -873,12 +868,10 @@ Buscar_Director(Directores, Pos, Bus, direct);
         End
         Else
          Aviso_Dato_Inexistente();
+     CerrarD(Directores);
     End
     Else
      Aviso_Dato_Inexistente();
-	 CerrarD(Directores);
-	 Menu_Editar();
-CerrarD(Directores);
 Menu_Editar();
 End;
 
@@ -889,7 +882,6 @@ Var
 	Nom, Opc : String;
 
 Begin
-Pos := -1;
 Menu_Editar_Obra_Part1();
 TextColor(Green);
 Gotoxy (33,4);
@@ -898,7 +890,7 @@ Buscar_Obra_Nombre(Obras, Pos, Nom, obr); //Obras (el archivo) pos(posicion del 
 If (Pos <> -1) then
 	Begin
 	 AbrirO(Obras);
-     LeerO(Obras,obr,Pos); //Obras(el archivo) registro(del archivo) y posicion del registro en el archivo
+     LeerO(Obras, obr, Pos); //Obras(el archivo) registro(del archivo) y posicion del registro en el archivo
      If (obr.Activo <> false) then
 		Begin
 		 Dato_Encontrado_Obra;
