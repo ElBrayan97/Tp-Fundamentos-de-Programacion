@@ -281,7 +281,7 @@ Begin
  Writeln ('|------------------------------------------------------------\\');
  Writeln ('| Ingrese el Nombre del artista:                             \\');
  Writeln ('|------------------------------------------------------------\\');
- Writeln ('| Ingrese el Codigo del Museo:                               \\');
+ Writeln ('| Ingrese el Nombre del Museo:                               \\');
  Write (' \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\');
 End;
 
@@ -350,14 +350,14 @@ Begin
  Write ('|   '); TextColor(Green); Write('MENU DE CARGA DE DIRECTORES'); TextColor(Blue); Writeln ('   \\');
  Writeln ('|_________________________________\\___________________');
  Writeln ('|                                                      \\');
- Writeln ('| Ingrese el DNI del Director:                         \\');
+ Writeln ('| Ingrese el Nombre del Director:                      \\');
  Writeln ('|------------------------------------------------------\\');
 End;
 Procedure Menu_Cargar_Director_Part2();
 Begin
  Textcolor (Blue);
  Writeln ('|------------------------------------------------------\\');
- Writeln ('|Ingrese el Nombre del Director:                       \\'); 
+ Writeln ('|Ingrese el D.N.I. del Director:                       \\'); 
  Writeln ('|------------------------------------------------------\\');
  Writeln ('|Ingrese la Direccion del Director:                    \\'); 
  Writeln ('|------------------------------------------------------\\');

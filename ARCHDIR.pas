@@ -112,7 +112,7 @@ BEGIN
 	end;
 end;
 
-Procedure Buscar_Director (var Directores:Archivo_Directores;  var pos:int64;  buscado:String;  var Direct:Director);
+Procedure Buscar_Director(var Directores:Archivo_Directores;  var pos:int64;  buscado:String;  var Direct:Director);
 var 
 	posicion:int64;
 	
@@ -122,12 +122,12 @@ posicion:=0;
 pos:=-1;
 while (not eof ( Directores)) and (pos=-1) do
 	begin
-		LeerD (Directores, Direct, posicion);
-		If Direct.APyNom=buscado then
+	 LeerD (Directores, Direct, posicion);
+	 If Direct.APyNom=buscado then
 		begin
 			pos:=posicion;
 		end;
-		inc(posicion);
+	 inc(posicion);
 	end;	
 CerrarD(Directores);
 end;
