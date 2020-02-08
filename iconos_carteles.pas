@@ -52,7 +52,7 @@ Procedure Menu_Baja_Obra(var Nombre:String);
 Procedure Menu_Baja_Obra_Inexistente();
 
 //ARTISTA
-Procedure Menu_Baja_Artista(var Buscado:String);
+Procedure Menu_Baja_Artista(var Nombre:String);
 Procedure Menu_Baja_Artista_Inexistente();
 
 //MUSEO
@@ -621,9 +621,14 @@ End;
 Procedure Menu_Baja_Obra(var Nombre:String);
 Begin
  TextColor(Green);
- Gotoxy (30,4); Writeln ('/////////////////////////////////////////////////////////////////////'); 
- Gotoxy (30,5); Writeln ('//Ingrese el Nombre de la Obra que desea dar de baja:              //');
- Gotoxy (30,6); Writeln ('/////////////////////////////////////////////////////////////////////'); 
+ Gotoxy (30,2); Writeln ('////////////////////////////////////////////////////////'); 
+ Gotoxy (30,3); Writeln ('// Ingrese el Nombre de la Obra que desea dar de baja //');
+ Gotoxy (30,4); Writeln ('////////////////////////////////////////////////////////');
+ Gotoxy (30,5); Writeln ('/////////////////////////////////////////////////////////////////////');
+ Gotoxy (30,6); Writeln ('//                                                                 //');
+ Gotoxy (30,7); Writeln ('/////////////////////////////////////////////////////////////////////');
+ TextColor (Blue);
+ Gotoxy (33,6); Readln (Nombre);
 End;
 
 Procedure Menu_Baja_Obra_Inexistente();
@@ -635,7 +640,7 @@ Begin
 End;
 
 //ARTISTA
-Procedure Menu_Baja_Artista(var Buscado:String);
+Procedure Menu_Baja_Artista(var Nombre:String);
 Begin
  Textcolor(Green);
  Gotoxy (35,4);  Writeln ('/////////////////////////////////////////////////////////');
@@ -645,8 +650,9 @@ Begin
  Gotoxy (34,8);  Writeln ('///////////////////////////////////////////////////////////');
  Gotoxy (34,9);  Writeln ('//                                                       //');
  Gotoxy (34,10); Writeln ('///////////////////////////////////////////////////////////');
- Gotoxy (37,9); TextColor (Red); Readln(Buscado);
+ Gotoxy (37,9); TextColor (Red); Readln(Nombre);
 End;
+
 Procedure Menu_Baja_Artista_Inexistente();
 Begin
  TextColor(Red); 

@@ -561,7 +561,7 @@ If (Pos <> -1) then
 		Else
 		Begin
 		 Menu_Baja_Museo_Inexistente;
-		 Readkey;
+		 Readkey;   
 		End;
 Clrscr;
 Menu_Borrar();
