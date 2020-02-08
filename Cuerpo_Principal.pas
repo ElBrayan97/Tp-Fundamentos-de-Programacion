@@ -5,7 +5,7 @@ Var
 R:Char;
 
 BEGIN
-	Repeat
+	Repeat      
 	 Menu_Principal();
 	 Window (1,1,120,35);
 	 TextBackground (Red); {Controla el recuadro ROJO del Cartel de Salida}
