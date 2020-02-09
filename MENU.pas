@@ -212,12 +212,12 @@ Begin
 	 Window(1,1,120,35);
 
 	 TextColor(Green);
-	 Gotoxy(33,30);
+	 Gotoxy(34,30);
 	 Readln(Nombre_Artista); // Leemos el Nombre del Artista
 	 obr.Artista := Nombre_Artista;
 
 	 TextColor(Green);
-	 Gotoxy(31,32);
+	 Gotoxy(32,32);
 	 Readln(N_Mus); // Leemos el Nombre del Museo
 
 	 obr.Nombre_Museo := N_Mus;
@@ -323,7 +323,8 @@ End;
 
 Procedure MCargar_MUS(var Museos:Archivo_Museos; Var Directores:Archivo_Directores); // Menu de Carga de museos Nuevos (Funcionando)
 var
-	X, Y, pos, Code : Int64;
+	X, Y : integer;
+	pos, Code : Int64;
 	Name, Busc2 : String;
 	Mus : Museo;
 	Direct2 : Director;
@@ -337,13 +338,12 @@ Begin
  Buscar_Museo_Nombre(Museos, pos, Name, Mus);
  If (pos = -1) then // Si el nombre no existe en el archivo
 	Begin
-	 AbrirO(Obras);
-	
+
 		Repeat
 		 Code := Random(4294967295); // Codigo (debe ser de asignacion automatica)
 		 Buscar_Museo_Codigo(Museos, pos, Code, Mus); // Se busca si el codigo esta en uso
 		Until (pos = -1);
-
+	 AbrirM(Museos);
 	 Gotoxy (29,8);
 	 Writeln (Code);
 	 Mus.Codigo := Code;
@@ -367,9 +367,7 @@ Begin
 	 CerrarM (Museos); // Cerrar archivo museo
 	 
 	 Aviso_Carga_Exitosa();
-	 AbrirD (Directores);//Entro al Archivo Directores
 	 Buscar_Director (Directores, Pos, Busc2, Direct2); // Busco si el Director relacionado a este museo que estoy cargndo Existe en el Archivo de Directores.
-	 CerrarD(Directores);
 	 //Busqueda del director
 	 If (Pos = -1) Then // Si el Director no existe lo cargo, sino solo se sale
 		Begin
