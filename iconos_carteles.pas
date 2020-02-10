@@ -42,7 +42,7 @@ Procedure Menu_Editar_Museo_Part1();
 Procedure Menu_Editar_Museo_Part2();
 
 //DIRECTOR
-Procedure Menu_Editar_Director_Part1();
+Procedure Menu_Editar_Director_Part1(var Bus:String);
 Procedure Menu_Editar_Director_Part2();
 Procedure Menu_Editar_Director_Part3();
 
@@ -561,7 +561,7 @@ Begin
 End;
 
 //DIRECTOR
-Procedure Menu_Editar_Director_Part1();
+Procedure Menu_Editar_Director_Part1(var Bus : String);
 Begin
  Clrscr;
  TextColor(Blue);
@@ -572,6 +572,8 @@ Begin
  Gotoxy (30,5); Writeln ('//////////////////////////////////////////////////////////');
  TextColor(Green);
  Gotoxy (34,2); Write('Ingrese el Nombre del Director que desea modificar');
+ Gotoxy (33,4);
+ Readln(Bus);
 End;
 
 Procedure Menu_Editar_Director_Part2();

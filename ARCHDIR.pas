@@ -120,12 +120,12 @@ begin
 AbrirD(Directores);
 posicion:=0;
 pos:=-1;
-while (not eof ( Directores)) and (pos=-1) do
+while (not eof ( Directores)) and (pos = -1) do
 	begin
 	 LeerD (Directores, Direct, posicion);
-	 If Direct.APyNom=buscado then
+	 If Direct.APyNom = buscado then
 		begin
-			pos:=posicion;
+			pos := posicion;
 		end;
 	 inc(posicion);
 	end;	

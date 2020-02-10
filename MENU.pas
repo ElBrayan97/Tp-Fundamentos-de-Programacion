@@ -246,26 +246,30 @@ Begin
 	 Exit;
 	End
 	Else // Si la obra ya existe
-	 Aviso_Dato_Existente();
-	 LeerO(Obras, Obr, Pos);
-	 If (obr.Activo = False) then // Si la obra esta eliminada
 		Begin
-		 Aviso_Dato_Oculto();
-			Repeat // Solo se puede ingresar S, s o N, n
-			 restaurar := readkey;
-			Until (restaurar = 'N') or (restaurar ='n') or (restaurar = 'S') or (restaurar ='s');
+		 Aviso_Dato_Existente();
+		 AbrirO(Obras);
+		 LeerO(Obras, Obr, Pos);
+		 If (obr.Activo = False) then // Si la obra esta eliminada
+			Begin
+			 Aviso_Dato_Oculto();
+				Repeat // Solo se puede ingresar S, s o N, n
+				 restaurar := readkey;
+				Until (restaurar = 'N') or (restaurar ='n') or (restaurar = 'S') or (restaurar ='s');
 
-			If (restaurar ='S') or (restaurar ='s') then // El usuario quiere restaurar el archivo?
-				Begin
-				 clrscr;
-				 obr.Activo := True;
-				 ModificarO(Obras,obr,pos);
-				 Aviso_Restauracion_Exitosa;
-				 CerrarO(Obras);
-				End;
-		End
-		Else // Si no esta eliminada
-		 CerrarO(Obras); // Cierra el archivo, no se modifica nada y se vuelve al menu
+				If (restaurar ='S') or (restaurar ='s') then // El usuario quiere restaurar el archivo?
+					Begin
+					 clrscr;
+					 obr.Activo := True;
+					 ModificarO(Obras,obr,pos);
+					 Aviso_Restauracion_Exitosa;
+					 CerrarO(Obras);
+					End;
+			End
+			Else // Si no esta eliminada
+			 CerrarO(Obras); // Cierra el archivo, no se modifica nada y se vuelve al menu
+		End;
+Menu_Cargar();
 End;
 
 Procedure MCargar_ART(var Artistas:Archivo_Artistas);
@@ -298,27 +302,29 @@ If (Pos = -1) then
 	 Exit;
 	End
 	Else
-	 Clrscr;
-	 Aviso_Dato_Existente;
-	 LeerA(Artistas,artist,Pos);
-	 If (Artist.Activo = False) then
 		Begin
-		 Aviso_Dato_Oculto;
-			Repeat
-			 restaurar := readkey;
-			Until (restaurar = 'N') or (restaurar ='n') or (restaurar = 'S') or (restaurar ='s');
-
-		 If (restaurar ='S') or (restaurar ='s') then
+		 Clrscr;
+		 Aviso_Dato_Existente;
+		 LeerA(Artistas,artist,Pos);
+		 If (Artist.Activo = False) then
 			Begin
-			 Clrscr;
-			 Artist.Activo := true;
-			 ModificarA(Artistas,Artist,pos);
-			 Aviso_Restauracion_Exitosa;
+			 Aviso_Dato_Oculto;
+				Repeat
+				 restaurar := readkey;
+				Until (restaurar = 'N') or (restaurar ='n') or (restaurar = 'S') or (restaurar ='s');
+
+			 If (restaurar ='S') or (restaurar ='s') then
+				Begin
+				 Clrscr;
+				 Artist.Activo := true;
+				 ModificarA(Artistas,Artist,pos);
+				 Aviso_Restauracion_Exitosa;
+				 CerrarA(Artistas);
+				End;
+			End
+			Else
 			 CerrarA(Artistas);
-			End;
-		End
-		Else
-		 CerrarA(Artistas);
+		End;
 End;
 
 Procedure MCargar_MUS(var Museos:Archivo_Museos; Var Directores:Archivo_Directores); // Menu de Carga de museos Nuevos (Funcionando)
@@ -343,6 +349,7 @@ Begin
 		 Code := Random(4294967295); // Codigo (debe ser de asignacion automatica)
 		 Buscar_Museo_Codigo(Museos, pos, Code, Mus); // Se busca si el codigo esta en uso
 		Until (pos = -1);
+
 	 AbrirM(Museos);
 	 Gotoxy (29,8);
 	 Writeln (Code);
@@ -363,7 +370,7 @@ Begin
 	 Mus.Name_Director := Busc2; //Almacenamiento del DNI
 
 	 Mus.activo:=true; // Estado
-	 GuardarM (Museos,Mus); // Guardar archivo museo
+	 GuardarM (Museos,Mus); // Guardar registro en el archivo
 	 CerrarM (Museos); // Cerrar archivo museo
 	 
 	 Aviso_Carga_Exitosa();
@@ -376,27 +383,30 @@ Begin
 		End;
 	 Exit;
 	End
-Else // aviso de museo existente
-	 Clrscr;
-	 Aviso_Dato_Existente;
-	 LeerM(Museos,Mus,Pos);
-	 If (Mus.Activo = False) then
+	Else // aviso de museo existente
 		Begin
-		 Aviso_Dato_Oculto;
-			Repeat
-			 restaurar := readkey;
-			Until (restaurar = 'N') or (restaurar ='n') or (restaurar = 'S') or (restaurar ='s');
-
-		 If (restaurar ='S') or (restaurar ='s') then
+		 Clrscr;
+		 Aviso_Dato_Existente;
+		 AbrirM(Museos);
+		 LeerM(Museos,Mus,Pos);
+		 If (Mus.Activo = False) then
 			Begin
-			 Clrscr;
-			 Mus.Activo := True;
-			 ModificarM(Museos,Mus,Pos);
-			 Aviso_Restauracion_Exitosa;
-			 CerrarM(Museos);
+			 Aviso_Dato_Oculto;
+				Repeat
+				 restaurar := readkey;
+				Until (restaurar = 'N') or (restaurar ='n') or (restaurar = 'S') or (restaurar ='s');
+
+			 If (restaurar ='S') or (restaurar ='s') then
+				Begin
+				 Clrscr;
+				 Mus.Activo := True;
+				 ModificarM(Museos,Mus,Pos);
+				 Aviso_Restauracion_Exitosa;
+				 CerrarM(Museos);
+				End;
 			End;
+		 CerrarM(Museos);
 		End;
-	 CerrarM(Museos);
  Menu_Principal
 End;
 
@@ -429,28 +439,31 @@ If (pos = -1) then
 	 CerrarD (Directores);
 	End
 	Else // si los datos existen. aviso de datos existentes
-	 Clrscr;
-	 Aviso_Dato_Existente;
-	 AbrirD(Directores);
-	 LeerD(Directores,Direct,Pos);
-	 If (Direct.Activo = False) then
 		Begin
-		 Aviso_Dato_Oculto;
-			Repeat
-			 restaurar := readkey;
-			Until (restaurar = 'N') or (restaurar ='n') or (restaurar = 'S') or (restaurar ='s');
-
-		 If (restaurar ='S') or (restaurar ='s') then
+		 Clrscr;
+		 Aviso_Dato_Existente; // muestra esto no c xq!
+		 AbrirD(Directores);
+		 LeerD(Directores, Direct, pos);
+		 If (Direct.Activo = False) then
 			Begin
-			 Clrscr;
-			 Direct.Activo := True;
-			 ModificarD(Directores,Direct,Pos);
-			 Aviso_Restauracion_Exitosa;
+			 Aviso_Dato_Oculto;
+				Repeat
+				 restaurar := readkey;
+				Until (restaurar = 'N') or (restaurar ='n') or (restaurar = 'S') or (restaurar ='s');
+
+			 If (restaurar ='S') or (restaurar ='s') then
+				Begin
+				 Clrscr;
+				 Direct.Activo := True;
+				 ModificarD(Directores,Direct,Pos);
+				 Aviso_Restauracion_Exitosa;
+				 CerrarD(Directores);
+				End;
+			End
+			Else
 			 CerrarD(Directores);
-			End;
-		End
-		Else
-		 CerrarD(Directores);
+		End;	 
+Menu_Principal();
 End;
 
 Procedure MBajar_Art(var Artistas:Archivo_Artistas);//Estas son las bajas
@@ -474,11 +487,13 @@ If (Pos <> -1) then
          CerrarA(Artistas);
         End
         Else
-		 If (artist.Activo=False) then
 			Begin
-			 CerrarA(Artistas);
-			 Menu_Baja_Artista_Inexistente();
-			 Readkey;
+			 If (artist.Activo=False) then
+				Begin
+				 CerrarA(Artistas);
+				 Menu_Baja_Artista_Inexistente();
+				 Readkey;
+				End;
 			End;
 	End
 	Else
@@ -511,15 +526,17 @@ If (Pos <> -1) then
 		 Aviso_Eliminacion_Exitosa();
 		End
 		Else
-			If (direct.Activo=False) then
 			Begin
-			 Menu_Baja_Director_Inexistente();
-			 Gotoxy (65,9); Write (Name);
-			 readkey;
+			 If (direct.Activo=False) then
+				Begin
+				 Menu_Baja_Director_Inexistente();
+				 Gotoxy (65,9); Write (Name);
+				 readkey;
+				End;
 			End;
 	 CerrarD(Directores);
 	End
-		Else
+	Else
 		Begin
 		 Menu_Baja_Director_Inexistente;
 		 Gotoxy (65,9); Write (Name);
@@ -550,13 +567,15 @@ If (Pos <> -1) then
          CerrarM(Museos);
         End
         Else
-			If (Mus.Activo = False) then
 			Begin
-			 Menu_Baja_Museo_Inexistente;
-			 Readkey;			 
+			 If (Mus.Activo = False) then
+				Begin
+				 Menu_Baja_Museo_Inexistente;
+				 Readkey;			 
+				End;
 			End;
     End
-		Else
+	Else
 		Begin
 		 Menu_Baja_Museo_Inexistente;
 		 Readkey;   
@@ -586,14 +605,16 @@ If (Pos <> -1) then
 		 CerrarO(Obras); // Cierre del Archivo Obras
 		End
 		Else
-			If (Obr.Activo = False) then
 			Begin
-			 Menu_Baja_Obra_Inexistente;
-			 Readkey;
-			 CerrarO(Obras); // Cierre del Archivo Obras
+			 If (Obr.Activo = False) then
+				Begin
+				 Menu_Baja_Obra_Inexistente;
+				 Readkey;
+				 CerrarO(Obras); // Cierre del Archivo Obras
+				End;
 			End;
 	End
-		Else
+	Else
 		Begin
 		 Menu_Baja_Obra_Inexistente;
 		 Readkey;
@@ -616,7 +637,7 @@ Buscar_Artista(Artistas,Pos,Nombre,artist);
 If (Pos <> -1) then
 	Begin
 	 AbrirA(Artistas);
-     LeerA(Artistas,artist,Pos);//Aca llamo al Procedure leer de la unit Artista (controlar si los parametros estan bien puestos)
+     LeerA(Artistas, artist, Pos);
      If (artist.Activo <> false) then
 		Begin
 		 Dato_Encontrado_Artista;
@@ -664,15 +685,20 @@ If (Pos <> -1) then
 						End;
                 End;
             Until (Opc='0');
-             CerrarA(Artistas);
-             Aviso_Edicion_Exitosa;
+         CerrarA(Artistas);
+         Aviso_Edicion_Exitosa;
         End
         Else
-         CerrarA(Artistas);
-         Aviso_Dato_Inexistente();
+			Begin
+			 CerrarA(Artistas);
+			 Aviso_Dato_Inexistente();
+			End;
     End
 	Else
-	 Aviso_Dato_Inexistente;
+		Begin
+		 Aviso_Dato_Inexistente;
+		 Exit;
+		End;
 Menu_Editar();
 End;
 
@@ -684,7 +710,7 @@ Var
 	Opc : char;
 
 Begin
-Menu_Editar_Museo_Part1;
+Menu_Editar_Museo_Part1; // modificar cartel para capturar el dato (ya)
 TextColor(Green);
 Gotoxy (33,4); 
 Read(Bus);
@@ -774,10 +800,14 @@ If (Pos <> -1) then
         End
         Else
          Aviso_Dato_Inexistente();
+
      CerrarM(Museos);
 	End
 	Else
-	 Aviso_Dato_Inexistente();
+		Begin
+		 Aviso_Dato_Inexistente();
+		 Exit;
+		End;
 Menu_Editar();
 End;
 
@@ -789,19 +819,16 @@ Var
 	Opc,Opc2:char;
 
 Begin
-Menu_Editar_Director_Part1();
-TextColor(Green);
-Gotoxy(33,4);
-Readln(Bus);
+Menu_Editar_Director_Part1(Bus);
 Buscar_Director(Directores, Pos, Bus, direct);
-	If (Pos <> -1) then
+If (Pos <> -1) then
 	Begin
 	 AbrirD(Directores);
-     LeerD(Directores, direct, Pos);//Aca llamo al Procedure leer de la unit Directores (controlar si los parametros estan bien puestos)
-     If (direct.Activo <> false) then
+     LeerD(Directores, direct, Pos);
+     If (direct.Activo = True) then
 		Begin
 		 Dato_Encontrado_Director;
-			Repeat // el Repeat y el Until se utiliza para mostrar los datos de aca abajo hasta que el usuario seleccione una de las opciones (1,2,3,a)
+			Repeat
              Clrscr;
 			 Menu_Editar_Director_Part2();
 			 TextColor(Green);
@@ -865,11 +892,15 @@ Buscar_Director(Directores, Pos, Bus, direct);
             Until (Opc='0');
         End
         Else
-         Aviso_Dato_Inexistente();
-     CerrarD(Directores);
+		 Aviso_Dato_Inexistente();
+
+	 CerrarD(Directores);
     End
     Else
-     Aviso_Dato_Inexistente();
+		Begin
+		 Aviso_Dato_Inexistente();
+		 Exit;
+		End;
 Menu_Editar();
 End;
 
@@ -880,7 +911,7 @@ Var
 	Nom, Opc : String;
 
 Begin
-Menu_Editar_Obra_Part1();
+Menu_Editar_Obra_Part1(); // modificar para capturar el dato (ya)
 TextColor(Green);
 Gotoxy (33,4);
 Readln(Nom);
@@ -1005,10 +1036,14 @@ If (Pos <> -1) then
 		End
 		Else
 		 Aviso_Dato_Inexistente();
+
 	 CerrarO(Obras);
 	End
 	Else
-	 Aviso_Dato_Inexistente();
+		Begin
+		 Aviso_Dato_Inexistente();
+		 Exit;
+		End;
 Menu_Editar();
 End;
 
