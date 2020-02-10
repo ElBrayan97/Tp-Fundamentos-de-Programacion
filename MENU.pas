@@ -305,6 +305,7 @@ If (Pos = -1) then
 		Begin
 		 Clrscr;
 		 Aviso_Dato_Existente;
+		 AbrirA(Artistas);
 		 LeerA(Artistas,artist,Pos);
 		 If (Artist.Activo = False) then
 			Begin
@@ -321,9 +322,9 @@ If (Pos = -1) then
 				 Aviso_Restauracion_Exitosa;
 				 CerrarA(Artistas);
 				End;
-			End
-			Else
-			 CerrarA(Artistas);
+			End;
+			
+		 CerrarA(Artistas);
 		End;
 End;
 
