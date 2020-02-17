@@ -60,7 +60,7 @@ Procedure Menu_Baja_Museo(var Nombre:String);
 Procedure Menu_Baja_Museo_Inexistente();
 
 //DIRECTOR
-Procedure Menu_Baja_Director();
+Procedure Menu_Baja_Director(var Nombre:String);
 Procedure Menu_Baja_Director_Inexistente();
 
 //Menues de Estadistica  ///////////////////////////////////////////////
@@ -710,15 +710,7 @@ Begin
 End;
 
 //DIRECTOR
-Procedure Menu_Baja_Director();
-Begin
- TextColor(Green);
- Gotoxy (30,4); Writeln ('//////////////////////////////////////////////////////////////////');
- Gotoxy (30,5); Writeln ('// Ingrese el DNI del Director que desea dar de baja:           //');
- Gotoxy (30,6); Writeln ('//////////////////////////////////////////////////////////////////');
-End;
-{
-Procedure Menu_Baja_Obra(var Nombre:String);
+Procedure Menu_Baja_Director(var Nombre:String);
 Begin
  TextColor(Green);
  Gotoxy (39,4); Writeln ('////////////////////////////////////////////////////////'); 
@@ -730,7 +722,7 @@ Begin
  Gotoxy (35,7); Readln (Nombre);
 End;
 
-Procedure Menu_Baja_Obra_Inexistente();
+Procedure Menu_Baja_Director_Inexistente();
 Begin
  TextColor (Red);
  Gotoxy (37,3); Writeln        ('////////////////////////////////////////////////////////////');
@@ -744,14 +736,6 @@ Begin
  Gotoxy (58,11); Writeln('///////////////');
  Gotoxy (58,12); Writeln('// NO EXISTE //');
  Gotoxy (58,13); Writeln('///////////////');
-End;
-}
-Procedure Menu_Baja_Director_Inexistente();
-Begin
- TextColor(Red);
- Gotoxy (36,8); Write ('/////////////////////////////////////////////////////');
- Gotoxy (36,9); Write ('// El Director con el D.N.I.            NO EXISTE! //');
- Gotoxy (36,10); Write ('/////////////////////////////////////////////////////');
 End;
 
 //Menues de ESTADISTICA

@@ -513,8 +513,7 @@ Var
     direct:Director;
 
 Begin
-Menu_Baja_Director;
-Gotoxy (84,5); Readln(Name);
+Menu_Baja_Director(Name);
 Buscar_Director(Directores, Pos, Name, direct);
 If (Pos <> -1) then
 	Begin
@@ -540,7 +539,6 @@ If (Pos <> -1) then
 	Else
 		Begin
 		 Menu_Baja_Director_Inexistente;
-		 Gotoxy (65,9); Write (Name);
 		 readkey;
 		End;
 Clrscr;
