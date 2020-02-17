@@ -624,15 +624,15 @@ End;
 
 Procedure MModificar_Artista(var Artistas:Archivo_Artistas);
 Var 
-	Nombre, N1 : String;
+	Bus, N1 : String;
 	Pos, Num : int64;
 	artist : Artista;
 	Opc : char;
 	
 Begin
-Menu_Editar_Artista_Part1;
-Gotoxy (33,4); Readln(Nombre);
-Buscar_Artista(Artistas,Pos,Nombre,artist);
+Bus := ('');
+Menu_Editar_Artista_Part1(Bus);
+Buscar_Artista(Artistas, Pos, Bus, artist);
 If (Pos <> -1) then
 	Begin
 	 AbrirA(Artistas);
@@ -649,7 +649,7 @@ If (Pos <> -1) then
              Gotoxy (14,8); Writeln (artist.Direccion);
              Gotoxy (24,10); Writeln (artist.Fecha_Nacimiento);
              Gotoxy (3,14);
-             Opc:=Readkey;
+             Opc := Readkey;
              TextColor(Blue);
 				Case Opc of
                    '1':	Begin
@@ -658,7 +658,7 @@ If (Pos <> -1) then
 						 Readln(N1);
 						 X:=3;
 						 Y:=14;
-						 Validacion_Integer2(N1,Num,X,Y);
+						 Validacion_Integer2(N1,Num,X,Y); // valida que el dni sea un numero
 						 Artist.DNI := Num;
                          ModificarA(Artistas,artist,pos);//llamar a la funcion modificar de la unit Artista (controlar si los parametros estan bien puestos)
                         End;
@@ -696,7 +696,6 @@ If (Pos <> -1) then
 	Else
 		Begin
 		 Aviso_Dato_Inexistente;
-		 Exit;
 		End;
 Menu_Editar();
 End;
@@ -709,10 +708,9 @@ Var
 	Opc : char;
 
 Begin
-Menu_Editar_Museo_Part1; // modificar cartel para capturar el dato (ya)
+Bus:=('');
+Menu_Editar_Museo_Part1(Bus); // modificar cartel para capturar el dato (ya)
 TextColor(Green);
-Gotoxy (33,4); 
-Read(Bus);
 Buscar_Museo_Nombre (Museos, Pos, Bus, mus);
 If (Pos <> -1) then
 	Begin
@@ -799,13 +797,11 @@ If (Pos <> -1) then
         End
         Else
          Aviso_Dato_Inexistente();
-
      CerrarM(Museos);
 	End
 	Else
 		Begin
 		 Aviso_Dato_Inexistente();
-		 Exit;
 		End;
 Menu_Editar();
 End;
@@ -818,6 +814,7 @@ Var
 	Opc,Opc2:char;
 
 Begin
+Bus:=('');
 Menu_Editar_Director_Part1(Bus);
 Buscar_Director(Directores, Pos, Bus, direct);
 If (Pos <> -1) then
@@ -898,23 +895,20 @@ If (Pos <> -1) then
     Else
 		Begin
 		 Aviso_Dato_Inexistente();
-		 Exit;
 		End;
 Menu_Editar();
 End;
 
 Procedure MModificar_Obra(var Obras:Archivo_Obras);
 Var 
-	Pos, Bus : int64;
+	Pos, Aux : int64;
 	obr : Obra;
-	Nom, Opc : String;
+	Bus, Opc : String;
 
 Begin
-Menu_Editar_Obra_Part1(); // modificar para capturar el dato (ya)
-TextColor(Green);
-Gotoxy (33,4);
-Readln(Nom);
-Buscar_Obra_Nombre(Obras, Pos, Nom, obr); //Obras (el archivo) pos(posicion del registro de la obra en el archivo) Bus(codigo de la obra que se busca) obr(registro de la obra buscada)
+Bus := ('');
+Menu_Editar_Obra_Part1(Bus); // modificar para capturar el dato (ya)
+Buscar_Obra_Nombre(Obras, Pos, Bus, obr); //Obras (el archivo) pos(posicion del registro de la obra en el archivo) Bus(codigo de la obra que se busca) obr(registro de la obra buscada)
 If (Pos <> -1) then
 	Begin
 	 AbrirO(Obras);
@@ -973,16 +967,16 @@ If (Pos <> -1) then
 
 						 Writeln('Altura: ');
 						 Gotoxy (70,17); Readln(N1);
-						 Validacion_Int_Edicion_Obras(N1,Bus);
-						 obr.Altura:=Bus;
+						 Validacion_Int_Edicion_Obras(N1, Aux);
+						 obr.Altura := Aux;
 						 Clrscr;
 						 ModificarO(Obras,obr,pos);
 						End;
 					'6':Begin
 						 Writeln('Peso: ');
 						 Gotoxy (70,17); Readln(N1);
-						 Validacion_Int_Edicion_Obras(N1,Bus);
-						 obr.Peso:=Bus;
+						 Validacion_Int_Edicion_Obras(N1, Aux);
+						 obr.Peso := Aux;
 						 Clrscr;
 						 ModificarO(Obras,obr,pos);
 						End;
@@ -995,16 +989,16 @@ If (Pos <> -1) then
 					'8':Begin
 						 Writeln('Partes: ');
 						 Gotoxy (70,17); Readln(N1);
-						 Validacion_Int_Edicion_Obras(N1,Bus);
-						 obr.Partes:=Bus;
+						 Validacion_Int_Edicion_Obras(N1, Aux);
+						 obr.Partes := Aux;
 						 Clrscr;
 						 ModificarO(Obras,obr,pos);
 						End;
 					'9':Begin
 						 Writeln('Anio: ');
 						 Gotoxy (70,17); Readln(N1);
-						 Validacion_Int_Edicion_Obras(N1,Bus);
-						 obr.Anio:=Bus;
+						 Validacion_Int_Edicion_Obras(N1, Aux);
+						 obr.Anio := Aux;
 						 Clrscr;
 						 ModificarO(Obras,obr,pos);
 						End;
@@ -1023,8 +1017,8 @@ If (Pos <> -1) then
 					'12':Begin
 						 Writeln('Codigo de la Obra: ');
 						 Gotoxy (70,17); Readln(N1);
-						 Validacion_Int_Edicion_Obras(N1,Bus);
-						 obr.Codigo_Obra:=Bus;
+						 Validacion_Int_Edicion_Obras(N1, Aux);
+						 obr.Codigo_Obra := Aux;
 						 Clrscr;
 						 ModificarO(Obras,obr,pos);								
 						End;
@@ -1035,13 +1029,11 @@ If (Pos <> -1) then
 		End
 		Else
 		 Aviso_Dato_Inexistente();
-
 	 CerrarO(Obras);
 	End
 	Else
 		Begin
 		 Aviso_Dato_Inexistente();
-		 Exit;
 		End;
 Menu_Editar();
 End;

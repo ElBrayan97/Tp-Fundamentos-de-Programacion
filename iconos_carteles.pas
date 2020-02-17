@@ -30,15 +30,15 @@ Procedure Menu_Cargar_Director_Part2();
 Procedure Cuadro_Edicion_Museo();
 Procedure Cuadro_Edicion_Obra();
 //OBRA
-Procedure Menu_Editar_Obra_Part1();
+Procedure Menu_Editar_Obra_Part1(var Bus:String);
 Procedure Menu_Editar_Obra_Part2();
 
 //ARTISTA
-Procedure Menu_Editar_Artista_Part1();
+Procedure Menu_Editar_Artista_Part1(var Bus:String);
 Procedure Menu_Editar_Artista_Part2();
 
 //MUSEO
-Procedure Menu_Editar_Museo_Part1();
+Procedure Menu_Editar_Museo_Part1(var Bus:String);
 Procedure Menu_Editar_Museo_Part2();
 
 //DIRECTOR
@@ -406,7 +406,7 @@ TextColor(Green);
 End;
 
 //OBRA
-Procedure Menu_Editar_Obra_Part1();
+Procedure Menu_Editar_Obra_Part1(var Bus:String);
 Begin
  Clrscr;
  TextColor(Blue);
@@ -417,6 +417,9 @@ Begin
  Gotoxy (30,5); Writeln ('/////////////////////////////////////////////////////////');
  TextColor(Green);
  Gotoxy (34,2); Write('Ingrese el Nombre de la obra que desea modificar');
+ TextColor(Green);
+ Gotoxy (33,4);
+ Readln(Bus);
 End;
 
 Procedure Menu_Editar_Obra_Part2();
@@ -466,7 +469,7 @@ Begin
 End;
 
 //ARTISTA
-Procedure Menu_Editar_Artista_Part1();
+Procedure Menu_Editar_Artista_Part1(var Bus:String);
 Begin
  Clrscr;
  TextColor(Blue);
@@ -477,6 +480,7 @@ Begin
  Gotoxy (30,5); Writeln ('/////////////////////////////////////////////////////////');
  TextColor(Green);
  Gotoxy (35,2); Write('Ingrese el Nombre del artista que desea modificar');
+ Gotoxy (33,4); Readln(Bus);
 End;
 
 Procedure Menu_Editar_Artista_Part2();
@@ -511,7 +515,7 @@ Begin
 End;
 
 //MUSEO
-Procedure Menu_Editar_Museo_Part1();
+Procedure Menu_Editar_Museo_Part1(var Bus:String);
 Begin
  Clrscr;
  TextColor(Blue);
@@ -522,6 +526,8 @@ Begin
  Gotoxy (30,5); Writeln ('/////////////////////////////////////////////////////////');
  TextColor(Green);
  Gotoxy (35,2); Write('Ingrese el Nombre del Museo que desea modificar');
+ Gotoxy (33,4); 
+ Read(Bus);
 End;
 
 Procedure Menu_Editar_Museo_Part2();
