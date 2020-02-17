@@ -56,7 +56,7 @@ Procedure Menu_Baja_Artista(var Nombre:String);
 Procedure Menu_Baja_Artista_Inexistente();
 
 //MUSEO
-Procedure Menu_Baja_Museo(var Busc:String);
+Procedure Menu_Baja_Museo(var Nombre:String);
 Procedure Menu_Baja_Museo_Inexistente();
 
 //DIRECTOR
@@ -623,66 +623,90 @@ End;
 Procedure Menu_Baja_Obra(var Nombre:String);
 Begin
  TextColor(Green);
- Gotoxy (30,2); Writeln ('////////////////////////////////////////////////////////'); 
- Gotoxy (30,3); Writeln ('// Ingrese el Nombre de la Obra que desea dar de baja //');
- Gotoxy (30,4); Writeln ('////////////////////////////////////////////////////////');
- Gotoxy (30,5); Writeln ('/////////////////////////////////////////////////////////////////////');
- Gotoxy (30,6); Writeln ('//                                                                 //');
- Gotoxy (30,7); Writeln ('/////////////////////////////////////////////////////////////////////');
+ Gotoxy (39,4); Writeln ('////////////////////////////////////////////////////////'); 
+ Gotoxy (39,5); Writeln ('// Ingrese el Nombre de la Obra que desea dar de baja //');
+ Gotoxy (32,6); Writeln ('//////////////////////////////////////////////////////////////////////');
+ Gotoxy (32,7); Writeln ('//                                                                  //');
+ Gotoxy (32,8); Writeln ('//////////////////////////////////////////////////////////////////////');
  TextColor (Blue);
- Gotoxy (33,6); Readln (Nombre);
+ Gotoxy (35,7); Readln (Nombre);
 End;
 
 Procedure Menu_Baja_Obra_Inexistente();
 Begin
  TextColor (Red);
- Gotoxy (39,8); Write  ('////////////////////////////////////////////////////');
- Gotoxy (39,9); Write  ('// La Obra con el Codigo               NO EXISTE! //');
- Gotoxy (39,10); Write ('////////////////////////////////////////////////////');
+ Gotoxy (37,3); Writeln        ('////////////////////////////////////////////////////////////');
+ Gotoxy (37,4); Writeln        ('//'); Gotoxy (95,4); Writeln        ('//');
+ Gotoxy (30,5); Writeln ('/////////'); Gotoxy (95,5); Writeln        ('/////////');
+ Gotoxy (30,6); Writeln ('//');        Gotoxy (102,6); Writeln        ('//');
+ Gotoxy (30,7); Writeln ('//');        Gotoxy (102,7); Writeln        ('//');
+ Gotoxy (30,8); Writeln ('//');        Gotoxy (102,8); Writeln        ('//');
+ Gotoxy (30,9); Writeln ('//////////////////////////////////////////////////////////////////////////');
+ 
+ Gotoxy (58,11); Writeln('///////////////');
+ Gotoxy (58,12); Writeln('// NO EXISTE //');
+ Gotoxy (58,13); Writeln('///////////////');
 End;
 
 //ARTISTA
+
+
 Procedure Menu_Baja_Artista(var Nombre:String);
 Begin
- Textcolor(Green);
- Gotoxy (35,4);  Writeln ('/////////////////////////////////////////////////////////');
- Gotoxy (35,5);  Writeln ('// Ingrese el Nombre del Artista que desea dar de baja //');
- Gotoxy (35,6);  Writeln ('/////////////////////////////////////////////////////////');
- 
- Gotoxy (34,8);  Writeln ('///////////////////////////////////////////////////////////');
- Gotoxy (34,9);  Writeln ('//                                                       //');
- Gotoxy (34,10); Writeln ('///////////////////////////////////////////////////////////');
- Gotoxy (37,9); TextColor (Red); Readln(Nombre);
+ TextColor(Green);
+ Gotoxy (39,4); Writeln ('/////////////////////////////////////////////////////////'); 
+ Gotoxy (39,5); Writeln ('// Ingrese el Nombre del Artista que desea dar de baja //');
+ Gotoxy (32,6); Writeln ('///////////////////////////////////////////////////////////////////////');
+ Gotoxy (32,7); Writeln ('//                                                                   //');
+ Gotoxy (32,8); Writeln ('///////////////////////////////////////////////////////////////////////');
+ TextColor (Blue);
+ Gotoxy (35,7); Readln (Nombre);
 End;
 
 Procedure Menu_Baja_Artista_Inexistente();
 Begin
- TextColor(Red); 
- Gotoxy (54,12); Writeln ('/////////////////');
- Gotoxy (54,13); Writeln ('//  NO EXISTE! //');
- Gotoxy (54,14); Writeln ('/////////////////');
+ TextColor (Red);
+ Gotoxy (37,3); Writeln        ('/////////////////////////////////////////////////////////////');
+ Gotoxy (37,4); Writeln        ('//'); Gotoxy (96,4); Writeln        ('//');
+ Gotoxy (30,5); Writeln ('/////////'); Gotoxy (96,5); Writeln        ('/////////');
+ Gotoxy (30,6); Writeln ('//');        Gotoxy (103,6); Writeln        ('//');
+ Gotoxy (30,7); Writeln ('//');        Gotoxy (103,7); Writeln        ('//');
+ Gotoxy (30,8); Writeln ('//');        Gotoxy (103,8); Writeln        ('//');
+ Gotoxy (30,9); Writeln ('///////////////////////////////////////////////////////////////////////////');
+ 
+ Gotoxy (58,11); Writeln('///////////////');
+ Gotoxy (58,12); Writeln('// NO EXISTE //');
+ Gotoxy (58,13); Writeln('///////////////');
 End;
 
+
 //MUSEO
-Procedure Menu_Baja_Museo( var Busc:String);
+Procedure Menu_Baja_Museo(var Nombre:String);
 Begin
- TextColor (Green);
- Gotoxy (35,4); Writeln ('///////////////////////////////////////////////////////');
- Gotoxy (35,5); Writeln ('// Ingrese el Nombre del Museo que desea dar de baja //');
- Gotoxy (35,6); Writeln ('///////////////////////////////////////////////////////');
- 
- Gotoxy (33,8); Writeln ('///////////////////////////////////////////////////////////');
- Gotoxy (33,9); Writeln ('//                                                       //');
- Gotoxy (33,10);Writeln ('///////////////////////////////////////////////////////////');
- Gotoxy (36,9); TextColor(Red); Readln(Busc);
+ TextColor(Green);
+ Gotoxy (39,4); Writeln ('///////////////////////////////////////////////////////'); 
+ Gotoxy (39,5); Writeln ('// Ingrese el Nombre del Museo que desea dar de baja //');
+ Gotoxy (32,6); Writeln ('/////////////////////////////////////////////////////////////////////');
+ Gotoxy (32,7); Writeln ('//                                                                 //');
+ Gotoxy (32,8); Writeln ('/////////////////////////////////////////////////////////////////////');
+ TextColor (Blue);
+ Gotoxy (35,7); Readln (Nombre);
 End;
 
 Procedure Menu_Baja_Museo_Inexistente();
 Begin
- TextColor(Red);
- Gotoxy (54,12); Write  ('////////////////');
- Gotoxy (54,13); Write  ('// NO EXISTE! //');
- Gotoxy (54,14); Write ('////////////////');
+ TextColor (Red);
+ Gotoxy (37,3); Writeln        ('///////////////////////////////////////////////////////////');
+ Gotoxy (37,4); Writeln        ('//'); Gotoxy (94,4); Writeln        ('//');
+ Gotoxy (30,5); Writeln ('/////////'); Gotoxy (94,5); Writeln        ('/////////');
+ Gotoxy (30,6); Writeln ('//');        Gotoxy (101,6); Writeln        ('//');
+ Gotoxy (30,7); Writeln ('//');        Gotoxy (101,7); Writeln        ('//');
+ Gotoxy (30,8); Writeln ('//');        Gotoxy (101,8); Writeln        ('//');
+ Gotoxy (30,9); Writeln ('/////////////////////////////////////////////////////////////////////////');
+ 
+ Gotoxy (58,11); Writeln('///////////////');
+ Gotoxy (58,12); Writeln('// NO EXISTE //');
+ Gotoxy (58,13); Writeln('///////////////');
 End;
 
 //DIRECTOR
@@ -693,7 +717,35 @@ Begin
  Gotoxy (30,5); Writeln ('// Ingrese el DNI del Director que desea dar de baja:           //');
  Gotoxy (30,6); Writeln ('//////////////////////////////////////////////////////////////////');
 End;
+{
+Procedure Menu_Baja_Obra(var Nombre:String);
+Begin
+ TextColor(Green);
+ Gotoxy (39,4); Writeln ('////////////////////////////////////////////////////////'); 
+ Gotoxy (39,5); Writeln ('// Ingrese el Nombre de la Obra que desea dar de baja //');
+ Gotoxy (32,6); Writeln ('//////////////////////////////////////////////////////////////////////');
+ Gotoxy (32,7); Writeln ('//                                                                  //');
+ Gotoxy (32,8); Writeln ('//////////////////////////////////////////////////////////////////////');
+ TextColor (Blue);
+ Gotoxy (35,7); Readln (Nombre);
+End;
 
+Procedure Menu_Baja_Obra_Inexistente();
+Begin
+ TextColor (Red);
+ Gotoxy (37,3); Writeln        ('////////////////////////////////////////////////////////////');
+ Gotoxy (37,4); Writeln        ('//'); Gotoxy (95,4); Writeln        ('//');
+ Gotoxy (30,5); Writeln ('/////////'); Gotoxy (95,5); Writeln        ('/////////');
+ Gotoxy (30,6); Writeln ('//');        Gotoxy (102,6); Writeln        ('//');
+ Gotoxy (30,7); Writeln ('//');        Gotoxy (102,7); Writeln        ('//');
+ Gotoxy (30,8); Writeln ('//');        Gotoxy (102,8); Writeln        ('//');
+ Gotoxy (30,9); Writeln ('//////////////////////////////////////////////////////////////////////////');
+ 
+ Gotoxy (58,11); Writeln('///////////////');
+ Gotoxy (58,12); Writeln('// NO EXISTE //');
+ Gotoxy (58,13); Writeln('///////////////');
+End;
+}
 Procedure Menu_Baja_Director_Inexistente();
 Begin
  TextColor(Red);
