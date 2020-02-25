@@ -5,7 +5,7 @@ uses crt,iconos_carteles,ARCHART,ARCHDIR,ARCHMUS,ARCHOBR,VALIDACIONES;
 VAR	
  Opc:char;
  Resp:Boolean;
- N1:String; 
+ N1, Bus:String; 
  Pos:Integer;
  X, Y:Byte;
  BUSC, B:Int64;
@@ -61,7 +61,9 @@ Opc:='0';
 	 '2':Menu_Editar();
 	 '3':Menu_Borrar();
 	 '4':Menu_Estadisticas();
-	 '0':Exit;
+	 '0':Begin
+		 Exit;
+		End;
 	End;
 End;
 
@@ -624,13 +626,12 @@ End;
 
 Procedure MModificar_Artista(var Artistas:Archivo_Artistas);
 Var 
-	Bus, N1 : String;
+	N1 : String;
 	Pos, Num : int64;
 	artist : Artista;
 	Opc : char;
 	
 Begin
-Bus := ('');
 Menu_Editar_Artista_Part1(Bus);
 Buscar_Artista(Artistas, Pos, Bus, artist);
 If (Pos <> -1) then
@@ -702,13 +703,11 @@ End;
 
 Procedure MModificar_Museo(var Museos:Archivo_Museos);
 Var 
-	Bus : String;
 	Pos : int64;
 	mus : Museo;
 	Opc : char;
 
 Begin
-Bus:=('');
 Menu_Editar_Museo_Part1(Bus); // modificar cartel para capturar el dato (ya)
 TextColor(Green);
 Buscar_Museo_Nombre (Museos, Pos, Bus, mus);
@@ -808,15 +807,14 @@ End;
 
 Procedure MModificar_Director(var Directores:Archivo_Directores);
 Var 
-	Bus:String;
 	Pos:int64;
 	direct:Director;
 	Opc,Opc2:char;
 
 Begin
-Bus:=('');
 Menu_Editar_Director_Part1(Bus);
 Buscar_Director(Directores, Pos, Bus, direct);
+readkey;
 If (Pos <> -1) then
 	Begin
 	 AbrirD(Directores);
@@ -903,10 +901,9 @@ Procedure MModificar_Obra(var Obras:Archivo_Obras);
 Var 
 	Pos, Aux : int64;
 	obr : Obra;
-	Bus, Opc : String;
+	Opc : String;
 
 Begin
-Bus := ('');
 Menu_Editar_Obra_Part1(Bus); // modificar para capturar el dato (ya)
 Buscar_Obra_Nombre(Obras, Pos, Bus, obr); //Obras (el archivo) pos(posicion del registro de la obra en el archivo) Bus(codigo de la obra que se busca) obr(registro de la obra buscada)
 If (Pos <> -1) then
