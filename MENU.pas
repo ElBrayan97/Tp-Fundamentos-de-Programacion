@@ -125,21 +125,40 @@ Begin
 	Case (Opc) of
 
 	 '1':Begin
+		 clrscr;
+		 Barrido_Obr(Obras);
+		 Readkey;
+		 clrscr;
 		 burbuja_mejoradoO(Obras);
 		 Barrido_Obr(Obras);
 		End;
 		
 	 '2':Begin
+		 clrscr;
+		 AbrirO(Obras);
+		 LeerO(Obras,Obr,0);
+		 writeln(Obr.Nombre);
+		 CerrarO(Obras);
+		 readkey;
+		 Menu_Estadisticas;
+		{
+		 Barrido_Art(Artistas);
+		 Readkey;
 		 burbuja_mejoradoA(Artistas);
 		 Barrido_Art(Artistas);
+		}
 		End;
 
 	 '3':Begin
+		 Barrido_Mus(Museos);
+		 Readkey;
 		 burbuja_mejoradoM(Museos);
 		 Barrido_Mus(Museos);
 		End;
 
 	 '4':Begin
+		 Barrido_Dir(Directores);
+		 Readkey;
 		 burbuja_mejoradoD(Directores);
 		 Barrido_Dir(Directores);
 		End;
@@ -834,7 +853,6 @@ Var
 Begin
  Menu_Editar_Director_Part1(Bus);
  Buscar_Director(Directores, Pos, Bus, direct);
- readkey;
  If (Pos <> -1) then
 	Begin
 	 AbrirD(Directores);
