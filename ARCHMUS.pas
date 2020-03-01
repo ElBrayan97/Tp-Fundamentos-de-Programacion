@@ -23,7 +23,7 @@ Procedure GuardarM (Var Museos:Archivo_Museos; Var Mus:Museo);
 Procedure CerrarM (var Museos:Archivo_Museos);
 
 //METODOS DE BUSQUEDA Y ORDENAMIENTO
-Procedure burbuja_mejorado (var v:T_vec_mus;d:integer);
+Procedure burbuja_mejoradoM(var Museos:Archivo_Museos);
 Procedure Buscar_Museo_Codigo (var Museos:Archivo_Museos; var pos:int64; codigo_buscado:int64; var Mus:Museo);
 Procedure Buscar_Museo_Nombre (var Museos:Archivo_Museos;var pos:int64; Nombre:String; var Mus:Museo);
 
@@ -68,35 +68,35 @@ Begin
  Close(Museos);
 End;
 
-Procedure burbuja_mejoradoA(var Artistas:Archivo_Artistas); //BURBUJA MEJORADO PARA ARCHIVOS
+Procedure burbuja_mejoradoM(var Museos:Archivo_Museos); //BURBUJA MEJORADO PARA ARCHIVOS
 var
 	L, i : LongInt;
 	orden : boolean;
-	RegA, RegB, RegAux : Artista;
+	RegA, RegB, RegAux : Museo;
 begin
   i := 0;
-  AbrirA(Artistas);
-  L := FileSize(Artistas);
+  AbrirM(Museos);
+  L := FileSize(Museos);
   gotoxy(40,40);
-  writeln (FileSize(Artistas));
+  writeln (FileSize(Museos));
   orden := false;
   readkey;
   while not(orden)do begin //mientras no este ordenado 
 	 orden:=true;
 	 for i := 0 to (L-1) do begin // Ciclo de i y el adyascente
-		 if not eof(Artistas) then Begin
-			 LeerA(Artistas,RegA,i);  //Obtengo los parametros por los cuales quiero ordenar
-			 LeerA(Artistas,RegB,i+1);
+		 if not eof(Museos) then Begin
+			 LeerM(Museos,RegA,i);  //Obtengo los parametros por los cuales quiero ordenar
+			 LeerM(Museos,RegB,i+1);
 			 if RegB.Nombre > RegA.Nombre then begin
 				 orden:=false;
 				 RegAux := RegB;
-				 ModificarA(Artistas,RegA,i+1);
-				 ModificarA(Artistas,RegAux,i);	
+				 ModificarM(Museos,RegA,i+1);
+				 ModificarM(Museos,RegAux,i);	
 				end;
 			End;
 		end;
 	end;
- CerrarA(Artistas);
+ CerrarM(Museos);
 end;
 
 Procedure Buscar_Museo_Codigo(var Museos:Archivo_Museos;var pos:int64; codigo_buscado:int64; var Mus:Museo);

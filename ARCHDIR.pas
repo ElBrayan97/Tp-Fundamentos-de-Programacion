@@ -30,7 +30,7 @@ Procedure GuardarD(var Directores:Archivo_Directores; Direct:Director);
 Procedure CerrarD(var Directores:Archivo_Directores);
 
 //METODOS DE BUSQUEDA Y ORDENAMIENTO
-Procedure burbuja_mejorado(var v:T_vec_dir; d:integer);
+Procedure burbuja_mejoradoD(var Directores:Archivo_Directores);
 Procedure Buscar_Director(var Directores:Archivo_Directores; var pos:int64; buscado:String; var Direct:Director);
 
 //METODO DE PRUEBAS
@@ -77,35 +77,35 @@ End;
 {METODOS DE ORDENAMIENTO Y BUSQUEDA
 * }
 
-Procedure burbuja_mejoradoA(var Artistas:Archivo_Artistas); //BURBUJA MEJORADO PARA ARCHIVOS
+Procedure burbuja_mejoradoD(var Directores:Archivo_Directores); //BURBUJA MEJORADO PARA ARCHIVOS
 var
 	L, i : LongInt;
 	orden : boolean;
-	RegA, RegB, RegAux : Artista;
+	RegA, RegB, RegAux : Director;
 begin
   i := 0;
-  AbrirA(Artistas);
-  L := FileSize(Artistas);
+  AbrirD(Directores);
+  L := FileSize(Directores);
   gotoxy(40,40);
-  writeln (FileSize(Artistas));
+  writeln (FileSize(Directores));
   orden := false;
   readkey;
   while not(orden)do begin //mientras no este ordenado 
 	 orden:=true;
 	 for i := 0 to (L-1) do begin // Ciclo de i y el adyascente
-		 if not eof(Artistas) then Begin
-			 LeerA(Artistas,RegA,i);  //Obtengo los parametros por los cuales quiero ordenar
-			 LeerA(Artistas,RegB,i+1);
-			 if RegB.Nombre > RegA.Nombre then begin
+		 if not eof(Directores) then Begin
+			 LeerD(Directores,RegA,i);  //Obtengo los parametros por los cuales quiero ordenar
+			 LeerD(Directores,RegB,i+1);
+			 if RegB.APyNom > RegA.APyNom then begin
 				 orden:=false;
 				 RegAux := RegB;
-				 ModificarA(Artistas,RegA,i+1);
-				 ModificarA(Artistas,RegAux,i);	
+				 ModificarD(Directores,RegA,i+1);
+				 ModificarD(Directores,RegAux,i);	
 				end;
 			End;
 		end;
 	end;
- CerrarA(Artistas);
+ CerrarD(Directores);
 end;
 
 

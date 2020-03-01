@@ -37,7 +37,7 @@ Procedure GuardarO (var Obras:Archivo_Obras; var Obr:Obra);
 Procedure CerrarO (var Obras:Archivo_Obras);
 
 //METODOS DE BUSQUEDA Y ORDENAMIENTO
-Procedure burbuja_mejorado (var v:T_vec_obras;d:integer);
+Procedure burbuja_mejoradoO (var Obras:Archivo_Obras);
 Procedure Buscar_Obra_Codigo (var Obras:Archivo_Obras;var pos:int64; Code:int64; var obr:Obra);//el archivo solo va desde var hasta_obra
 Procedure Buscar_Obra_Nombre (var Obras:Archivo_Obras;var pos:int64; Name:String; var obr:Obra);
 
@@ -87,35 +87,35 @@ Begin
 End;
 
 
-Procedure burbuja_mejoradoA(var Artistas:Archivo_Artistas); //BURBUJA MEJORADO PARA ARCHIVOS
+Procedure burbuja_mejoradoO(var Obras:Archivo_Obras); //BURBUJA MEJORADO PARA ARCHIVOS
 var
 	L, i : LongInt;
 	orden : boolean;
-	RegA, RegB, RegAux : Artista;
+	RegA, RegB, RegAux :Obra;
 begin
   i := 0;
-  AbrirA(Artistas);
-  L := FileSize(Artistas);
+  AbrirO(Obras);
+  L := FileSize(Obras);
   gotoxy(40,40);
-  writeln (FileSize(Artistas));
+  writeln (FileSize(Obras));
   orden := false;
   readkey;
   while not(orden)do begin //mientras no este ordenado 
 	 orden:=true;
 	 for i := 0 to (L-1) do begin // Ciclo de i y el adyascente
-		 if not eof(Artistas) then Begin
-			 LeerA(Artistas,RegA,i);  //Obtengo los parametros por los cuales quiero ordenar
-			 LeerA(Artistas,RegB,i+1);
+		 if not eof(Obras) then Begin
+			 LeerO(Obras,RegA,i);  //Obtengo los parametros por los cuales quiero ordenar
+			 LeerO(Obras,RegB,i+1);
 			 if RegB.Nombre > RegA.Nombre then begin
 				 orden:=false;
 				 RegAux := RegB;
-				 ModificarA(Artistas,RegA,i+1);
-				 ModificarA(Artistas,RegAux,i);	
+				 ModificarO(Obras,RegA,i+1);
+				 ModificarO(Obras,RegAux,i);	
 				end;
 			End;
 		end;
 	end;
- CerrarA(Artistas);
+ CerrarO(Obras);
 end;
 
 
