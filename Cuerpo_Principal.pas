@@ -2,7 +2,7 @@ Program Cuerpo_Principal;
 Uses  
 	crt,MENU;
 Var
-R:Char;
+	R:Char;
 
 BEGIN
 	Repeat

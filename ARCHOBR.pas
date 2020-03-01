@@ -21,13 +21,13 @@ Obra=Record
 	 Activo:boolean;
 	 Cantidad_Obras:Int64;
 	End;
-T_vec_obras=array of Obra;	
+
 Archivo_Obras=file of Obra;
 
 Var
-Obras:Archivo_Obras;
-Obr:Obra;
-Posicion:Integer;
+	Obras:Archivo_Obras;
+	Obr:Obra;
+	Posicion:Integer;
 
 //METODOS DE APERTURA, LECTURA, MODIFICACION, GUARDADO Y CIERRE
 Procedure AbrirO (var Obras:Archivo_Obras);

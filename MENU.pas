@@ -3,12 +3,12 @@ Interface
 uses crt,iconos_carteles,ARCHART,ARCHDIR,ARCHMUS,ARCHOBR,VALIDACIONES;
 
 VAR	
- Opc:char;
- Resp:Boolean;
- N1, Bus:String; 
- Pos:Integer;
- X, Y:Byte;
- BUSC, B:Int64;
+	Opc:char;
+	Resp:Boolean;
+	N1, Bus:String; 
+	Pos:Integer;
+	X, Y:Byte;
+	BUSC, B:Int64;
 
 //Menus (todo funciona)
 Procedure Menu_Principal;
@@ -50,7 +50,7 @@ Procedure Segun_Artista_Mostrar_Obras(var Obras:Archivo_Obras; var Artistas:Arch
 Implementation
 Procedure Menu_Principal;
 Begin
-Opc:='0';
+ Opc:='0';
 	Repeat
 	 Menu_Principal_Graph();
 	 Opc:=Readkey;
@@ -81,7 +81,7 @@ Begin
 	 '4':MCargar_Director(Directores);
 	 '0':Menu_Principal;
 	End;
-Menu_Principal();
+ Menu_Principal();
 End;
 
 Procedure Menu_Editar;
@@ -97,7 +97,7 @@ Begin
 	 '4':MModificar_Director (Directores);
 	 '0':Menu_Principal;
 	End;
-Menu_Principal;
+ Menu_Principal;
 End;
 
 Procedure Menu_Borrar;
@@ -113,7 +113,7 @@ Begin
 	 '4':MBajar_Dir (Directores);
 	 '0':Menu_Principal;
 	End;
-Menu_Principal;
+ Menu_Principal;
 End;
 
 Procedure Menu_Estadisticas;
@@ -123,11 +123,27 @@ Begin
 	 Opc:=Readkey;
 	Until ((Opc='1') or (Opc='2') or (Opc='3') or (Opc='4') or (Opc='0') or (Opc='5'));
 	Case (Opc) of
-	 {'1':Segun_Artista_Mostrar_Obras(Obras, Artistas);}
-	 '1':Barrido_Obr(Obras);
-	 '2':Barrido_Art(Artistas);
-	 '3':Barrido_Mus(Museos);
-	 '4':Barrido_Dir(Directores);
+
+	 '1':Begin
+		 burbuja_mejoradoO(Obras);
+		 Barrido_Obr(Obras);
+		End;
+		
+	 '2':Begin
+		 burbuja_mejoradoA(Artistas);
+		 Barrido_Art(Artistas);
+		End;
+
+	 '3':Begin
+		 burbuja_mejoradoM(Museos);
+		 Barrido_Mus(Museos);
+		End;
+
+	 '4':Begin
+		 burbuja_mejoradoD(Directores);
+		 Barrido_Dir(Directores);
+		End;
+
 	 '0':Menu_Principal;
 	End;
 End;
@@ -263,19 +279,19 @@ Begin
 				 restaurar := readkey;
 				Until (restaurar = 'N') or (restaurar ='n') or (restaurar = 'S') or (restaurar ='s');
 
-				If (restaurar ='S') or (restaurar ='s') then // El usuario quiere restaurar el archivo?
-					Begin
-					 clrscr;
-					 obr.Activo := True;
-					 ModificarO(Obras,obr,pos);
-					 Aviso_Restauracion_Exitosa;
-					 CerrarO(Obras);
-					End;
+			 If (restaurar ='S') or (restaurar ='s') then // El usuario quiere restaurar el archivo?
+				Begin
+				 clrscr;
+				 obr.Activo := True;
+				 ModificarO(Obras,obr,pos);
+				 Aviso_Restauracion_Exitosa;
+				 CerrarO(Obras);
+				End;
 			End
 			Else // Si no esta eliminada
 			 CerrarO(Obras); // Cierra el archivo, no se modifica nada y se vuelve al menu
 		End;
-Menu_Cargar();
+ Menu_Cargar();
 End;
 
 Procedure MCargar_ART(var Artistas:Archivo_Artistas);
@@ -286,12 +302,12 @@ var
 	Artist:Artista;
 
 Begin
-Pos := -1;
-Menu_Cargar_Artista_Part1;
-TextColor (Green);
-Gotoxy (34,6); Readln (Nombre);
-Buscar_Artista(Artistas,Pos,Nombre,Artist); // Busqueda del Artista en el Archivo
-If (Pos = -1) then
+ Pos := -1;
+ Menu_Cargar_Artista_Part1;
+ TextColor (Green);
+ Gotoxy (34,6); Readln (Nombre);
+ Buscar_Artista(Artistas,Pos,Nombre,Artist); // Busqueda del Artista en el Archivo
+ If (Pos = -1) then
 	Begin
 	 AbrirA(Artistas);
 	 Menu_Cargar_Artista_Part2;
@@ -425,11 +441,11 @@ var
 	restaurar:char;
 	
 Begin
-Menu_Cargar_Director_Part1;
-TextColor (Green);
-Gotoxy (34,6); Readln(Name);
-Buscar_Director (Directores, pos, Name, Direct); //busqueda en el archivo
-If (pos = -1) then 
+ Menu_Cargar_Director_Part1;
+ TextColor (Green);
+ Gotoxy (34,6); Readln(Name);
+ Buscar_Director (Directores, pos, Name, Direct); //busqueda en el archivo
+ If (pos = -1) then 
 	Begin //si los datos no existen
 	 AbrirD (Directores); //apertura del archivo
 	 Direct.ApyNom := Name;
@@ -470,7 +486,7 @@ If (pos = -1) then
 			Else
 			 CerrarD(Directores);
 		End;	 
-Menu_Principal();
+ Menu_Principal();
 End;
 
 Procedure MBajar_Art(var Artistas:Archivo_Artistas);//Estas son las bajas
@@ -480,9 +496,9 @@ Var
     artist:Artista;
 
 Begin
-Menu_Baja_Artista(Nombre);
-Buscar_Artista(Artistas,Pos,Nombre,artist);
-If (Pos <> -1) then
+ Menu_Baja_Artista(Nombre);
+ Buscar_Artista(Artistas,Pos,Nombre,artist);
+ If (Pos <> -1) then
     Begin
      AbrirA(Artistas);
      LeerA(Artistas,artist,Pos);//llamar a la funcion leer de la unit Artista (controlar si los parametros estan bien puestos)
@@ -508,8 +524,8 @@ If (Pos <> -1) then
 		 Menu_Baja_Artista_Inexistente();
 		 Readkey;
 		End;
-Clrscr;
-Menu_Borrar();
+ Clrscr;
+ Menu_Borrar();
 End;
 
 Procedure MBajar_Dir(var Directores:Archivo_Directores);
@@ -519,9 +535,9 @@ Var
     direct:Director;
 
 Begin
-Menu_Baja_Director(Name);
-Buscar_Director(Directores, Pos, Name, direct);
-If (Pos <> -1) then
+ Menu_Baja_Director(Name);
+ Buscar_Director(Directores, Pos, Name, direct);
+ If (Pos <> -1) then
 	Begin
 	 AbrirD(Directores);
      LeerD(Directores, direct, Pos);//llamar a la funcion leer de la unit Directores (controlar si los parametros estan bien puestos)
@@ -547,8 +563,8 @@ If (Pos <> -1) then
 		 Menu_Baja_Director_Inexistente;
 		 readkey;
 		End;
-Clrscr;
-Menu_Borrar();
+ Clrscr;
+ Menu_Borrar();
 End;
 
 Procedure MBajar_Mus(var Museos:Archivo_Museos);//Estas son las bajas
@@ -558,9 +574,9 @@ Var
     Mus:Museo;
 
 Begin
-Menu_Baja_Museo(Nombre);
-Buscar_Museo_Nombre(Museos, Pos, Nombre, Mus);
-If (Pos <> -1) then
+ Menu_Baja_Museo(Nombre);
+ Buscar_Museo_Nombre(Museos, Pos, Nombre, Mus);
+ If (Pos <> -1) then
 	Begin
 	 AbrirM(Museos);
      LeerM(Museos, Mus, Pos);//llamar a la funcion leer de la unit Museos (controlar si los parametros estan bien puestos)
@@ -585,8 +601,8 @@ If (Pos <> -1) then
 		 Menu_Baja_Museo_Inexistente;
 		 Readkey;   
 		End;
-Clrscr;
-Menu_Borrar();
+ Clrscr;
+ Menu_Borrar();
 End;
 
 Procedure MBajar_obr(var Obras:Archivo_Obras);//Estas son las bajas
@@ -596,9 +612,9 @@ Var
     Obr : Obra;
     
 Begin
-Menu_Baja_Obra (Nombre);
-Buscar_Obra_Nombre (Obras, Pos, Nombre, Obr);
-If (Pos <> -1) then
+ Menu_Baja_Obra (Nombre);
+ Buscar_Obra_Nombre (Obras, Pos, Nombre, Obr);
+ If (Pos <> -1) then
     Begin
      AbrirO(Obras); // Apertura del Archivo Obras
      LeerO(Obras, Obr, Pos);
@@ -624,8 +640,8 @@ If (Pos <> -1) then
 		 Menu_Baja_Obra_Inexistente;
 		 Readkey;
 		End;
-Clrscr;
-Menu_Borrar();
+ Clrscr;
+ Menu_Borrar();
 End;
 
 Procedure MModificar_Artista(var Artistas:Archivo_Artistas);
@@ -636,9 +652,9 @@ Var
 	Opc : char;
 	
 Begin
-Menu_Editar_Artista_Part1(Bus);
-Buscar_Artista(Artistas, Pos, Bus, artist);
-If (Pos <> -1) then
+ Menu_Editar_Artista_Part1(Bus);
+ Buscar_Artista(Artistas, Pos, Bus, artist);
+ If (Pos <> -1) then
 	Begin
 	 AbrirA(Artistas);
      LeerA(Artistas, artist, Pos);
@@ -702,7 +718,7 @@ If (Pos <> -1) then
 		Begin
 		 Aviso_Dato_Inexistente;
 		End;
-Menu_Editar();
+ Menu_Editar();
 End;
 
 Procedure MModificar_Museo(var Museos:Archivo_Museos);
@@ -712,10 +728,10 @@ Var
 	Opc : char;
 
 Begin
-Menu_Editar_Museo_Part1(Bus); // modificar cartel para capturar el dato (ya)
-TextColor(Green);
-Buscar_Museo_Nombre (Museos, Pos, Bus, mus);
-If (Pos <> -1) then
+ Menu_Editar_Museo_Part1(Bus); // modificar cartel para capturar el dato (ya)
+ TextColor(Green);
+ Buscar_Museo_Nombre (Museos, Pos, Bus, mus);
+ If (Pos <> -1) then
 	Begin
 	 AbrirM(Museos);
      LeerM(Museos, mus, Pos);
@@ -806,7 +822,7 @@ If (Pos <> -1) then
 		Begin
 		 Aviso_Dato_Inexistente();
 		End;
-Menu_Editar();
+ Menu_Editar();
 End;
 
 Procedure MModificar_Director(var Directores:Archivo_Directores);
@@ -816,10 +832,10 @@ Var
 	Opc,Opc2:char;
 
 Begin
-Menu_Editar_Director_Part1(Bus);
-Buscar_Director(Directores, Pos, Bus, direct);
-readkey;
-If (Pos <> -1) then
+ Menu_Editar_Director_Part1(Bus);
+ Buscar_Director(Directores, Pos, Bus, direct);
+ readkey;
+ If (Pos <> -1) then
 	Begin
 	 AbrirD(Directores);
      LeerD(Directores, direct, Pos);
@@ -898,7 +914,7 @@ If (Pos <> -1) then
 		Begin
 		 Aviso_Dato_Inexistente();
 		End;
-Menu_Editar();
+ Menu_Editar();
 End;
 
 Procedure MModificar_Obra(var Obras:Archivo_Obras);
@@ -908,9 +924,9 @@ Var
 	Opc : String;
 
 Begin
-Menu_Editar_Obra_Part1(Bus); // modificar para capturar el dato (ya)
-Buscar_Obra_Nombre(Obras, Pos, Bus, obr); //Obras (el archivo) pos(posicion del registro de la obra en el archivo) Bus(codigo de la obra que se busca) obr(registro de la obra buscada)
-If (Pos <> -1) then
+ Menu_Editar_Obra_Part1(Bus); // modificar para capturar el dato (ya)
+ Buscar_Obra_Nombre(Obras, Pos, Bus, obr); //Obras (el archivo) pos(posicion del registro de la obra en el archivo) Bus(codigo de la obra que se busca) obr(registro de la obra buscada)
+ If (Pos <> -1) then
 	Begin
 	 AbrirO(Obras);
      LeerO(Obras, obr, Pos); //Obras(el archivo) registro(del archivo) y posicion del registro en el archivo
@@ -1036,7 +1052,7 @@ If (Pos <> -1) then
 		Begin
 		 Aviso_Dato_Inexistente();
 		End;
-Menu_Editar();
+ Menu_Editar();
 End;
 
 {
