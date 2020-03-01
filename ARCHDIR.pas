@@ -18,26 +18,34 @@ T_vec_dir=array [1..6] of Director;
 Archivo_Directores=File of Director;
 
 Var 
-Directores:Archivo_Directores;
-Direct:Director;
-Pos:Integer;
+	Directores:Archivo_Directores;
+	Direct:Director;
+	Pos:Integer;
 
+//METODOS DE APERTURA, LECTURA, MODIFICACION, GUARDADO Y CIERRE
 Procedure AbrirD(var Directores:Archivo_Directores);
 Procedure LeerD(var Directores:Archivo_Directores; var Direct:Director; Pos:Integer);
 Procedure ModificarD(var Directores:Archivo_Directores; var Direct:Director; Pos:Integer);
 Procedure GuardarD(var Directores:Archivo_Directores; Direct:Director);
 Procedure CerrarD(var Directores:Archivo_Directores);
-procedure Cargar_director(var Directores:archivo_Directores; var v:T_vec_dir; var d:integer);
+
+//METODOS DE BUSQUEDA Y ORDENAMIENTO
 Procedure burbuja_mejorado(var v:T_vec_dir; d:integer);
 Procedure Buscar_Director(var Directores:Archivo_Directores; var pos:int64; buscado:String; var Direct:Director);
 
+//METODO DE PRUEBAS
+Procedure Barrido_Dir(var Directores:Archivo_Directores);
+
 Implementation //Parte Privada
+
+{APERTURA, LECTURA, MODIFICACION, GUARDADO Y CIERRE
+}
 
 Procedure AbrirD(Var Directores:Archivo_Directores);
 Begin
-Assign(Directores,'X:\ARCHDIR.dat');
-Reset(Directores);
-If (ioresult <> 0) then
+ Assign(Directores,'X:\ARCHDIR.dat');
+ Reset(Directores);
+ If (ioresult <> 0) then
 	Begin
 	 ReWrite(Directores);
 	End;
@@ -51,14 +59,14 @@ End;
 
 Procedure ModificarD(var Directores:Archivo_Directores; var Direct:Director; Pos:Integer);
 Begin
-seek(Directores,Pos);
-Write(Directores,Direct);
+ Seek(Directores,Pos);
+ Write(Directores,Direct);
 End;
 
 Procedure GuardarD(var Directores:Archivo_Directores; Direct:Director);
 Begin
-seek(Directores,FileSize(Directores));
-write(Directores,Direct);
+ Seek(Directores,FileSize(Directores));
+ Write(Directores,Direct);
 End;
 
 Procedure CerrarD(Var Directores:Archivo_Directores);
@@ -66,71 +74,82 @@ Begin
  Close (Directores);
 End;
 
-Procedure Cargar_Director(var Directores:Archivo_Directores;var v:T_vec_dir;var d:integer);
-var pos:integer;
-Begin
-AbrirD (Directores);
-pos:=0;
-while (not eof (Directores)) do
-	begin
-	LeerD(Directores ,Direct,pos);
-	if Direct.activo=True then	
-		begin
-		inc(d);
-		v[d].ApyNom:=Direct.ApyNom;
-		v[d].DNI:=Direct.DNI;
-		V[d].Direccion:=Direct.Direccion;
-		v[d].Periodo_Asignacion_Inic:=Direct.Periodo_Asignacion_Inic;
-		v[d].Periodo_Asignacion_Fin:=Direct.Periodo_Asignacion_Fin;
-		v[d].Telefono:=Direct.Telefono;
-		v[d].Activo:=Direct.Activo;
-		End;
-	inc(pos);
-	End;
-End;
+{METODOS DE ORDENAMIENTO Y BUSQUEDA
+* }
 
-Procedure burbuja_mejorado(var v:T_vec_dir;d:integer);
+Procedure burbuja_mejoradoA(var Artistas:Archivo_Artistas); //BURBUJA MEJORADO PARA ARCHIVOS
 var
-i:Integer;
-dir:Director;
-orden:boolean;
-BEGIN
-	orden:=false;
-	while not(orden)do//mientras no este ordenado 
-	begin;
-		orden:=true;
-		for i:= 1 to d-1 do;
-		begin
-			if v[i].DNI > v[i+1].DNI then
-			begin
-				orden:=false;
-				dir:=v[i];
-				v[i]:=v[i+1];
-				v[i+1]:=dir;
-			end;
+	L, i : LongInt;
+	orden : boolean;
+	RegA, RegB, RegAux : Artista;
+begin
+  i := 0;
+  AbrirA(Artistas);
+  L := FileSize(Artistas);
+  gotoxy(40,40);
+  writeln (FileSize(Artistas));
+  orden := false;
+  readkey;
+  while not(orden)do begin //mientras no este ordenado 
+	 orden:=true;
+	 for i := 0 to (L-1) do begin // Ciclo de i y el adyascente
+		 if not eof(Artistas) then Begin
+			 LeerA(Artistas,RegA,i);  //Obtengo los parametros por los cuales quiero ordenar
+			 LeerA(Artistas,RegB,i+1);
+			 if RegB.Nombre > RegA.Nombre then begin
+				 orden:=false;
+				 RegAux := RegB;
+				 ModificarA(Artistas,RegA,i+1);
+				 ModificarA(Artistas,RegAux,i);	
+				end;
+			End;
 		end;
 	end;
+ CerrarA(Artistas);
 end;
+
 
 Procedure Buscar_Director(var Directores:Archivo_Directores;  var pos:int64;  buscado:String;  var Direct:Director);
 var 
-	posicion:int64;
+	posicion : int64;
 	
 begin
-AbrirD(Directores);
-posicion:=0;
-pos:=-1;
-while (not eof ( Directores)) and (pos = -1) do
+ AbrirD(Directores);
+ posicion:=0;
+ pos:=-1;
+ while (not eof ( Directores)) and (pos = -1) do
 	begin
 	 LeerD (Directores, Direct, posicion);
 	 If Direct.APyNom = buscado then
 		begin
-			pos := posicion;
+		 pos := posicion;
 		end;
 	 inc(posicion);
 	end;	
-CerrarD(Directores);
+ CerrarD(Directores);
 end;
+
+{METODOS PARA PRUEBAS
+* }
+
+Procedure Barrido_Dir(var Directores:Archivo_Directores);
+var
+	Punt, Lim : int64;
+	Registro : Director;
+	
+Begin
+ Gotoxy(1,25);
+ AbrirD(Directores);
+ Lim:=FileSize(Directores);
+ Punt:=0;
+ While (not eof) and (punt <> Lim) do begin
+	 LeerD(Directores,Registro,Punt);
+	 Writeln(Registro.APyNom);
+	 Punt:=(Punt+1);
+	End;
+ CerrarD(Directores);
+End;
+
 
 begin
 end.

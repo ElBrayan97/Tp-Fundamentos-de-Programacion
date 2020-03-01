@@ -11,34 +11,40 @@ Artista=Record
 	 Fecha_Nacimiento:String;
 	 Activo:Boolean;
 	End;
-T_vec_art=array [1..5] of Artista;
 Archivo_Artistas=File of Artista;
 
 Var
-Artistas:Archivo_Artistas;//esta es la variable para abrir el archivo.
-Artist:Artista;//esta es la variable del tipo del registro para leer en el archivo.
+	Artistas:Archivo_Artistas;//esta es la variable para abrir el archivo.
+	Artist:Artista;//esta es la variable del tipo del registro para leer en el archivo.
 
+//METODOS DE APERTURA, LECTURA, MODIFICACION, GUARDADO Y CIERRE
 Procedure AbrirA(var Artistas:Archivo_Artistas);
 Procedure LeerA(var Artistas:Archivo_Artistas; var Reg:Artista; Pos:Integer);
 Procedure ModificarA(var Artistas:Archivo_Artistas; var Reg:Artista; Pos:Integer);
 Procedure GuardarA(var Artistas:Archivo_Artistas; Reg:Artista);
 Procedure CerrarA(var Artistas:Archivo_Artistas);
-Procedure Cargar_Artista(var Artistas:Archivo_Artistas;var v:T_vec_art;var d:integer);
-Procedure burbuja_mejorado(var v:T_vec_art;d:integer);
+
+//METODOS DE BUSQUEDA Y ORDENAMIENTO
+Procedure burbuja_mejoradoA(var Artistas:Archivo_Artistas);
 Procedure Buscar_Artista(var Artistas:Archivo_Artistas; var Pos:int64; Nombre:String; var art:Artista);
 
-
+// METODO DE PRUEBAS
+Procedure Barrido_Art(var Artistas:Archivo_Artistas);
 Implementation //Parte Privada
+
+{APERTURA, LECTURA, MODIFICACION, GUARDADO Y CIERRE
+}
 
 Procedure AbrirA(Var Artistas:Archivo_Artistas);
 Begin
-Assign(Artistas,'X:\ARCHART.dat');
-Reset(Artistas);
-If (ioresult <> 0) then
+ Assign(Artistas,'X:\ARCHART.dat');
+ Reset(Artistas);
+ If (ioresult <> 0) then
 	Begin
 	 ReWrite(Artistas);
 	End;
 End;
+
 
 Procedure LeerA(var Artistas:Archivo_Artistas; var Reg:Artista; Pos:Integer); //Lee una posicion "Pos" del archivo y lo muestra 
 Begin
@@ -46,11 +52,13 @@ Begin
  read(Artistas,Reg);
 End;
 
+
 Procedure ModificarA(var Artistas:Archivo_Artistas; var Reg:Artista; Pos:Integer);
 Begin
  Seek(Artistas,Pos);
  Write(Artistas,Reg);
 End;
+
 
 Procedure GuardarA(var Artistas:Archivo_Artistas; Reg:Artista);
 Begin
@@ -58,64 +66,56 @@ Begin
  Write(Artistas,Reg);
 End;
 
+
 Procedure CerrarA(var Artistas:Archivo_Artistas);
 Begin
  Close(Artistas);
 End;
 
-Procedure Cargar_Artista(var Artistas:Archivo_Artistas;var v:T_vec_art;var d:integer);//"d" es el limie que indica el numero de elementos en el vector.
-var pos:integer;
-Begin
-AbrirA(Artistas);
-pos:=0;
-while (not eof (Artistas)) do
-	begin
-	 LeerA(Artistas,Artist,pos);
-	 if Artist.activo=True then	
-		begin
-		 inc(d);
-		 v[d].DNI:=Artist.DNI;
-		 v[d].Nombre:=Artist.Nombre;
-		 v[d].Direccion:=Artist.Direccion;
-		 v[d].Fecha_Nacimiento:=Artist.Fecha_Nacimiento;
-		 v[d].Activo:=Artist.Activo;
-		End;
-	 inc(pos);
-	End;
-End;
+{METODOS DE ORDENAMIENTO Y BUSQUEDA
+}
 
-Procedure burbuja_mejorado(var v:T_vec_art;d:integer);
+Procedure burbuja_mejoradoA(var Artistas:Archivo_Artistas); //BURBUJA MEJORADO PARA ARCHIVOS
 var
-i:Integer;
-art:Artista;
-orden:boolean;
-BEGIN
-	orden:=false;
-	while not(orden)do//mientras no este ordenado 
-	begin;
+	L, i : LongInt;
+	orden : boolean;
+	RegA, RegB, RegAux : Artista;
+begin
+  i := 0;
+  AbrirA(Artistas);
+  L := FileSize(Artistas);
+  gotoxy(40,40);
+  writeln (FileSize(Artistas));
+  orden := false;
+  readkey;
+  while not(orden)do begin //mientras no este ordenado 
 	 orden:=true;
-	 for i:= 1 to d-1 do;
-		begin
-		 if v[i].DNI > v[i+1].DNI then
-			begin
-			 orden:=false;
-			 art:=v[i];
-			 v[i]:=v[i+1];
-			 v[i+1]:=art;
-			end;
+	 for i := 0 to (L-1) do begin // Ciclo de i y el adyascente
+		 if not eof(Artistas) then Begin
+			 LeerA(Artistas,RegA,i);  //Obtengo los parametros por los cuales quiero ordenar
+			 LeerA(Artistas,RegB,i+1);
+			 if RegB.Nombre > RegA.Nombre then begin
+				 orden:=false;
+				 RegAux := RegB;
+				 ModificarA(Artistas,RegA,i+1);
+				 ModificarA(Artistas,RegAux,i);	
+				end;
+			End;
 		end;
 	end;
+ CerrarA(Artistas);
 end;
+
 
 Procedure Buscar_Artista(var Artistas:Archivo_Artistas; var pos:int64; Nombre:String; var art:Artista);
 var 
 	posicion : int64;
 
 Begin
-AbrirA(Artistas); // Apertura del Archivo
-Posicion:=0;
-pos:=-1;
-While (not eof ( Artistas)) and (pos=-1) do // Mientras no sea el final del archivo y la variable pos siga siendo -1
+ AbrirA(Artistas); // Apertura del Archivo
+ Posicion:=0;
+ pos:=-1;
+ While (not eof ( Artistas)) and (pos=-1) do // Mientras no sea el final del archivo y la variable pos siga siendo -1
 	begin
 		LeerA (Artistas, Artist, Posicion); // Se lee el registro del archivo que esta en la Posicion...
 		 If Artist.Nombre = Nombre then // Si el nombre del artista del registro coincide con el Nombre Buscado
@@ -124,8 +124,29 @@ While (not eof ( Artistas)) and (pos=-1) do // Mientras no sea el final del arch
 			end;
 		Inc(Posicion); 
 	End;	
-CerrarA(Artistas); // Cierre del Archivo
+ CerrarA(Artistas); // Cierre del Archivo
 End;		
+
+{METODOS PARA PRUEBAS
+* }
+
+Procedure Barrido_Art(var Artistas:Archivo_Artistas);
+var
+	Punt, Lim : int64;
+	Registro : Artista;
+
+Begin
+ Gotoxy(1,25);
+ AbrirA(Artistas);
+ Lim:=FileSize(Artistas);
+ Punt:=0;
+ While (not eof) and (punt <> Lim) do begin
+	 LeerA(Artistas,Registro,Punt);
+	 Writeln(Registro.Nombre);
+	 Punt:=(Punt+1);
+	End;
+ CerrarA(Artistas);
+End;
 
 BEGIN
 END.

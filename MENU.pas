@@ -124,6 +124,10 @@ Begin
 	Until ((Opc='1') or (Opc='2') or (Opc='3') or (Opc='4') or (Opc='0') or (Opc='5'));
 	Case (Opc) of
 	 {'1':Segun_Artista_Mostrar_Obras(Obras, Artistas);}
+	 '1':Barrido_Obr(Obras);
+	 '2':Barrido_Art(Artistas);
+	 '3':Barrido_Mus(Museos);
+	 '4':Barrido_Dir(Directores);
 	 '0':Menu_Principal;
 	End;
 End;
