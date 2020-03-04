@@ -14,8 +14,8 @@ Artista=Record
 Archivo_Artistas=File of Artista;
 
 Var
-	Artistas:Archivo_Artistas;//esta es la variable para abrir el archivo.
-	Artist:Artista;//esta es la variable del tipo del registro para leer en el archivo.
+	Artistas : Archivo_Artistas;//esta es la variable para abrir el archivo.
+	Artist : Artista;//esta es la variable del tipo del registro para leer en el archivo.
 
 //METODOS DE APERTURA, LECTURA, MODIFICACION, GUARDADO Y CIERRE
 Procedure AbrirA(var Artistas:Archivo_Artistas);
@@ -81,13 +81,10 @@ var
 	orden : boolean;
 	RegA, RegB, RegAux : Artista;
 begin
-  i := 0;
+  i := 1;
   AbrirA(Artistas);
   L := FileSize(Artistas);
-  gotoxy(40,40);
-  writeln (FileSize(Artistas));
   orden := false;
-  readkey;
   while not(orden)do begin //mientras no este ordenado 
 	 orden:=true;
 	 for i := 0 to (L-1) do begin // Ciclo de i y el adyascente

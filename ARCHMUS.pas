@@ -74,13 +74,10 @@ var
 	orden : boolean;
 	RegA, RegB, RegAux : Museo;
 begin
-  i := 0;
+  i := 1;
   AbrirM(Museos);
   L := FileSize(Museos);
-  gotoxy(40,40);
-  writeln (FileSize(Museos));
   orden := false;
-  readkey;
   while not(orden)do begin //mientras no este ordenado 
 	 orden:=true;
 	 for i := 0 to (L-1) do begin // Ciclo de i y el adyascente

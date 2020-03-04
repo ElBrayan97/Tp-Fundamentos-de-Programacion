@@ -93,26 +93,27 @@ var
 	orden : boolean;
 	RegA, RegB, RegAux :Obra;
 begin
-  i:=1;
-  AbrirO(Obras);
-  L:=FileSize(Obras);
-  orden:=false;
-  
-  // verificar todos los algoritmos, se sale del rango del archivo al ejecutar el ordenamiento
-  
-  while not(orden)do begin //mientras no este ordenado 
+ i:=0;
+ AbrirO(Obras);
+ L:=FileSize(Obras);
+ orden:=false;
+ // verificar todos los algoritmos, se sale del rango del archivo al ejecutar el ordenamiento
+ while orden=false do begin //mientras no este ordenado 
 	 orden:=true;
-	 for i := 1 to (L-1) do begin // Ciclo de i y el adyascente
+	 for i := 0 to (L-1) do begin // Ciclo de i y el adyascente
 		 if not eof(Obras) then Begin
 			 LeerO(Obras,RegA,i);  //Obtengo los parametros por los cuales quiero ordenar
 			 LeerO(Obras,RegB,i+1);
-			 if RegB.Nombre > RegA.Nombre then begin
-				 orden:=false;
+			 Writeln (RegA.Nombre,' < ',RegB.Nombre,' ?');
+			 readkey;
+			 if RegB.Nombre < RegA.Nombre then begin
 				 RegAux:=RegB;
+				 ModificarO(Obras,RegAux,i);
 				 ModificarO(Obras,RegA,i+1);
-				 ModificarO(Obras,RegAux,i);	
+				 writeln('intercambiados');
+				 orden:=false;
 				end;
-			End;
+			end;
 		end;
 	end;
  CerrarO(Obras);

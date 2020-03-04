@@ -214,7 +214,7 @@ Begin
  TextColor (Blue); 
  Writeln ('|============================\\'); //Y = (1 A 16)
  Writeln ('|                            \\');
- Writeln ('|   1: ARTISTA Y SUS OBRAS   \\');
+ Writeln ('|   1: OBRAS   \\');
  Writeln ('|                            \\');
  Writeln ('|   2: MUSEO Y SUS OBRAS     \\');
  Writeln ('|                            \\');

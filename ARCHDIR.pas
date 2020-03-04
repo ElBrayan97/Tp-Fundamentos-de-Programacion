@@ -83,13 +83,10 @@ var
 	orden : boolean;
 	RegA, RegB, RegAux : Director;
 begin
-  i := 0;
+  i := 1;
   AbrirD(Directores);
   L := FileSize(Directores);
-  gotoxy(40,40);
-  writeln (FileSize(Directores));
   orden := false;
-  readkey;
   while not(orden)do begin //mientras no este ordenado 
 	 orden:=true;
 	 for i := 0 to (L-1) do begin // Ciclo de i y el adyascente
