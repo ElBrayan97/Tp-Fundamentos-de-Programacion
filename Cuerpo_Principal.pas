@@ -6,6 +6,7 @@ Var
 
 BEGIN
 	Repeat
+	 R := '1';
 	 Menu_Principal();
 	 Window (1,1,120,35);
 	 TextBackground (Red); {Controla el recuadro ROJO del Cartel de Salida}

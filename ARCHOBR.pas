@@ -89,52 +89,50 @@ End;
 
 Procedure burbuja_mejoradoO(var Obras:Archivo_Obras); //BURBUJA MEJORADO PARA ARCHIVOS
 var
-	L, i : LongInt;
-	orden : boolean;
+	L, i, j : LongInt;
 	RegA, RegB, RegAux :Obra;
+	
 begin
- i:=0;
- AbrirO(Obras);
- L:=FileSize(Obras);
- orden:=false;
- // verificar todos los algoritmos, se sale del rango del archivo al ejecutar el ordenamiento
- while orden=false do begin //mientras no este ordenado 
-	 orden:=true;
-	 for i := 0 to (L-1) do begin // Ciclo de i y el adyascente
-		 if not eof(Obras) then Begin
-			 LeerO(Obras,RegA,i);  //Obtengo los parametros por los cuales quiero ordenar
-			 LeerO(Obras,RegB,i+1);
-			 Writeln (RegA.Nombre,' < ',RegB.Nombre,' ?');
-			 readkey;
-			 if RegB.Nombre < RegA.Nombre then begin
-				 RegAux:=RegB;
-				 ModificarO(Obras,RegAux,i);
-				 ModificarO(Obras,RegA,i+1);
-				 writeln('intercambiados');
-				 orden:=false;
-				end;
+AbrirO(Obras);
+L := FileSize(Obras);
+for j := 1 to (L-1) do
+	begin //mientras no este ordenado
+	 for i := 0 to (L-j-1) do
+		begin //Ciclo de i y el adyascente
+		 LeerO (Obras, RegA, i); //Obtengo los parametros por los cuales quiero ordenar
+		 LeerO (Obras, RegB, i+1);
+		 writeln (RegA.Nombre, ' < ', RegB.Nombre, ' ?');
+		 delay(1000);
+		 if RegB.Nombre < RegA.Nombre then
+			begin
+			 
+			 RegAux := RegB;
+			 ModificarO (Obras, RegAux, i);
+			 ModificarO (Obras, RegA, i+1);
+			 writeln ('intercambiados');
 			end;
 		end;
 	end;
- CerrarO(Obras);
+CerrarO(Obras);
 end;
 
 
 Procedure Barrido_Obr(var Obras:Archivo_Obras);
 var
 	Punt, Lim : int64;
-	Registro:Obra;
+	Registro : Obra;
 Begin
- Gotoxy(1,25);
- AbrirO(Obras);
- Lim:=FileSize(Obras);
- Punt:=0;
+clrscr;
+Gotoxy(1,25);
+AbrirO(Obras);
+Lim:=FileSize(Obras);
+Punt:=0;
  While (not eof) and (punt <> Lim) do begin
 	 LeerO(Obras,Registro,Punt);
 	 Writeln(Registro.Nombre);
 	 Punt:=(Punt+1);
 	End;
- CerrarO(Obras);
+CerrarO(Obras);
 End;
 
 

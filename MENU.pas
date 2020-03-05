@@ -131,8 +131,11 @@ Begin
 		 clrscr;
 		 burbuja_mejoradoO(Obras);
 		 Barrido_Obr(Obras);
+		 keypressed;
+		 Menu_Estadisticas();
+		 
 		End;
-		
+
 	 '2':Begin
 		 clrscr;
 		 AbrirO(Obras);
@@ -176,12 +179,12 @@ var
 	Artist : Artista;
 
 Begin
+ pos:=-1; B:=0; Code:= 0; restaurar:='n';
  Menu_Cargar_Obra; // Carga de la Interfaz
  TextColor (Green);
  Gotoxy (33,5);
  Readln(Name); // Nombre de la Obra
  Buscar_Obra_Nombre (Obras, pos, Name, obr); // Si el Nombre no existe en el Archivo
-
  If (pos = -1) then // Si la obra no existe
 	Begin
 	 AbrirO(Obras);
