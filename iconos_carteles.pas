@@ -347,7 +347,7 @@ Begin
  Textcolor(Blue);
  Writeln (' _________________________________');
  Writeln ('|                                 \\');
- Write ('|   '); TextColor(Green); Write('MENU DE CARGA DE DIRECTORES'); TextColor(Blue); Writeln ('   \\');
+ Writeln ('|   '); TextColor(Green); Gotoxy (5,3); Writeln('MENU DE CARGA DE DIRECTORES'); TextColor(Blue); Gotoxy(32,3); Writeln ('   \\');
  Writeln ('|_________________________________\\___________________');
  Writeln ('|                                                      \\');
  Writeln ('| Ingrese el Nombre del Director:                      \\');
@@ -356,7 +356,7 @@ End;
 Procedure Menu_Cargar_Director_Part2();
 Begin
  Textcolor (Blue);
- Writeln ('|------------------------------------------------------\\');
+ Gotoxy (1,8);
  Writeln ('|Ingrese el D.N.I. del Director:                       \\'); 
  Writeln ('|------------------------------------------------------\\');
  Writeln ('|Ingrese la Direccion del Director:                    \\'); 
@@ -369,7 +369,7 @@ Begin
  Writeln ('|------------------------------------------------------\\');
  Writeln ('| Ingrese el Telefono:                                 \\'); 
  Writeln ('|______________________________________________________\\');
- Write (' \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\');
+ Writeln (' \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\');
 End;
 
 //MENUES DE EDICION
@@ -408,6 +408,7 @@ End;
 //OBRA
 Procedure Menu_Editar_Obra_Part1(var Bus:String);
 Begin
+ Bus:='';
  Clrscr;
  TextColor(Blue);
  Gotoxy (30,1); Writeln ('/////////////////////////////////////////////////////////'); 
@@ -471,6 +472,7 @@ End;
 //ARTISTA
 Procedure Menu_Editar_Artista_Part1(var Bus:String);
 Begin
+ Bus:='';
  Clrscr;
  TextColor(Blue);
  Gotoxy (30,1); Writeln ('/////////////////////////////////////////////////////////'); 
@@ -517,6 +519,7 @@ End;
 //MUSEO
 Procedure Menu_Editar_Museo_Part1(var Bus:String);
 Begin
+ Bus:='';
  Clrscr;
  TextColor(Blue);
  Gotoxy (30,1); Writeln ('/////////////////////////////////////////////////////////'); 
@@ -569,6 +572,7 @@ End;
 //DIRECTOR
 Procedure Menu_Editar_Director_Part1(var Bus : String);
 Begin
+ Bus:='';
  Clrscr;
  TextColor(Blue);
  Gotoxy (30,1); Writeln ('//////////////////////////////////////////////////////////'); 

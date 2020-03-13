@@ -129,11 +129,10 @@ Begin
 		 Barrido_Obr(Obras);
 		 Readkey;
 		 clrscr;
-		 burbuja_mejoradoO(Obras);
+		 burbujaO(Obras);
+		 Readkey;
 		 Barrido_Obr(Obras);
-		 keypressed;
-		 Menu_Estadisticas();
-		 
+		 Readkey;
 		End;
 
 	 '2':Begin
@@ -179,7 +178,7 @@ var
 	Artist : Artista;
 
 Begin
- pos:=-1; B:=0; Code:= 0; restaurar:='n';
+ B:=0; Code:= 0; restaurar:='n'; Name:='';
  Menu_Cargar_Obra; // Carga de la Interfaz
  TextColor (Green);
  Gotoxy (33,5);
@@ -324,7 +323,8 @@ var
 	Artist:Artista;
 
 Begin
- Pos := -1;
+ Nombre:='';
+ Pos:=-1;
  Menu_Cargar_Artista_Part1;
  TextColor (Green);
  Gotoxy (34,6); Readln (Nombre);
@@ -382,6 +382,8 @@ var
 	restaurar:Char;
 
 Begin
+ Name:='';
+ Busc2:='';
  Menu_Cargar_Museo; // Dibuja la interfaz
  Gotoxy (32,6);
  TextColor (Green);
@@ -463,6 +465,7 @@ var
 	restaurar:char;
 	
 Begin
+ Name:='';
  Menu_Cargar_Director_Part1;
  TextColor (Green);
  Gotoxy (34,6); Readln(Name);
@@ -518,6 +521,7 @@ Var
     artist:Artista;
 
 Begin
+ Nombre:='';
  Menu_Baja_Artista(Nombre);
  Buscar_Artista(Artistas,Pos,Nombre,artist);
  If (Pos <> -1) then
@@ -557,6 +561,7 @@ Var
     direct:Director;
 
 Begin
+ Name:='';
  Menu_Baja_Director(Name);
  Buscar_Director(Directores, Pos, Name, direct);
  If (Pos <> -1) then
@@ -596,6 +601,7 @@ Var
     Mus:Museo;
 
 Begin
+ Nombre:='';
  Menu_Baja_Museo(Nombre);
  Buscar_Museo_Nombre(Museos, Pos, Nombre, Mus);
  If (Pos <> -1) then
@@ -634,6 +640,7 @@ Var
     Obr : Obra;
     
 Begin
+ Nombre:='';
  Menu_Baja_Obra (Nombre);
  Buscar_Obra_Nombre (Obras, Pos, Nombre, Obr);
  If (Pos <> -1) then
