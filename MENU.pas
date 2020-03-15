@@ -133,7 +133,6 @@ Begin
 		 Barrido_Obr(Obras);
 		 keypressed;
 		 Menu_Estadisticas();
-		 
 		End;
 
 	 '2':Begin
