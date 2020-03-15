@@ -37,13 +37,12 @@ Procedure GuardarO (var Obras:Archivo_Obras; var Obr:Obra);
 Procedure CerrarO (var Obras:Archivo_Obras);
 
 //METODOS DE BUSQUEDA Y ORDENAMIENTO
-Procedure burbuja_mejoradoO (var Obras:Archivo_Obras);
+Procedure burbujaO (var Obras:Archivo_Obras);
 Procedure Buscar_Obra_Codigo (var Obras:Archivo_Obras;var pos:int64; Code:int64; var obr:Obra);//el archivo solo va desde var hasta_obra
 Procedure Buscar_Obra_Nombre (var Obras:Archivo_Obras;var pos:int64; Name:String; var obr:Obra);
 
 //METODO PARA PRUEBAS
 Procedure Barrido_Obr(var Obras:Archivo_Obras);
-
 {Procedure Buscar_Museo_en_Obras (var Obras:Archivo_Obras; buscado:String; var obr:Obra);
 Procedure Buscar_Artista_en_Obras (var Obras:Archivo_Obras; buscado:Int64 ;var Obr:Obra; x:Byte; y:Byte);
 }
@@ -87,7 +86,7 @@ Begin
 End;
 
 
-Procedure burbuja_mejoradoO(var Obras:Archivo_Obras); //BURBUJA MEJORADO PARA ARCHIVOS
+Procedure burbujaO(var Obras:Archivo_Obras); //BURBUJA MEJORADO PARA ARCHIVOS
 var
 	L, i, j : LongInt;
 	RegA, RegB, RegAux :Obra;
@@ -102,10 +101,9 @@ for j := 1 to (L-1) do
 		 LeerO (Obras, RegA, i); //Obtengo los parametros por los cuales quiero ordenar
 		 LeerO (Obras, RegB, i+1);
 		 writeln (RegA.Nombre, ' < ', RegB.Nombre, ' ?');
-		 delay(1000);
+		 delay(100);
 		 if RegB.Nombre < RegA.Nombre then
 			begin
-			 
 			 RegAux := RegB;
 			 ModificarO (Obras, RegAux, i);
 			 ModificarO (Obras, RegA, i+1);
@@ -123,14 +121,14 @@ var
 	Registro : Obra;
 Begin
 clrscr;
-Gotoxy(1,25);
+Gotoxy(1, 20);
 AbrirO(Obras);
-Lim:=FileSize(Obras);
-Punt:=0;
+Lim := FileSize(Obras);
+Punt := 0;
  While (not eof) and (punt <> Lim) do begin
-	 LeerO(Obras,Registro,Punt);
+	 LeerO(Obras, Registro, Punt);
 	 Writeln(Registro.Nombre);
-	 Punt:=(Punt+1);
+	 Punt := (Punt+1);
 	End;
 CerrarO(Obras);
 End;
