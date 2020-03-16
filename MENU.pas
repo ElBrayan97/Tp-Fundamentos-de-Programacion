@@ -129,7 +129,7 @@ Begin
 		 Barrido_Obr(Obras);
 		 Readkey;
 		 clrscr;
-		 burbuja_mejoradoO(Obras);
+		 burbujaO(Obras);
 		 Barrido_Obr(Obras);
 		 keypressed;
 		 Menu_Estadisticas();
@@ -154,14 +154,14 @@ Begin
 	 '3':Begin
 		 Barrido_Mus(Museos);
 		 Readkey;
-		 burbuja_mejoradoM(Museos);
+		 burbujaM(Museos);
 		 Barrido_Mus(Museos);
 		End;
 
 	 '4':Begin
 		 Barrido_Dir(Directores);
 		 Readkey;
-		 burbuja_mejoradoD(Directores);
+		 burbujaD(Directores);
 		 Barrido_Dir(Directores);
 		End;
 
@@ -265,9 +265,12 @@ Begin
 
 	 obr.Nombre_Museo := N_Mus;
 	 obr.activo := True;
+	 
 	 GuardarO(Obras,obr);
 	 CerrarO(Obras);
-
+	 
+	 burbujaO(Obras);
+	 
 	 Aviso_Carga_Exitosa();
 	 Buscar_Artista(Artistas, pos, Nombre_Artista, Artist); // Busqueda del artista de la obra para ver si necesita ser cargado
 	 // El archivo se abre y cierra cuando empiezo y termino la busqueda
@@ -413,9 +416,11 @@ Begin
 	 Gotoxy (32,18); Readln (Busc2); // Nombre Director
 	 Mus.Name_Director := Busc2; //Almacenamiento del DNI
 
-	 Mus.activo:=true; // Estado
+	 Mus.activo := true; // Estado
 	 GuardarM (Museos,Mus); // Guardar registro en el archivo
 	 CerrarM (Museos); // Cerrar archivo museo
+	 
+	 burbujaM(Museos);
 	 
 	 Aviso_Carga_Exitosa();
 	 Buscar_Director (Directores, Pos, Busc2, Direct2); // Busco si el Director relacionado a este museo que estoy cargndo Existe en el Archivo de Directores.
@@ -481,6 +486,8 @@ Begin
 	 GuardarD(Directores,Direct);
 	 Aviso_Carga_Exitosa();
 	 CerrarD (Directores);
+	 burbujaD(Directores);
+	 
 	End
 	Else // si los datos existen. aviso de datos existentes
 		Begin

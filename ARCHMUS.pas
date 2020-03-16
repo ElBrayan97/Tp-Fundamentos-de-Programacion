@@ -23,7 +23,7 @@ Procedure GuardarM (Var Museos:Archivo_Museos; Var Mus:Museo);
 Procedure CerrarM (var Museos:Archivo_Museos);
 
 //METODOS DE BUSQUEDA Y ORDENAMIENTO
-Procedure burbuja_mejoradoM(var Museos:Archivo_Museos);
+Procedure burbujaM(var Museos:Archivo_Museos);
 Procedure Buscar_Museo_Codigo (var Museos:Archivo_Museos; var pos:int64; codigo_buscado:int64; var Mus:Museo);
 Procedure Buscar_Museo_Nombre (var Museos:Archivo_Museos;var pos:int64; Nombre:String; var Mus:Museo);
 
@@ -68,7 +68,7 @@ Begin
  Close(Museos);
 End;
 
-Procedure burbuja_mejoradoM(var Museos:Archivo_Museos); //BURBUJA MEJORADO PARA ARCHIVOS
+Procedure burbujaM(var Museos:Archivo_Museos); //BURBUJA MEJORADO PARA ARCHIVOS
 var
 	L, i : LongInt;
 	orden : boolean;
@@ -143,7 +143,8 @@ End;
 Procedure Barrido_Mus(var Museos:Archivo_Museos);
 var
 	Punt, Lim : int64;
-	Registro:Museo;
+	Registro : Museo;
+	
 Begin
  Gotoxy(1,25);
  AbrirM(Museos);
@@ -151,7 +152,10 @@ Begin
  Punt:=0;
  While (not eof) and (punt <> Lim) do begin
 	 LeerM(Museos,Registro,Punt);
-	 Writeln(Registro.Nombre);
+	 if Registro.Activo = True then
+		Begin
+		  Writeln(Registro.Nombre);
+		End;
 	 Punt:=(Punt+1);
 	End;
  CerrarM(Museos);

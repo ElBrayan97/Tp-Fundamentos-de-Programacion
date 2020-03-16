@@ -30,7 +30,7 @@ Procedure GuardarD(var Directores:Archivo_Directores; Direct:Director);
 Procedure CerrarD(var Directores:Archivo_Directores);
 
 //METODOS DE BUSQUEDA Y ORDENAMIENTO
-Procedure burbuja_mejoradoD(var Directores:Archivo_Directores);
+Procedure burbujaD(var Directores:Archivo_Directores);
 Procedure Buscar_Director(var Directores:Archivo_Directores; var pos:int64; buscado:String; var Direct:Director);
 
 //METODO DE PRUEBAS
@@ -77,7 +77,7 @@ End;
 {METODOS DE ORDENAMIENTO Y BUSQUEDA
 * }
 
-Procedure burbuja_mejoradoD(var Directores:Archivo_Directores); //BURBUJA MEJORADO PARA ARCHIVOS
+Procedure burbujaD(var Directores:Archivo_Directores); //BURBUJA MEJORADO PARA ARCHIVOS
 var
 	L, i : LongInt;
 	orden : boolean;
@@ -141,7 +141,10 @@ Begin
  Punt:=0;
  While (not eof) and (punt <> Lim) do begin
 	 LeerD(Directores,Registro,Punt);
-	 Writeln(Registro.APyNom);
+	 if Registro.Activo = True then
+		Begin
+		  Writeln(Registro.APyNom);
+		End;
 	 Punt:=(Punt+1);
 	End;
  CerrarD(Directores);

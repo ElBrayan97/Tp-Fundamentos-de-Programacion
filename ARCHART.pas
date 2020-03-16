@@ -77,30 +77,27 @@ End;
 
 Procedure burbuja_mejoradoA(var Artistas:Archivo_Artistas); //BURBUJA MEJORADO PARA ARCHIVOS
 var
-	L, i : LongInt;
-	orden : boolean;
-	RegA, RegB, RegAux : Artista;
+	L, i, j : LongInt;
+	RegA, RegB, RegAux :Artista;
+	
 begin
-  i := 1;
-  AbrirA(Artistas);
-  L := FileSize(Artistas);
-  orden := false;
-  while not(orden)do begin //mientras no este ordenado 
-	 orden:=true;
-	 for i := 0 to (L-1) do begin // Ciclo de i y el adyascente
-		 if not eof(Artistas) then Begin
-			 LeerA(Artistas,RegA,i);  //Obtengo los parametros por los cuales quiero ordenar
-			 LeerA(Artistas,RegB,i+1);
-			 if RegB.Nombre > RegA.Nombre then begin
-				 orden:=false;
-				 RegAux := RegB;
-				 ModificarA(Artistas,RegA,i+1);
-				 ModificarA(Artistas,RegAux,i);	
-				end;
-			End;
+AbrirA(Artistas);
+L := FileSize(Artistas);
+for j := 1 to (L-1) do
+	begin //mientras no este ordenado
+	 for i := 0 to (L-j-1) do
+		begin //Ciclo de i y el adyascente
+		 LeerA (Artistas, RegA, i); //Obtengo los parametros por los cuales quiero ordenar
+		 LeerA (Artistas, RegB, i+1);
+		 if RegB.Nombre < RegA.Nombre then
+			begin
+			 RegAux := RegB;
+			 ModificarA (Artistas, RegAux, i);
+			 ModificarA (Artistas, RegA, i+1);
+			end;
 		end;
 	end;
- CerrarA(Artistas);
+CerrarA(Artistas);
 end;
 
 
@@ -131,7 +128,7 @@ Procedure Barrido_Art(var Artistas:Archivo_Artistas);
 var
 	Punt, Lim : int64;
 	Registro : Artista;
-
+	
 Begin
  Gotoxy(1,25);
  AbrirA(Artistas);
@@ -139,7 +136,10 @@ Begin
  Punt:=0;
  While (not eof) and (punt <> Lim) do begin
 	 LeerA(Artistas,Registro,Punt);
-	 Writeln(Registro.Nombre);
+	 if Registro.Activo = True then
+		Begin
+		  Writeln(Registro.Nombre);
+		End;
 	 Punt:=(Punt+1);
 	End;
  CerrarA(Artistas);
