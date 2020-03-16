@@ -580,7 +580,7 @@ Begin
 			 If (direct.Activo=False) then
 				Begin
 				 Menu_Baja_Director_Inexistente();
-				 Gotoxy (65,9); Write (Name);
+				 Gotoxy (65,9); Writeln(Name);
 				 readkey;
 				End;
 			End;
@@ -702,7 +702,8 @@ Begin
              TextColor(Blue);
 				Case Opc of
                    '1':	Begin
-						 Gotoxy (3,14); Write ('D.N.I.: ');
+						 Gotoxy (3,14); Writeln('D.N.I.: ');
+						 Gotoxy (11,14);
 						 TextColor(Green);
 						 Readln(N1);
 						 X:=3;
@@ -713,20 +714,23 @@ Begin
                         End;
                      
                     '2':Begin
-                         Gotoxy (3,14); Write ('Nombre: ');
+                         Gotoxy (3,14); Writeln ('Nombre: ');
+                         Gotoxy (11,14);
                          TextColor(Green);
                          Readln(Artist.Nombre);
                          ModificarA(Artistas,artist,pos);//llamar a la funcion modificar de la unit Artista (controlar si los parametros estan bien puestos)
                         End;
                      
                     '3':Begin
-                         Gotoxy (3,14); Write ('Direccion: ');
+                         Gotoxy (3,14); Writeln ('Direccion: ');
+                         Gotoxy (14,14);
                          TextColor(Green);
                          Readln(artist.Direccion);
                          ModificarA(Artistas,artist,pos);//llamar a la funcion modificar de la unit Artista (controlar si los parametros estan bien puestos)
                         End;
                     '4':Begin
-						 Gotoxy (3,14); Write ('Fecha de Nacimiento: ');
+						 Gotoxy (3,14); Writeln ('Fecha de Nacimiento: ');
+						 Gotoxy (24,14);
 						 TextColor(Green); 
 						 Readln(artist.Fecha_Nacimiento);
 						 ModificarA(Artistas,artist,pos);
@@ -889,7 +893,7 @@ Begin
 					 	Case Opc2 of
 						'1':Begin
 							 TextColor(Green);
-							 Gotoxy (3,15); Write ('Escriba la Fecha de Inicio del Periodo: ');
+							 Gotoxy (3,15); Writeln ('Escriba la Fecha de Inicio del Periodo: ');
 							 TextColor(Green);
 							 Readln(direct.Periodo_Asignacion_Inic);
 							 ModificarD(Directores,direct,pos);//llamar a la funcion modificar de la unit Directores (controlar si los parametros estan bien puestos)
@@ -897,7 +901,7 @@ Begin
 							End;
 						'2':Begin
 							 TextColor(Green);
-							 Gotoxy (3,15); Write ('Escriba la Fecha Final del Periodo: ');
+							 Gotoxy (3,15); Writeln ('Escriba la Fecha Final del Periodo: ');
 							 TextColor(Green);
 							 Readln(direct.Periodo_Asignacion_Fin);
 							 ModificarD(Directores,direct,pos);
@@ -907,7 +911,7 @@ Begin
                     End;
                 '2':Begin
 					 TextColor(Green);
-                     Gotoxy (3,15); Write('Escriba el Nombre del Director: ');
+                     Gotoxy (3,15); Writeln ('Escriba el Nombre del Director: ');
                      TextColor(Green);
                      Readln(direct.APyNom);
                      ModificarD(Directores,direct,pos);//llamar a la funcion modificar de la unit Directores (controlar si los parametros estan bien puestos)
@@ -915,7 +919,7 @@ Begin
                     End;
 				'3':Begin
 					 TextColor(Green);
-					 Gotoxy (3,15); Write('Escriba la Direccion del Director: ');
+					 Gotoxy (3,15); Writeln ('Escriba la Direccion del Director: ');
 					 TextColor(Green);
 					 Readln(direct.Direccion);
 					 ModificarD(Directores,direct,pos);//llamar a la funcion modificar de la unit Directores (controlar si los parametros estan bien puestos)
@@ -923,7 +927,7 @@ Begin
 					End;
 				'4':Begin
 					 TextColor(Green);
-					 Gotoxy (3,15); Write('Escriba el Numero de Telefono del Director: ');
+					 Gotoxy (3,15); Writeln ('Escriba el Numero de Telefono del Director: ');
 					 TextColor(Green);
 					 Readln(direct.Telefono);
 					 ModificarD(directores,direct,pos);// ""   "" ""   ""      ""      ""  ""       ""      ""       ""  ""    ""        ""  ""     ""
@@ -974,7 +978,7 @@ Begin
 			 Gotoxy (11,12); Writeln (obr.Estilo);
 			 Gotoxy (9,14); Writeln (obr.Anio);
 			 Window (16,16,67,19);
-			 Gotoxy (16,16); Write (obr.Descripcion);
+			 Gotoxy (16,16); Writeln (obr.Descripcion);
 			 Window (1,1,120,35);
 			 Gotoxy (11,22); Writeln (obr.Codigo_Obra);
 			 Gotoxy (43,22); Writeln (obr.Nombre_Museo);
