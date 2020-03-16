@@ -138,6 +138,7 @@ Procedure Buscar_Obra_Codigo (var Obras:Archivo_Obras; var pos:int64; Code:int64
 var
 	posicion:integer;
 begin
+ AbrirO(Obras);
  posicion:=0;
  pos:=-1;
  while (not eof ( Obras)) and (pos=-1) do
@@ -149,6 +150,7 @@ begin
 		end;
 	 inc(posicion)
 	end;
+ CerrarO(Obras);
 end;
 
 Procedure Buscar_Obra_Nombre (var Obras:Archivo_Obras; var pos:int64; Name:String; var Obr:Obra);

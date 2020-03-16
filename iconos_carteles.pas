@@ -884,7 +884,7 @@ Begin
  Gotoxy (42,15); Writeln ('||                             ||'); 
  Gotoxy (42,16); Writeln ('||         NO EXISTE!          ||');
  Gotoxy (42,17); Writeln ('|||||||                   |||||||');
- DelaY(2000);
+ Readkey;
 End;
 
 
@@ -917,11 +917,11 @@ Procedure Aviso_Restauracion_Exitosa();
 Begin
  Clrscr;
  TextColor(Green);
- Gotoxy (40,8 );	Writeln ('  /////                   /////'); 
- Gotoxy (40,9 );	Writeln ('//                             //');
- Gotoxy (40,10);	Writeln ('//    Restauracion Exitosa!    //'); 
- Gotoxy (40,11);	Writeln ('//                             //');
- Gotoxy (40,12);	Writeln ('  /////                   /////');
+ Gotoxy (40,8 ); Writeln ('  /////                   /////'); 
+ Gotoxy (40,9 ); Writeln ('//                             //');
+ Gotoxy (40,10); Writeln ('//    Restauracion Exitosa!    //'); 
+ Gotoxy (40,11); Writeln ('//                             //');
+ Gotoxy (40,12); Writeln ('  /////                   /////');
  Tick();
 End;
 
@@ -973,9 +973,9 @@ Begin
  A:=37;
  B:=1;
  TextColor(Red);
- Gotoxy (A,B ) ; Write ('+---------------------------------------------------+');
- Gotoxy (A,B+1); Write ('| INGRESO UN DATO INCORRECTO, INTRO PARA REINTENTAR |');
- Gotoxy (A,B+2); Write ('+---------------------------------------------------+');
+ Gotoxy (A,B ) ; Writeln ('+---------------------------------------------------+');
+ Gotoxy (A,B+1); Writeln ('| INGRESO UN DATO INCORRECTO, INTRO PARA REINTENTAR |');
+ Gotoxy (A,B+2); Writeln ('+---------------------------------------------------+');
  Readkey;
  Window(A,B,A+53,B+2);
  Clrscr;
@@ -984,9 +984,9 @@ End;
 
 Procedure Dato_Encontrado_Obra;
 Begin
- Gotoxy (44,7);Writeln ('\\\\\\\\\\\\\\\\\\\\\\\\\\\\');
- Gotoxy (44,8);Writeln ('//   OBRA ENCONTRADA !!   //');
- Gotoxy (44,9);Writeln ('\\\\\\\\\\\\\\\\\\\\\\\\\\\\');
+ Gotoxy (44,7); Writeln('\\\\\\\\\\\\\\\\\\\\\\\\\\\\');
+ Gotoxy (44,8); Writeln('//   OBRA ENCONTRADA !!   //');
+ Gotoxy (44,9); Writeln('\\\\\\\\\\\\\\\\\\\\\\\\\\\\');
  Delay (1500);
  Clrscr;
 End;

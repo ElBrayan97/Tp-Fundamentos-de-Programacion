@@ -3,12 +3,8 @@ Interface
 uses crt,iconos_carteles,ARCHART,ARCHDIR,ARCHMUS,ARCHOBR,VALIDACIONES;
 
 VAR	
-	Opc:char;
-	Resp:Boolean;
-	N1, Bus:String; 
-	Pos:Integer;
-	X, Y:Byte;
-	BUSC, B:Int64;
+	Opc:char; // almacena la opcion elejida en el menu x el usuario
+	X, Y:Byte; // variables de posicion para algunos recuadros graficos que se modifican dependiendo del tipo de menu
 
 //Menus (todo funciona)
 Procedure Menu_Principal;
@@ -69,9 +65,10 @@ End;
 
 Procedure Menu_Cargar;
 Begin
+ Opc:='0';
 	Repeat
 	 Menu_Cargar_Graph;
-	 Opc:=Readkey;
+	 Opc := Readkey;
 	Until ((Opc='1') or (Opc='2') or (Opc='3') or (Opc='4') or (Opc='0'));
 	
 	Case (Opc) of
@@ -86,6 +83,7 @@ End;
 
 Procedure Menu_Editar;
 Begin
+ Opc:='0';
 	Repeat
 	 Menu_Editar_Graph;
 	 Opc:=Readkey;
@@ -102,6 +100,7 @@ End;
 
 Procedure Menu_Borrar;
 Begin
+ Opc:='0';
 	Repeat
 	 Menu_Borrar_Graph;
 	 Opc:=Readkey;
@@ -118,6 +117,7 @@ End;
 
 Procedure Menu_Estadisticas;
 Begin
+ Opc:='0';
 	Repeat
 	 Menu_Estadisticas_Graph;
 	 Opc:=Readkey;
@@ -171,28 +171,26 @@ End;
 
 Procedure MCargar_OBR(var Obras:Archivo_Obras; var Museos:Archivo_Museos; var Artistas:Archivo_Artistas);
 var
-	Name, N_Mus, Nombre_Artista : String; // Se usa Name para Nombre del Artista y Nombre de la Obra
-	pos, B, Code : Int64;
 	Mus : Museo;
-	restaurar : char;
-	Artist : Artista;
+	Artist : Artista; 
+	restaurar : char; // variable de restauracion en caso de existencia
+	pos, B, Code : Int64; // posicion en archivo - conversion a integer - codigo a asignar 
+	Name, N_Mus, N_Art, N1 : String; // Se usa Name para Nombre del Artista y Nombre de la Obra
 
 Begin
  pos:=-1; B:=0; Code:= 0; restaurar:='n';
  Menu_Cargar_Obra; // Carga de la Interfaz
  TextColor (Green);
- Gotoxy (33,5);
- Readln(Name); // Nombre de la Obra
+ Gotoxy (33,5); Readln(Name); // Nombre de la Obra
  Buscar_Obra_Nombre (Obras, pos, Name, obr); // Si el Nombre no existe en el Archivo
  If (pos = -1) then // Si la obra no existe
 	Begin
-	 AbrirO(Obras);
-
 		Repeat
 		 Code := Random(4294967295); // Codigo Random
 		 Buscar_Obra_Codigo(Obras, pos, Code, Obr); // Se busca si el codigo esta en uso 
 		Until (pos = -1);
-
+	 
+	 AbrirO(Obras);
 	 Gotoxy (30,7);
 	 Writeln (Code);
 	 obr.Codigo_Obra := Code;
@@ -256,8 +254,8 @@ Begin
 
 	 TextColor(Green);
 	 Gotoxy(34,30);
-	 Readln(Nombre_Artista); // Leemos el Nombre del Artista
-	 obr.Artista := Nombre_Artista;
+	 Readln(N_Art); // Leemos el Nombre del Artista
+	 obr.Artista := N_Art;
 
 	 TextColor(Green);
 	 Gotoxy(32,32);
@@ -272,7 +270,7 @@ Begin
 	 burbujaO(Obras);
 	 
 	 Aviso_Carga_Exitosa();
-	 Buscar_Artista(Artistas, pos, Nombre_Artista, Artist); // Busqueda del artista de la obra para ver si necesita ser cargado
+	 Buscar_Artista(Artistas, pos, N_Art, Artist); // Busqueda del artista de la obra para ver si necesita ser cargado
 	 // El archivo se abre y cierra cuando empiezo y termino la busqueda
 	 
 	 if (pos = -1) then // Luego de Buscar... El Artista Existe?
@@ -319,12 +317,12 @@ Begin
 End;
 
 Procedure MCargar_ART(var Artistas:Archivo_Artistas);
-var
-	restaurar:char;
-	Nombre:String;
-	Pos:int64;
-	Artist:Artista;
-
+var 
+	Pos : int64;
+	Nombre : String;
+	Artist : Artista;
+	restaurar : char;
+	
 Begin
  Pos := -1;
  Menu_Cargar_Artista_Part1;
@@ -375,13 +373,13 @@ Begin
 End;
 
 Procedure MCargar_MUS(var Museos:Archivo_Museos; Var Directores:Archivo_Directores); // Menu de Carga de museos Nuevos (Funcionando)
-var
-	X, Y : integer;
-	pos, Code : Int64;
-	Name, Busc2 : String;
+var 
 	Mus : Museo;
+	X, Y : integer;
 	Direct2 : Director;
-	restaurar:Char;
+	restaurar : Char;
+	pos, Code, B : Int64;
+	Name, Busc2, N1 : String;
 
 Begin
  Menu_Cargar_Museo; // Dibuja la interfaz
@@ -460,11 +458,11 @@ Begin
 End;
 
 Procedure MCargar_Director(var Directores:Archivo_Directores);// Estas son las altas
-var
-	Name:String;
-	pos:Int64;
-	Direct:Director;
-	restaurar:char;
+var 
+	pos : Int64;
+	Name : String;
+	Direct : Director;
+	restaurar : char;
 	
 Begin
  Menu_Cargar_Director_Part1;
@@ -519,9 +517,9 @@ End;
 
 Procedure MBajar_Art(var Artistas:Archivo_Artistas);//Estas son las bajas
 Var 
-	Nombre:String;
-    Pos:int64;
-    artist:Artista;
+	Pos : int64;
+	Nombre : String;
+    artist : Artista;
 
 Begin
  Menu_Baja_Artista(Nombre);
@@ -558,9 +556,9 @@ End;
 
 Procedure MBajar_Dir(var Directores:Archivo_Directores);
 Var
-	Name:String;
-    Pos:int64;
-    direct:Director;
+	Pos : int64;
+	Name : String; 
+    direct : Director;
 
 Begin
  Menu_Baja_Director(Name);
@@ -597,9 +595,9 @@ End;
 
 Procedure MBajar_Mus(var Museos:Archivo_Museos);//Estas son las bajas
 Var
-	Nombre:String;
-    Pos:int64;
-    Mus:Museo;
+	Pos : int64;
+    Mus : Museo;
+	Nombre : String;
 
 Begin
  Menu_Baja_Museo(Nombre);
@@ -635,10 +633,10 @@ End;
 
 Procedure MBajar_obr(var Obras:Archivo_Obras);//Estas son las bajas
 Var 
-	Nombre : String;
-    Pos : int64;
+	Pos : int64;
     Obr : Obra;
-    
+	Nombre : String;
+
 Begin
  Menu_Baja_Obra (Nombre);
  Buscar_Obra_Nombre (Obras, Pos, Nombre, Obr);
@@ -674,11 +672,11 @@ End;
 
 Procedure MModificar_Artista(var Artistas:Archivo_Artistas);
 Var 
-	N1 : String;
-	Pos, Num : int64;
-	artist : Artista;
 	Opc : char;
-	
+	artist : Artista;	
+	N1, Bus: String;
+	Pos, Num : int64;
+
 Begin
  Menu_Editar_Artista_Part1(Bus);
  Buscar_Artista(Artistas, Pos, Bus, artist);
@@ -758,6 +756,7 @@ Var
 	Pos : int64;
 	mus : Museo;
 	Opc : char;
+	Bus : String;
 
 Begin
  Menu_Editar_Museo_Part1(Bus); // modificar cartel para capturar el dato (ya)
@@ -859,9 +858,11 @@ End;
 
 Procedure MModificar_Director(var Directores:Archivo_Directores);
 Var 
-	Pos:int64;
-	direct:Director;
-	Opc,Opc2:char;
+	Bus : String;
+	Pos : int64;
+	direct : Director;
+	Opc, Opc2 : char;
+	
 
 Begin
  Menu_Editar_Director_Part1(Bus);
@@ -949,9 +950,9 @@ End;
 
 Procedure MModificar_Obra(var Obras:Archivo_Obras);
 Var 
-	Pos, Aux : int64;
 	obr : Obra;
-	Opc : String;
+	Pos, Aux : int64;
+	Opc, N1, Bus : String; //Variable de opciones y variable para verificacion de string/integer
 
 Begin
  Menu_Editar_Obra_Part1(Bus); // modificar para capturar el dato (ya)
