@@ -883,7 +883,6 @@ Begin
 			 Gotoxy (13,11); Writeln (direct.Periodo_Asignacion_Inic);
 			 Gotoxy (43,11); Writeln (direct.Periodo_Asignacion_Fin);
 			 Gotoxy (25,13); Writeln (direct.Telefono);
-			 Gotoxy(1,1);
 			 Opc:=readkey;
 				Case Opc of
                 '1':Begin

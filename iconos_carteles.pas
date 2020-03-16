@@ -325,7 +325,7 @@ Begin
  TextColor(Blue);
  Writeln (' ________________________________');
  Writeln ('|                                \\');
- Write ('|    '); TextColor(Green); Write('MENU DE CARGA DE MUSEO'); TextColor(Blue); Writeln ('      \\');
+ Writeln ('|    '); TextColor(Green); Gotoxy(5,3); Writeln('MENU DE CARGA DE MUSEO'); TextColor(Blue); Gotoxy(28,3); Writeln ('      \\');
  Writeln ('|________________________________\\___________________________');
  Writeln ('|                                                             \\');
  Writeln ('| Ingrese el Nombre del Museo:                                \\');
@@ -342,7 +342,7 @@ Begin
  Writeln ('|-------------------------------------------------------------\\');
  Writeln ('| Ingrese el DNI del Director:                                \\');
  Writeln ('|-------------------------------------------------------------\\');
- Write   (' \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\');
+ Writeln (' \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\');
 End;
 
 
@@ -423,7 +423,7 @@ Begin
  Gotoxy (30,4); Writeln ('//                                                     //');
  Gotoxy (30,5); Writeln ('/////////////////////////////////////////////////////////');
  TextColor(Green);
- Gotoxy (34,2); Write('Ingrese el Nombre de la obra que desea modificar');
+ Gotoxy (34,2); Writeln ('Ingrese el Nombre de la obra que desea modificar');
  TextColor(Green);
  Gotoxy (33,4);
  Readln(Bus);
@@ -433,7 +433,7 @@ Procedure Menu_Editar_Obra_Part2();
 Begin
  TextColor(Blue);
  Writeln ('|\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\');
- Write ('|                        ');TextColor (Green); Write('DATOS ENCONTRADOS'); TextColor (Blue); Writeln('                         \\');
+ Writeln ('|                        ');TextColor (Green); Gotoxy(25,2); Writeln('DATOS ENCONTRADOS'); TextColor (Blue); Gotoxy(42,2); Writeln('                         \\');
  Writeln ('|------------------------------------------------------------------\\');
  Writeln ('| Artista:                                                         \\'); 
  Writeln ('|------------------------------------------------------------------\\');
@@ -487,7 +487,7 @@ Begin
  Gotoxy (30,4); Writeln ('//                                                     //');
  Gotoxy (30,5); Writeln ('/////////////////////////////////////////////////////////');
  TextColor(Green);
- Gotoxy (35,2); Write('Ingrese el Nombre del artista que desea modificar');
+ Gotoxy (35,2); Writeln('Ingrese el Nombre del artista que desea modificar');
  Gotoxy (33,4); 
  Readln(Bus);
 End;
@@ -535,7 +535,7 @@ Begin
  Gotoxy (30,4); Writeln ('//                                                     //');
  Gotoxy (30,5); Writeln ('/////////////////////////////////////////////////////////');
  TextColor(Green);
- Gotoxy (35,2); Write('Ingrese el Nombre del Museo que desea modificar');
+ Gotoxy (35,2); Writeln('Ingrese el Nombre del Museo que desea modificar');
  Gotoxy (33,4); 
  Readln(Bus);
 End;
@@ -588,7 +588,7 @@ Begin
  Gotoxy (30,4); Writeln ('//                                                      //');
  Gotoxy (30,5); Writeln ('//////////////////////////////////////////////////////////');
  TextColor(Green);
- Gotoxy (34,2); Write('Ingrese el Nombre del Director que desea modificar');
+ Gotoxy (34,2); Writeln ('Ingrese el Nombre del Director que desea modificar');
  Gotoxy (33,4);
  Readln(Bus);
 End;
@@ -598,7 +598,7 @@ Begin
  Clrscr;
  TextColor(Blue);
  Writeln ('|\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\');
- Write ('|                  ');TextColor (Green); Write('DATOS ENCONTRADOS'); TextColor (Blue); Writeln('                         \\');
+ Writeln ('|                  ');TextColor (Green); Gotoxy(19,2); Writeln ('DATOS ENCONTRADOS'); TextColor (Blue); Gotoxy(36,2); Writeln('                         \\');
  Writeln ('|------------------------------------------------------------\\');
  Writeln ('| Nombre:                                                    \\'); 
  Writeln ('|------------------------------------------------------------\\');
@@ -616,23 +616,24 @@ Begin
  TextColor(Blue);
  Gotoxy (1,18);
  Gotoxy (64,1); Writeln ('|\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\');
- Gotoxy (64,2);Write    ('| ');TextColor (Green); Write('ELIJA EL CAMPO QUE DESEA MODIFICAR'); TextColor (Blue); Writeln('      \\');
- Gotoxy (64,3);Writeln  ('|-----------------------------------------\\');
- Gotoxy (64,4);Write    ('|   '); TextColor (Green); Write('--> 1- Periodo Asignacion');TextColor (Blue); Writeln('             \\');
- Gotoxy (64,5);Write    ('|   '); TextColor (Green); Write('--> 2- Nombre');TextColor (Blue); Writeln('                         \\');
- Gotoxy (64,6);Write   ('|   '); TextColor (Green); Write('--> 3- Direccion');TextColor (Blue); Writeln('                      \\');
- Gotoxy (64,7);Write   ('|   '); TextColor (Green); Write('--> 4- Telefono');TextColor (Blue); Writeln('                       \\');
- Gotoxy (64,8);Writeln ('|-----------------------------------------\\');
- Gotoxy (64,9);Write   ('|   ');TextColor (Green); Write('--> 0- Salir <--'); TextColor (Blue); Writeln('                      \\');
+ Gotoxy (64,2); Writeln ('| ');TextColor (Green); Gotoxy(66,2); Writeln ('ELIJA EL CAMPO QUE DESEA MODIFICAR'); TextColor(Blue);  Gotoxy(100,2); Writeln('      \\');
+ Gotoxy (64,3); Writeln ('|-----------------------------------------\\');
+ Gotoxy (64,4); Writeln ('|   '); TextColor (Green); Gotoxy(68,4); Writeln ('--> 1- Periodo Asignacion'); TextColor(Blue); Gotoxy(93,4); Writeln('             \\');
+ Gotoxy (64,5); Writeln ('|   '); TextColor (Green); Gotoxy(68,5); Writeln ('--> 2- Nombre'); TextColor(Blue); Gotoxy(81,5); Writeln('                         \\');
+ Gotoxy (64,6); Writeln ('|   '); TextColor (Green); Gotoxy(68,6); Writeln ('--> 3- Direccion'); TextColor(Blue); Gotoxy(84,6); Writeln('                      \\');
+ Gotoxy (64,7); Writeln ('|   '); TextColor (Green); Gotoxy(68,7); Writeln ('--> 4- Telefono'); TextColor(Blue); Gotoxy(83,7); Writeln('                       \\');
+ Gotoxy (64,8); Writeln ('|-----------------------------------------\\');
+ Gotoxy (64,9); Writeln ('|   '); TextColor (Green); Gotoxy(68,9); Writeln('--> 0- Salir <--'); TextColor(Blue); Gotoxy(84,9); Writeln('                      \\');
  Gotoxy (64,10);Writeln ('|-----------------------------------------\\');
+ Gotoxy (3,15);
 End;
 
 Procedure Menu_Editar_Director_Part3();
 Begin
  TextColor(Blue);
- Gotoxy (64,11); Write ('|'); TextColor (Green); Write('--> 1- Inicio del Periodo de Asignacion');TextColor (Blue); Writeln('  \\');
- Gotoxy (64,12); Write ('|'); TextColor (Green); Write('--> 2- Fin del Periodo de Asignacion');TextColor (Blue); Writeln('     \\');
- Gotoxy (64,13); Writeln ('|                                         \\');
+ Gotoxy (64,11); Writeln('|'); TextColor (Green); Gotoxy (65,11); Writeln('--> 1- Inicio del Periodo de Asignacion'); TextColor (Blue); Gotoxy (104,11); Writeln('  \\');
+ Gotoxy (64,12); Writeln('|'); TextColor (Green); Gotoxy (65,12); Writeln('--> 2- Fin del Periodo de Asignacion'); TextColor (Blue); Gotoxy (101,12); Writeln('     \\');
+ Gotoxy (64,13); Writeln('|                                         \\');
 End;
 
 //Menus de BORRADO
