@@ -65,7 +65,7 @@ Procedure Menu_Baja_Director_Inexistente();
 
 //Menues de Estadistica  ///////////////////////////////////////////////
 //OBRA
-Procedure Menu_Estadistica_ObrasxAutor(busc:int64; name:string);
+Procedure Menu_Estadistica_ObrasxAutor();
 Procedure Menu_Estadistica_Dni_Artista(var busc:int64);
 
 {Procedure Menu_Estadistica_Obra_Part2();
@@ -758,45 +758,45 @@ End;
 
 //Menues de ESTADISTICA
 //OBRA
-Procedure Menu_Estadistica_ObrasxAutor(busc:int64; name:string);
+Procedure Menu_Estadistica_ObrasxAutor();
 Begin
 TextColor(Blue);
 Gotoxy(33,1);  Writeln ('/////////////////////////////////////////////////////////////');
-Gotoxy(33,2);  Writeln ('// OBRAS DEL AUTOR:          ,                             //');
+Gotoxy(33,2);  Writeln ('//               CANTIDAD DE OBRAS POR AUTOR               //');
 Gotoxy(33,3);  Writeln ('/////////////////////////////////////////////////////////////');
-Gotoxy(33,4);  Writeln ('//     TIPO DE OBRA     |        CODIGO DE LA OBRA         //');
-Gotoxy(33,5);  Writeln ('//======================|==================================//');
-Gotoxy(33,6);  Writeln ('//                      |                                  //');
-Gotoxy(33,7);  Writeln ('//                      |                                  //');
-Gotoxy(33,8);  Writeln ('//                      |                                  //');
-Gotoxy(33,9);  Writeln ('//                      |                                  //');
-Gotoxy(33,10); Writeln ('//                      |                                  //');
-Gotoxy(33,11); Writeln ('//                      |                                  //');
-Gotoxy(33,12); Writeln ('//                      |                                  //');
-Gotoxy(33,13); Writeln ('//                      |                                  //');
-Gotoxy(33,14); Writeln ('//                      |                                  //');
-Gotoxy(33,15); Writeln ('//                      |                                  //');
-Gotoxy(33,16); Writeln ('//                      |                                  //');
-Gotoxy(33,17); Writeln ('//                      |                                  //');
-Gotoxy(33,18); Writeln ('//                      |                                  //');
-Gotoxy(33,19); Writeln ('//                      |                                  //');
-Gotoxy(33,20); Writeln ('//                      |                                  //');
-Gotoxy(33,21); Writeln ('//                      |                                  //');
-Gotoxy(33,22); Writeln ('//                      |                                  //');
-Gotoxy(33,23); Writeln ('//                      |                                  //');
-Gotoxy(33,24); Writeln ('//                      |                                  //');
-Gotoxy(33,25); Writeln ('//                      |                                  //');
-Gotoxy(33,26); Writeln ('//                      |                                  //');
-Gotoxy(33,27); Writeln ('//                      |                                  //');
-Gotoxy(33,28); Writeln ('//                      |                                  //');
-Gotoxy(33,29); Writeln ('//---------------------------------------------------------//');
-Gotoxy(33,30); Writeln ('// Total de obras del autor:                               //');
-Gotoxy(33,31); Writeln ('/////////////////////////////////////////////////////////////');
-Gotoxy(34,32); Writeln (' 1-Pagina Anterior   0-Volver al Menu   2-Pagina Siguiente');
+Gotoxy(33,4);  Writeln ('//                 AUTOR                     |  CANTIDAD   //');
+Gotoxy(33,5);  Writeln ('//===========================================|=============//');
+Gotoxy(33,6);  Writeln ('//                                           |             //');
+Gotoxy(33,7);  Writeln ('//                                           |             //');
+Gotoxy(33,8);  Writeln ('//                                           |             //');
+Gotoxy(33,9);  Writeln ('//                                           |             //');
+Gotoxy(33,10); Writeln ('//                                           |             //');
+Gotoxy(33,11); Writeln ('//                                           |             //');
+Gotoxy(33,12); Writeln ('//                                           |             //');
+Gotoxy(33,13); Writeln ('//                                           |             //');
+Gotoxy(33,14); Writeln ('//                                           |             //');
+Gotoxy(33,15); Writeln ('//                                           |             //');
+Gotoxy(33,16); Writeln ('//                                           |             //');
+Gotoxy(33,17); Writeln ('//                                           |             //');
+Gotoxy(33,18); Writeln ('//                                           |             //');
+Gotoxy(33,19); Writeln ('//                                           |             //');
+Gotoxy(33,20); Writeln ('//                                           |             //');
+Gotoxy(33,21); Writeln ('//                                           |             //');
+Gotoxy(33,22); Writeln ('//                                           |             //');
+Gotoxy(33,23); Writeln ('//                                           |             //');
+Gotoxy(33,24); Writeln ('//                                           |             //');
+Gotoxy(33,25); Writeln ('//                                           |             //');
+Gotoxy(33,26); Writeln ('//                                           |             //');
+Gotoxy(33,27); Writeln ('//                                           |             //');
+Gotoxy(33,28); Writeln ('//                                           |             //');
+Gotoxy(33,29); Writeln ('//                                           |             //');
+Gotoxy(33,30); Writeln ('//                                           |             //');
+Gotoxy(33,31); Writeln ('//                                           |             //');
+Gotoxy(33,32); Writeln ('//                                           |             //');
+Gotoxy(33,33); Writeln ('//                                           |             //');
+Gotoxy(33,34); Writeln ('/////////////////////////////////////////////////////////////');
+Gotoxy(34,35); Writeln (' 1-Pagina Anterior   0-Volver al Menu   2-Pagina Siguiente');
 textcolor(green);
-Gotoxy(54,2); Writeln(busc); // escribe el dni del artista
-Gotoxy(64,2); Writeln(name); // escribe el nombre del artista
-Gotoxy(93,32);
 End;
 
 {Procedure Menu_Estadistica_Obra_Part2();

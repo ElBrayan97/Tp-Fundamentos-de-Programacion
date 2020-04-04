@@ -33,7 +33,10 @@ Procedure MModificar_Director(var Directores:Archivo_Directores);
 
 //Estadistica (algoritmos al final)
 
+procedure procesar_archivo(var Obras:Archivo_Obras);
+
 {Procedure artistas_con_mas_obras();
+* 
 
 Procedure Segun_Obra_Mostrar_Artista_Museo (var Obras:Archivo_Obras);
 Procedure Segun_Museo_Mostrar_Director_Obras (var Museos:Archivo_Museos;Var Obras:Archivo_Obras);
@@ -125,14 +128,8 @@ Begin
 	Case (Opc) of
 
 	 '1':Begin
-		 clrscr;
-		 Barrido_Obr(Obras);
-		 Readkey;
-		 clrscr;
-		 burbujaO(Obras);
-		 Barrido_Obr(Obras);
-		 keypressed;
-		 Menu_Estadisticas();
+		 Menu_Estadistica_ObrasxAutor();
+		 Procesar_Archivo(Obras);
 		End;
 
 	 '2':Begin
@@ -168,6 +165,37 @@ Begin
 	 '0':Menu_Principal;
 	End;
 End;
+
+
+procedure procesar_archivo(var Obras:Archivo_Obras);
+var
+	artista : string;
+	posicion, contador, y : integer;
+
+begin
+y:=1;
+contador:= 0;
+posicion:= 0;
+AbrirO(Obras);
+LeerO(Obras,Obr,1);
+artista:=Obr.Artista;
+while (not eof (Obras)) do
+	begin
+	 LeerO(Obras,Obr,posicion);
+	 if (Obr.Artista = artista) then
+		begin
+		 inc(contador);
+		 inc(posicion);
+		end
+		else
+		 gotoxy(1,y); writeln(artista);
+		 artista:=Obr.Artista;
+		 inc(y);
+		 contador := 0;
+	end;
+CerrarO(Obras);
+end;
+
 
 Procedure MCargar_OBR(var Obras:Archivo_Obras; var Museos:Archivo_Museos; var Artistas:Archivo_Artistas);
 var
