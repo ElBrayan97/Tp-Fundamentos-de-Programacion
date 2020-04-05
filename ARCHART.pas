@@ -19,6 +19,7 @@ Var
 	Artist : Artista;//esta es la variable del tipo del registro para leer en el archivo.
 
 //METODOS DE APERTURA, LECTURA, MODIFICACION, GUARDADO Y CIERRE
+
 Procedure AbrirA(var Artistas:Archivo_Artistas);
 Procedure LeerA(var Artistas:Archivo_Artistas; var Reg:Artista; Pos:Integer);
 Procedure ModificarA(var Artistas:Archivo_Artistas; var Reg:Artista; Pos:Integer);
@@ -26,11 +27,15 @@ Procedure GuardarA(var Artistas:Archivo_Artistas; Reg:Artista);
 Procedure CerrarA(var Artistas:Archivo_Artistas);
 
 //METODOS DE BUSQUEDA Y ORDENAMIENTO
+
 Procedure burbuja_mejoradoA(var Artistas:Archivo_Artistas);
 Procedure Buscar_Artista(var Artistas:Archivo_Artistas; var Pos:int64; Nombre:String; var art:Artista);
+procedure ordenar_nobras(var Artistas:Archivo_Artistas);
 
 // METODO DE PRUEBAS
+
 Procedure Barrido_Art(var Artistas:Archivo_Artistas);
+
 Implementation //Parte Privada
 
 {APERTURA, LECTURA, MODIFICACION, GUARDADO Y CIERRE
@@ -101,6 +106,29 @@ for j := 1 to (L-1) do
 CerrarA(Artistas);
 end;
 
+procedure ordenar_nobras(var Artistas:Archivo_Artistas);
+var L, i, j : LongInt;
+	RegA, RegB, RegAux :Artista;
+	
+begin
+AbrirA(Artistas);
+L := FileSize(Artistas);
+for j := 1 to (L-1) do
+	begin //mientras no este ordenado
+	 for i := 0 to (L-j-1) do
+		begin //Ciclo de i y el adyascente
+		 LeerA (Artistas, RegA, i); //Obtengo los parametros por los cuales quiero ordenar
+		 LeerA (Artistas, RegB, i+1);
+		 if RegB.cant_obras < RegA.cant_obras then
+			begin
+			 RegAux := RegB;
+			 ModificarA (Artistas, RegAux, i);
+			 ModificarA (Artistas, RegA, i+1);
+			end;
+		end;
+	end;
+CerrarA(Artistas);
+end;
 
 Procedure Buscar_Artista(var Artistas:Archivo_Artistas; var pos:int64; Nombre:String; var art:Artista);
 var 

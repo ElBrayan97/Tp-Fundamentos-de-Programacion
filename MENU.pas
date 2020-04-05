@@ -175,12 +175,14 @@ begin
 y := 6;
 puntero := 1;
 AbrirA(Artistas);
+ordenar_nobras(Artistas);
 while not eof(Artistas) do
 	begin
 	 LeerA(Artistas,Artist,puntero);
 	 gotoxy(36,y); Writeln(Artist.Nombre);
-	 gotoxy(36,y); Writeln(Artist.cant_obras);
+	 gotoxy(84,y); Writeln(Artist.cant_obras);
 	end;
+burbuja_mejoradoA(Artistas);
 CerrarA(Artistas);
 end;
 
