@@ -175,7 +175,9 @@ begin
 y := 6;
 puntero := 1;
 AbrirA(Artistas);
+readkey;
 ordenar_nobras(Artistas);
+readkey;
 while not eof(Artistas) do
 	begin
 	 LeerA(Artistas,Artist,puntero);
@@ -184,6 +186,7 @@ while not eof(Artistas) do
 	end;
 burbuja_mejoradoA(Artistas);
 CerrarA(Artistas);
+readkey;
 end;
 
 
@@ -294,8 +297,13 @@ Begin
 	 if (pos = -1) then // Luego de Buscar... El Artista Existe?
 		Begin
 		 Aviso_Artista_Inexistente;
-		 MCargar_ART(Artistas);
-		End;
+		 MCargar_ART(Artistas); // añadir la suma de una obra si no existe
+		End
+		else
+		 AbrirA(Artistas);
+		 Artist.cant_obras := (Artist.cant_obras + 1);
+		 ModificarA(Artistas, Artist, pos);
+		 CerrarA(Artistas);
 
 	 Buscar_Museo_Nombre (Museos, pos, N_Mus, Mus); // Busqueda del museo que posee la obra para ver si necesita ser cargado
 	 // El archivo se abre y cierra cuando empiezo y termino la busqueda
@@ -653,7 +661,7 @@ Procedure MBajar_obr(var Obras:Archivo_Obras);//Estas son las bajas
 Var 
 	Pos : int64;
     Obr : Obra;
-	Nombre : String;
+	Nombre, N_Artista : String;
 
 Begin
  Menu_Baja_Obra (Nombre);
@@ -666,8 +674,17 @@ Begin
 		Begin
 		 Obr.Activo := False;
 		 ModificarO(Obras, obr, pos); // Se modifica la variable Activo de la Obra
-		 Aviso_Eliminacion_Exitosa();
+		 N_Artista := Obr.Artista;
 		 CerrarO(Obras); // Cierre del Archivo Obras
+		 Buscar_Artista(Artistas, Pos, N_Artista, Artist);
+		 
+		 AbrirA(Artistas);
+		 LeerA(Artistas, Artist, Pos);
+		 Artist.cant_obras := (Artist.cant_obras - 1);
+		 ModificarA(Artistas,Artist,Pos);
+		 CerrarA(Artistas);
+		 Aviso_Eliminacion_Exitosa();
+		
 		End
 		Else
 			Begin
