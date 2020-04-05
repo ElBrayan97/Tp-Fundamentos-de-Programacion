@@ -10,6 +10,7 @@ Artista=Record
 	 Direccion:String;
 	 Fecha_Nacimiento:String;
 	 Activo:Boolean;
+	 cant_obras:Integer;
 	End;
 Archivo_Artistas=File of Artista;
 

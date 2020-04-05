@@ -19,7 +19,6 @@ Obra=Record
 	 Codigo_Obra:Int64;
 	 Nombre_Museo:String;
 	 Activo:boolean;
-	 Cantidad_Obras:Int64;
 	End;
 
 Archivo_Obras=file of Obra;

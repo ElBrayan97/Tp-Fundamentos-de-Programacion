@@ -33,7 +33,7 @@ Procedure MModificar_Director(var Directores:Archivo_Directores);
 
 //Estadistica (algoritmos al final)
 
-procedure procesar_archivo(var Obras:Archivo_Obras);
+procedure procesar_archivo(var Artistas:Archivo_Artistas);
 
 {Procedure artistas_con_mas_obras();
 * 
@@ -129,7 +129,7 @@ Begin
 
 	 '1':Begin
 		 Menu_Estadistica_ObrasxAutor();
-		 Procesar_Archivo(Obras);
+		 Procesar_Archivo(Artistas);
 		End;
 
 	 '2':Begin
@@ -167,33 +167,21 @@ Begin
 End;
 
 
-procedure procesar_archivo(var Obras:Archivo_Obras);
+procedure procesar_archivo(var Artistas:Archivo_Artistas); // barrido para estadisticas
 var
-	artista : string;
-	posicion, contador, y : integer;
-
+	y, puntero : integer;
+	
 begin
-y:=1;
-contador:= 0;
-posicion:= 0;
-AbrirO(Obras);
-LeerO(Obras,Obr,1);
-artista:=Obr.Artista;
-while (not eof (Obras)) do
+y := 6;
+puntero := 1;
+AbrirA(Artistas);
+while not eof(Artistas) do
 	begin
-	 LeerO(Obras,Obr,posicion);
-	 if (Obr.Artista = artista) then
-		begin
-		 inc(contador);
-		 inc(posicion);
-		end
-		else
-		 gotoxy(1,y); writeln(artista);
-		 artista:=Obr.Artista;
-		 inc(y);
-		 contador := 0;
+	 LeerA(Artistas,Artist,puntero);
+	 gotoxy(36,y); Writeln(Artist.Nombre);
+	 gotoxy(36,y); Writeln(Artist.cant_obras);
 	end;
-CerrarO(Obras);
+CerrarA(Artistas);
 end;
 
 
