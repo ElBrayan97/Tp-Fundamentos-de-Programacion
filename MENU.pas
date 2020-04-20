@@ -169,23 +169,28 @@ End;
 
 procedure procesar_archivo(var Artistas:Archivo_Artistas); // barrido para estadisticas
 var
-	y, puntero : integer;
+	y, puntero : integer; //variables de control
+	Artist : Artista; //cariable tipo registro ARTISTA
 	
 begin
 y := 6;
 puntero := 1;
-AbrirA(Artistas);
-readkey;
 ordenar_nobras(Artistas);
+AbrirA(Artistas);
 readkey;
 while not eof(Artistas) do
 	begin
-	 LeerA(Artistas,Artist,puntero);
-	 gotoxy(36,y); Writeln(Artist.Nombre);
-	 gotoxy(84,y); Writeln(Artist.cant_obras);
+	 if (y <= 16) then
+		begin
+		 LeerA(Artistas,Artist,puntero);
+		 gotoxy(36,y); Writeln(Artist.Nombre);
+		 gotoxy(84,y); Writeln(Artist.cant_obras);
+		 inc(y);
+		 inc(puntero);
+		end;
 	end;
-burbuja_mejoradoA(Artistas);
 CerrarA(Artistas);
+burbuja_mejoradoA(Artistas);
 readkey;
 end;
 
@@ -365,6 +370,7 @@ Begin
 	 Gotoxy (31,8); Readln (Artist.DNI);
 	 Gotoxy (37,10); Readln (Artist.Direccion);
 	 Gotoxy (35,12); Readln (Artist.Fecha_Nacimiento);
+	 Artist.cant_obras:=0; // al agregar un nuevo artista a este se le asignan 0 obras
 	 GuardarA (Artistas,Artist);
 	 CerrarA (Artistas);
 
@@ -393,7 +399,6 @@ Begin
 				 CerrarA(Artistas);
 				End;
 			End;
-			
 		 CerrarA(Artistas);
 		End;
 End;
