@@ -15,7 +15,7 @@ Procedure Menu_Estadisticas;
 
 //Cargar (verificar museo, las demas funcionan)
 Procedure MCargar_OBR (var Obras:Archivo_Obras;var Museos:Archivo_Museos;var Artistas:Archivo_Artistas);
-Procedure MCargar_ART (var Artistas:Archivo_Artistas);
+Procedure MCargar_ART (var Artistas:Archivo_Artistas; var concarga:boolean);
 Procedure MCargar_MUS (var Museos:Archivo_Museos; var Directores:Archivo_Directores);
 Procedure MCargar_Director (var Directores:Archivo_Directores);
 
@@ -67,7 +67,10 @@ Begin
 End;
 
 Procedure Menu_Cargar;
+var
+CC:Boolean;
 Begin
+ CC := False;
  Opc:='0';
 	Repeat
 	 Menu_Cargar_Graph;
@@ -76,7 +79,7 @@ Begin
 	
 	Case (Opc) of
 	 '1':MCargar_OBR(Obras,Museos,Artistas);
-	 '2':MCargar_ART (Artistas);
+	 '2':MCargar_ART (Artistas,CC);
 	 '3':MCargar_MUS(Museos,Directores);
 	 '4':MCargar_Director(Directores);
 	 '0':Menu_Principal;
@@ -128,8 +131,8 @@ Begin
 	Case (Opc) of
 
 	 '1':Begin
-		 Menu_Estadistica_ObrasxAutor();
-		 Procesar_Archivo(Artistas);
+		 Menu_Estadistica_ObrasxAutor(); //Grafica
+		 Procesar_Archivo(Artistas); //Lógica
 		End;
 
 	 '2':Begin
@@ -162,7 +165,10 @@ Begin
 		 Barrido_Dir(Directores);
 		End;
 
-	 '0':Menu_Principal;
+	 '0':Begin
+		 Clrscr;
+		 Menu_Principal;
+		End;
 	End;
 End;
 
@@ -171,11 +177,11 @@ procedure procesar_archivo(var Artistas:Archivo_Artistas); // barrido para estad
 var
 	y, puntero : integer; //variables de control
 	Artist : Artista; //cariable tipo registro ARTISTA
-	
+
 begin
 y := 6;
 puntero := 1;
-ordenar_nobras(Artistas);
+ordenar_nobras(Artistas); // En el Archivo Artistas
 AbrirA(Artistas);
 readkey;
 while not eof(Artistas) do
@@ -202,8 +208,10 @@ var
 	restaurar : char; // variable de restauracion en caso de existencia
 	pos, B, Code : Int64; // posicion en archivo - conversion a integer - codigo a asignar 
 	Name, N_Mus, N_Art, N1 : String; // Se usa Name para Nombre del Artista y Nombre de la Obra
+	CC:Boolean;
 
 Begin
+ CC := True;
  pos:=-1; B:=0; Code:= 0; restaurar:='n';
  Menu_Cargar_Obra; // Carga de la Interfaz
  TextColor (Green);
@@ -302,7 +310,7 @@ Begin
 	 if (pos = -1) then // Luego de Buscar... El Artista Existe?
 		Begin
 		 Aviso_Artista_Inexistente;
-		 MCargar_ART(Artistas); // añadir la suma de una obra si no existe
+		 MCargar_ART(Artistas,CC); // añadir la suma de una obra si no existe
 		End
 		else
 		 AbrirA(Artistas);
@@ -311,7 +319,6 @@ Begin
 		 CerrarA(Artistas);
 
 	 Buscar_Museo_Nombre (Museos, pos, N_Mus, Mus); // Busqueda del museo que posee la obra para ver si necesita ser cargado
-	 // El archivo se abre y cierra cuando empiezo y termino la busqueda
 
 	 if (pos = -1) then // Luego de Buscar... El Museo Existe?
 		Begin
@@ -347,7 +354,7 @@ Begin
  Menu_Cargar();
 End;
 
-Procedure MCargar_ART(var Artistas:Archivo_Artistas);
+Procedure MCargar_ART(var Artistas:Archivo_Artistas; var concarga:boolean);
 var 
 	Pos : int64;
 	Nombre : String;
@@ -370,6 +377,7 @@ Begin
 	 Gotoxy (31,8); Readln (Artist.DNI);
 	 Gotoxy (37,10); Readln (Artist.Direccion);
 	 Gotoxy (35,12); Readln (Artist.Fecha_Nacimiento);
+	 
 	 Artist.cant_obras:=0; // al agregar un nuevo artista a este se le asignan 0 obras
 	 GuardarA (Artistas,Artist);
 	 CerrarA (Artistas);
