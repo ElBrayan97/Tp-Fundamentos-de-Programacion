@@ -146,10 +146,11 @@ var
 	Registro : Museo;
 	
 Begin
+clrscr;// borrar!
  Gotoxy(1,25);
- AbrirM(Museos);
- Lim:=FileSize(Museos);
- Punt:=0;
+ AbrirM(Museos); // apertura del archivo
+ Lim := FileSize(Museos); // tamaño del archivo
+ Punt := 0; //posicion en el archivo
  While (not eof) and (punt <> Lim) do begin
 	 LeerM(Museos,Registro,Punt);
 	 if Registro.Activo = True then

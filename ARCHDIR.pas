@@ -135,6 +135,7 @@ var
 	Registro : Director;
 	
 Begin
+clrscr;// borrar!
  Gotoxy(1,25);
  AbrirD(Directores);
  Lim:=FileSize(Directores);

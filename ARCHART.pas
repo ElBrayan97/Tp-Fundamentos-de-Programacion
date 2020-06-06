@@ -106,8 +106,9 @@ for j := 1 to (L-1) do
 CerrarA(Artistas);
 end;
 
-procedure ordenar_nobras(var Artistas:Archivo_Artistas);
-var L, i, j : LongInt;
+procedure ordenar_nobras(var Artistas:Archivo_Artistas); //ordenar por mayor cantidad de obras
+var 
+	L, i, j : LongInt;
 	RegA, RegB, RegAux :Artista;
 	
 begin
@@ -159,15 +160,16 @@ var
 	Registro : Artista;
 	
 Begin
- Gotoxy(1,25);
+clrscr;// borrar!
  AbrirA(Artistas);
- Lim:=FileSize(Artistas);
- Punt:=0;
+ Lim := FileSize(Artistas);
+ Punt := 1;
  While (not eof) and (punt <> Lim) do begin
 	 LeerA(Artistas,Registro,Punt);
 	 if Registro.Activo = True then
 		Begin
 		  Writeln(Registro.Nombre);
+		  readkey;
 		End;
 	 Punt:=(Punt+1);
 	End;

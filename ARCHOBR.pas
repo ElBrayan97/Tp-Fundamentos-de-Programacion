@@ -117,6 +117,7 @@ var
 	Registro : Obra;
 	
 Begin
+clrscr;// borrar!
  Gotoxy(1,25);
  AbrirO(Obras);
  Lim:=FileSize(Obras);

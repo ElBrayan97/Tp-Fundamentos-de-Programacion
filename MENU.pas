@@ -130,35 +130,35 @@ Begin
 	Until ((Opc='1') or (Opc='2') or (Opc='3') or (Opc='4') or (Opc='0') or (Opc='5'));
 	Case (Opc) of
 
-	 '1':Begin
+	 '1':Begin // OBRAS
 		 Menu_Estadistica_ObrasxAutor(); //Grafica
-		 Procesar_Archivo(Artistas); //Lógica
+		 procesar_archivo(Artistas); //Lógica (procesar_archivo)
 		End;
 
-	 '2':Begin
-		 clrscr;
+	 '2':Begin // MUSEO Y SUS OBRAS
+		 {clrscr;
 		 AbrirO(Obras);
 		 LeerO(Obras,Obr,0);
 		 writeln(Obr.Nombre);
 		 CerrarO(Obras);
 		 readkey;
 		 Menu_Estadisticas;
-		{
+		}
 		 Barrido_Art(Artistas);
 		 Readkey;
 		 burbuja_mejoradoA(Artistas);
 		 Barrido_Art(Artistas);
-		}
+		
 		End;
 
-	 '3':Begin
+	 '3':Begin //MOSTRAR TODAS LAS ESTADISTICAS DISPONIBLES
 		 Barrido_Mus(Museos);
 		 Readkey;
 		 burbujaM(Museos);
 		 Barrido_Mus(Museos);
 		End;
 
-	 '4':Begin
+	 '4':Begin // SUPUESTAMENTE NO ESTA ESTA OPCION XD
 		 Barrido_Dir(Directores);
 		 Readkey;
 		 burbujaD(Directores);
@@ -170,33 +170,65 @@ Begin
 		 Menu_Principal;
 		End;
 	End;
+Menu_Principal;
 End;
 
 
 procedure procesar_archivo(var Artistas:Archivo_Artistas); // barrido para estadisticas
 var
-	y, puntero : integer; //variables de control
 	Artist : Artista; //cariable tipo registro ARTISTA
+	y, puntero : integer; //variables de control
+	key : char;
 
 begin
 y := 6;
 puntero := 1;
-ordenar_nobras(Artistas); // En el Archivo Artistas
-AbrirA(Artistas);
-readkey;
+ordenar_nobras (Artistas); // En el Archivo Artistas
+AbrirA (Artistas);
 while not eof(Artistas) do
 	begin
-	 if (y <= 16) then
+	 if (y <= 27) then
 		begin
-		 LeerA(Artistas,Artist,puntero);
-		 gotoxy(36,y); Writeln(Artist.Nombre);
-		 gotoxy(84,y); Writeln(Artist.cant_obras);
-		 inc(y);
-		 inc(puntero);
-		end;
+		 LeerA (Artistas, Artist, puntero);
+		 gotoxy(36,y); Writeln (Artist.Nombre);
+		 gotoxy(80,y); Writeln (Artist.cant_obras);
+		 inc (y); // posicion en la pantalla
+		 inc (puntero); // posicion en el archivo
+		end
+		else
+		 key := readkey; // lectua de Tecla de Opciones
+		 if (key = '1') then // Lista Anterior
+			begin
+			 if (puntero <= 27) then // proteccion para que el numero no sea negativo(provocaria un error de lectura en el archivo)
+				begin
+				 puntero := 1;
+				 y := 6;
+				end
+				else
+				 puntero := (puntero - 27); // volver a la pagina anterior
+				 y := 6;
+			end
+			else
+			 if (key = '2') then // Siguiente
+				begin
+				 if (puntero <= 27) then
+					begin
+					 LeerA (Artistas, Artist, puntero);
+					 gotoxy (36,y); Writeln (Artist.Nombre);
+					 gotoxy (80,y); Writeln (Artist.cant_obras);
+					 inc (y);
+					 inc (puntero);
+					end
+				end
+				else
+				 if (key = '0') then
+					begin
+					 Menu_Estadisticas();
+					end;
+
 	end;
-CerrarA(Artistas);
-burbuja_mejoradoA(Artistas);
+CerrarA (Artistas);
+burbuja_mejoradoA (Artistas);
 readkey;
 end;
 
@@ -204,11 +236,12 @@ end;
 Procedure MCargar_OBR(var Obras:Archivo_Obras; var Museos:Archivo_Museos; var Artistas:Archivo_Artistas);
 var
 	Mus : Museo;
+	CC : Boolean;
 	Artist : Artista; 
 	restaurar : char; // variable de restauracion en caso de existencia
 	pos, B, Code : Int64; // posicion en archivo - conversion a integer - codigo a asignar 
 	Name, N_Mus, N_Art, N1 : String; // Se usa Name para Nombre del Artista y Nombre de la Obra
-	CC:Boolean;
+
 
 Begin
  CC := True;
@@ -310,7 +343,7 @@ Begin
 	 if (pos = -1) then // Luego de Buscar... El Artista Existe?
 		Begin
 		 Aviso_Artista_Inexistente;
-		 MCargar_ART(Artistas,CC); // añadir la suma de una obra si no existe
+		 MCargar_ART(Artistas, CC); // añadir la suma de una obra si no existe
 		End
 		else
 		 AbrirA(Artistas);
@@ -377,10 +410,16 @@ Begin
 	 Gotoxy (31,8); Readln (Artist.DNI);
 	 Gotoxy (37,10); Readln (Artist.Direccion);
 	 Gotoxy (35,12); Readln (Artist.Fecha_Nacimiento);
-	 
-	 Artist.cant_obras:=0; // al agregar un nuevo artista a este se le asignan 0 obras
-	 GuardarA (Artistas,Artist);
-	 CerrarA (Artistas);
+	 if concarga = False then 
+		Begin
+		 Artist.cant_obras := 0; // al agregar un nuevo artista a este se le asignan 0 obras
+		 GuardarA (Artistas,Artist);
+		 CerrarA (Artistas);
+		End
+		Else
+		 Artist.cant_obras := 1; // al agregar un nuevo artista a este se le asignan 0 obras
+		 GuardarA (Artistas,Artist);
+		 CerrarA (Artistas);
 
 	 Aviso_Carga_Exitosa;
 	 Exit;
@@ -415,8 +454,8 @@ Procedure MCargar_MUS(var Museos:Archivo_Museos; Var Directores:Archivo_Director
 var 
 	Mus : Museo;
 	X, Y : integer;
-	Direct2 : Director;
 	restaurar : Char;
+	Direct2 : Director;
 	pos, Code, B : Int64;
 	Name, Busc2, N1 : String;
 
@@ -500,8 +539,8 @@ Procedure MCargar_Director(var Directores:Archivo_Directores);// Estas son las a
 var 
 	pos : Int64;
 	Name : String;
-	Direct : Director;
 	restaurar : char;
+	Direct : Director;
 	
 Begin
  Menu_Cargar_Director_Part1;
@@ -672,8 +711,8 @@ End;
 
 Procedure MBajar_obr(var Obras:Archivo_Obras);//Estas son las bajas
 Var 
+	Obr : Obra;
 	Pos : int64;
-    Obr : Obra;
 	Nombre, N_Artista : String;
 
 Begin
@@ -697,7 +736,6 @@ Begin
 		 ModificarA(Artistas,Artist,Pos);
 		 CerrarA(Artistas);
 		 Aviso_Eliminacion_Exitosa();
-		
 		End
 		Else
 			Begin
