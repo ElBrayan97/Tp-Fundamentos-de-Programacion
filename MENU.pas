@@ -346,11 +346,12 @@ Begin
 		 MCargar_ART(Artistas, CC); // añadir la suma de una obra si no existe
 		End
 		else
-		 AbrirA(Artistas);
-		 Artist.cant_obras := (Artist.cant_obras + 1);
-		 ModificarA(Artistas, Artist, pos);
-		 CerrarA(Artistas);
-
+			Begin
+			 AbrirA(Artistas);
+			 Artist.cant_obras := (Artist.cant_obras + 1);
+			 ModificarA(Artistas, Artist, pos);
+			 CerrarA(Artistas);
+			End;
 	 Buscar_Museo_Nombre (Museos, pos, N_Mus, Mus); // Busqueda del museo que posee la obra para ver si necesita ser cargado
 
 	 if (pos = -1) then // Luego de Buscar... El Museo Existe?
@@ -358,7 +359,6 @@ Begin
 		 Aviso_Museo_Inexistente;
 		 MCargar_MUS(Museos, Directores);
 		End;
-	 Exit;
 	End
 	Else // Si la obra ya existe
 		Begin
@@ -384,7 +384,6 @@ Begin
 			Else // Si no esta eliminada
 			 CerrarO(Obras); // Cierra el archivo, no se modifica nada y se vuelve al menu
 		End;
- Menu_Cargar();
 End;
 
 Procedure MCargar_ART(var Artistas:Archivo_Artistas; var concarga:boolean);
@@ -410,7 +409,7 @@ Begin
 	 Gotoxy (31,8); Readln (Artist.DNI);
 	 Gotoxy (37,10); Readln (Artist.Direccion);
 	 Gotoxy (35,12); Readln (Artist.Fecha_Nacimiento);
-	 if concarga = False then 
+	 if (concarga = False) then 
 		Begin
 		 Artist.cant_obras := 0; // al agregar un nuevo artista a este se le asignan 0 obras
 		 GuardarA (Artistas,Artist);
@@ -422,7 +421,6 @@ Begin
 		 CerrarA (Artistas);
 
 	 Aviso_Carga_Exitosa;
-	 Exit;
 	End
 	Else
 		Begin
@@ -496,7 +494,7 @@ Begin
 	 GuardarM (Museos,Mus); // Guardar registro en el archivo
 	 CerrarM (Museos); // Cerrar archivo museo
 	 
-	 burbujaM(Museos);
+	 //burbujaM(Museos);
 	 
 	 Aviso_Carga_Exitosa();
 	 Buscar_Director (Directores, Pos, Busc2, Direct2); // Busco si el Director relacionado a este museo que estoy cargndo Existe en el Archivo de Directores.
@@ -1255,4 +1253,19 @@ If (pos <> -1) then
 End;
 }
 BEGIN
+ Opc:='0';
+	Repeat
+	 Menu_Principal_Graph();
+	 Opc:=Readkey;
+	Until ((Opc='1') or (Opc='2') or (Opc='3') or (Opc='4') or (Opc='0'));
+
+	Case (Opc) of
+	 '1':Menu_Cargar();
+	 '2':Menu_Editar();
+	 '3':Menu_Borrar();
+	 '4':Menu_Estadisticas();
+	 '0':Begin
+		 Exit;
+		End;
+	End;
 END.

@@ -77,20 +77,23 @@ begin
   i := 1;
   AbrirM(Museos);
   L := FileSize(Museos);
-  orden := false;
-  while not(orden)do begin //mientras no este ordenado 
-	 orden:=true;
-	 for i := 0 to (L-1) do begin // Ciclo de i y el adyascente
-		 if not eof(Museos) then Begin
-			 LeerM(Museos,RegA,i);  //Obtengo los parametros por los cuales quiero ordenar
-			 LeerM(Museos,RegB,i+1);
-			 if RegB.Nombre > RegA.Nombre then begin
-				 orden:=false;
-				 RegAux := RegB;
-				 ModificarM(Museos,RegA,i+1);
-				 ModificarM(Museos,RegAux,i);	
-				end;
-			End;
+  if (L=1) then // si el archivo tiene menos de 2 registros no se ordena
+	begin
+  	  orden := false;
+	  while not(orden)do begin //mientras no este ordenado 
+		 orden:=true;
+		 for i := 0 to (L-1) do begin // Ciclo de i y el adyascente
+			 if not eof(Museos) then Begin
+				 LeerM(Museos,RegA,i);  //Obtengo los parametros por los cuales quiero ordenar
+				 LeerM(Museos,RegB,i+1);
+				 if RegB.Nombre > RegA.Nombre then begin
+					 orden:=false;
+					 RegAux := RegB;
+					 ModificarM(Museos,RegA,i+1);
+					 ModificarM(Museos,RegAux,i);	
+					end;
+				End;
+			end;
 		end;
 	end;
  CerrarM(Museos);
@@ -122,9 +125,9 @@ var
 	posicion : int64;
 
 Begin
- AbrirM(Museos); // Apertura del Archivo de Museos
  posicion := 0;
  pos := -1;
+ AbrirM(Museos); // Apertura del Archivo de Museos
  While (not eof (Museos)) and (pos = -1) do
 	Begin
 	 LeerM(Museos, Mus, posicion);
