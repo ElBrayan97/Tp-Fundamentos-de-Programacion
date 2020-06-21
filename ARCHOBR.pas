@@ -50,6 +50,7 @@ Procedure Buscar_Obra_Nombre (Var Obras:Archivo_Obras;Var pos:int64; Name:String
 Procedure Barrido_Obr(Var Obras:Archivo_Obras);
 
 
+
 {Procedure Buscar_Museo_en_Obras (var Obras:Archivo_Obras; buscado:String; var obr:Obra);
 Procedure Buscar_Artista_en_Obras (var Obras:Archivo_Obras; buscado:Int64 ;var Obr:Obra; x:Byte; y:Byte);
 }
@@ -192,6 +193,7 @@ Begin
         End;
     CerrarO(Obras);
 End;
+
 
 
 

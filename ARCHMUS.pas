@@ -100,7 +100,7 @@ Begin
                                 Begin
                                     LeerM(Museos,RegA,i);
 
-                          //Obtengo los parametros por los cuales quiero ordenar
+                                    //Obtengo los parametros por los cuales quiero ordenar
                                     LeerM(Museos,RegB,i+1);
                                     If RegB.Nombre > RegA.Nombre Then
                                         Begin

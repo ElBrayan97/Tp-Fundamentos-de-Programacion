@@ -110,7 +110,7 @@ Begin
                             LeerD(Directores,RegA,i);
 
 
-                          //Obtengo los parametros por los cuales quiero ordenar
+                            //Obtengo los parametros por los cuales quiero ordenar
                             LeerD(Directores,RegB,i+1);
                             If RegB.APyNom > RegA.APyNom Then
                                 Begin

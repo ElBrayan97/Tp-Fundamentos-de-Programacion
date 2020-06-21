@@ -171,7 +171,7 @@ Begin
             If Artist.Nombre = Nombre Then
 
 
-         // Si el nombre del artista del registro coincide con el Nombre Buscado
+                // Si el nombre del artista del registro coincide con el Nombre Buscado
                 Begin
                     pos := Posicion
                            // se devuelve la posicion del registro en el archivo

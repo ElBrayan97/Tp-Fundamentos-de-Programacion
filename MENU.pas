@@ -11,7 +11,7 @@ Var
     X, Y:   Byte;
 
 
-// variables de posicion para algunos recuadros graficos que se modifican dependiendo del tipo de menu
+    // variables de posicion para algunos recuadros graficos que se modifican dependiendo del tipo de menu
 
     //Menus (todo funciona)
 Procedure Menu_Principal;
@@ -41,6 +41,8 @@ Procedure MModificar_Museo(Var Museos:Archivo_Museos);
 Procedure MModificar_Director(Var Directores:Archivo_Directores);
 
 //Estadistica (algoritmos al final)
+
+
 
 
 
@@ -158,6 +160,8 @@ Begin
         '2':
                Begin
                    // MUSEO Y SUS OBRAS
+
+
 
 
 {clrscr;
@@ -345,7 +349,7 @@ Begin
             Buscar_Museo_Nombre (Museos, pos, N_Mus, Mus);
 
 
-        // Busqueda del museo que posee la obra para ver si necesita ser cargado
+            // Busqueda del museo que posee la obra para ver si necesita ser cargado
 
             If (pos = -1) Then // Si el museo no existe
                 Begin
@@ -528,7 +532,7 @@ Begin
             Buscar_Director (Directores, Pos, Busc2, Direct2);
 
 
-// Busco si el Director relacionado a este museo que estoy cargndo Existe en el Archivo de Directores.
+            // Busco si el Director relacionado a este museo que estoy cargndo Existe en el Archivo de Directores.
             //Busqueda del director
             If (Pos = -1) Then
                 // Si el Director no existe lo cargo, sino solo se sale
@@ -654,14 +658,14 @@ Begin
             LeerA(Artistas,artist,Pos);
 
 
-//llamar a la funcion leer de la unit Artista (controlar si los parametros estan bien puestos)
+            //llamar a la funcion leer de la unit Artista (controlar si los parametros estan bien puestos)
             If (artist.Activo=True) Then
                 Begin
                     artist.Activo := False;
                     ModificarA(Artistas,artist,pos);
 
 
-//llamar a la funcion modificar de la unit Artista (controlar si los parametros estan bien puestos)
+                    //llamar a la funcion modificar de la unit Artista (controlar si los parametros estan bien puestos)
                     Aviso_Eliminacion_Exitosa();
                     CerrarA(Artistas);
                 End
@@ -700,14 +704,14 @@ Begin
             LeerD(Directores, direct, Pos);
 
 
-//llamar a la funcion leer de la unit Directores (controlar si los parametros estan bien puestos)
+            //llamar a la funcion leer de la unit Directores (controlar si los parametros estan bien puestos)
             If (direct.Activo = True) Then
                 Begin
                     direct.Activo := False;
                     ModificarD(Directores, direct, pos);
 
 
-        //llamar a la funcion modificar de la unit Director (ahora si esta bien)
+                    //llamar a la funcion modificar de la unit Director (ahora si esta bien)
                     Aviso_Eliminacion_Exitosa();
                 End
             Else
@@ -748,14 +752,14 @@ Begin
             LeerM(Museos, Mus, Pos);
 
 
-//llamar a la funcion leer de la unit Museos (controlar si los parametros estan bien puestos)
+            //llamar a la funcion leer de la unit Museos (controlar si los parametros estan bien puestos)
             If (Mus.Activo = True) Then
                 Begin
                     Mus.Activo := False;
                     ModificarM(Museos, mus, pos);
 
 
-//llamar a la funcion modificar de la unit Artista (controlar si los parametros estan bien puestos)
+                    //llamar a la funcion modificar de la unit Artista (controlar si los parametros estan bien puestos)
                     Aviso_Eliminacion_Exitosa();
                     CerrarM(Museos);
                 End
@@ -851,6 +855,8 @@ Begin
                     Repeat
 
 
+
+
 // el Repeat y el Until se utiliza para mostrar los datos de aca abajo hasta que se apriete una de las opciones (1,2,3,a)
                         Gotoxy(1,1);
                         Menu_Editar_Artista_Part2;
@@ -882,7 +888,9 @@ Begin
                                        ModificarA(Artistas,artist,pos);
 
 
-//llamar a la funcion modificar de la unit Artista (controlar si los parametros estan bien puestos)
+
+
+                     //llamar a la funcion modificar de la unit Artista (controlar si los parametros estan bien puestos)
                                    End;
 
                             '2':
@@ -895,7 +903,9 @@ Begin
                                        ModificarA(Artistas,artist,pos);
 
 
-//llamar a la funcion modificar de la unit Artista (controlar si los parametros estan bien puestos)
+
+
+                     //llamar a la funcion modificar de la unit Artista (controlar si los parametros estan bien puestos)
                                    End;
 
                             '3':
@@ -908,7 +918,9 @@ Begin
                                        ModificarA(Artistas,artist,pos);
 
 
-//llamar a la funcion modificar de la unit Artista (controlar si los parametros estan bien puestos)
+
+
+                     //llamar a la funcion modificar de la unit Artista (controlar si los parametros estan bien puestos)
                                    End;
                             '4':
                                    Begin
@@ -1030,7 +1042,7 @@ Begin
                                        Cuadro_Edicion_Museo();
                                        Writeln(
 
-                                        'Pais en el que se encuentra el Museo: '
+                                               'Pais en el que se encuentra el Museo: '
                                                , mus.Pais);
                                        Readln(mus.Pais);
                                        ModificarM(Museos,mus,pos);
@@ -1044,7 +1056,7 @@ Begin
                                        Cuadro_Edicion_Museo();
                                        Writeln(
 
-                                      'Ciudad en la que se encuentra el Museo: '
+                                               'Ciudad en la que se encuentra el Museo: '
                                                , mus.Ciudad);
                                        Readln(mus.Ciudad);
                                        ModificarM(Museos,mus,pos);
@@ -1116,18 +1128,20 @@ Begin
                                                       Gotoxy (3,15);
                                                       Writeln (
 
-                                      'Escriba la Fecha de Inicio del Periodo: '
+                                                               'Escriba la Fecha de Inicio del Periodo: '
                                                       );
                                                       TextColor(Green);
                                                       Readln(direct.
 
-                                                         Periodo_Asignacion_Inic
+                                                             Periodo_Asignacion_Inic
                                                       );
                                                       ModificarD(Directores,
                                                                  direct,pos);
 
 
-//llamar a la funcion modificar de la unit Directores (controlar si los parametros estan bien puestos)
+
+
+                  //llamar a la funcion modificar de la unit Directores (controlar si los parametros estan bien puestos)
                                                       Aviso_Edicion_Exitosa();
                                                   End;
                                            '2':
@@ -1136,12 +1150,12 @@ Begin
                                                       Gotoxy (3,15);
                                                       Writeln (
 
-                                          'Escriba la Fecha Final del Periodo: '
+                                                               'Escriba la Fecha Final del Periodo: '
                                                       );
                                                       TextColor(Green);
                                                       Readln(direct.
 
-                                                          Periodo_Asignacion_Fin
+                                                             Periodo_Asignacion_Fin
                                                       );
                                                       ModificarD(Directores,
                                                                  direct,pos);
@@ -1155,14 +1169,16 @@ Begin
                                        Gotoxy (3,15);
                                        Writeln (
 
-                                              'Escriba el Nombre del Director: '
+                                                'Escriba el Nombre del Director: '
                                        );
                                        TextColor(Green);
                                        Readln(direct.APyNom);
                                        ModificarD(Directores,direct,pos);
 
 
-//llamar a la funcion modificar de la unit Directores (controlar si los parametros estan bien puestos)
+
+
+                  //llamar a la funcion modificar de la unit Directores (controlar si los parametros estan bien puestos)
                                        Aviso_Edicion_Exitosa();
                                    End;
                             '3':
@@ -1171,14 +1187,16 @@ Begin
                                        Gotoxy (3,15);
                                        Writeln (
 
-                                           'Escriba la Direccion del Director: '
+                                                'Escriba la Direccion del Director: '
                                        );
                                        TextColor(Green);
                                        Readln(direct.Direccion);
                                        ModificarD(Directores,direct,pos);
 
 
-//llamar a la funcion modificar de la unit Directores (controlar si los parametros estan bien puestos)
+
+
+                  //llamar a la funcion modificar de la unit Directores (controlar si los parametros estan bien puestos)
                                        Aviso_Edicion_Exitosa();
                                    End;
                             '4':
@@ -1187,14 +1205,16 @@ Begin
                                        Gotoxy (3,15);
                                        Writeln (
 
-                                  'Escriba el Numero de Telefono del Director: '
+                                                'Escriba el Numero de Telefono del Director: '
                                        );
                                        TextColor(Green);
                                        Readln(direct.Telefono);
                                        ModificarD(directores,direct,pos);
 
 
-// ""   "" ""   ""      ""      ""  ""       ""      ""       ""  ""    ""        ""  ""     ""
+
+
+                         // ""   "" ""   ""      ""      ""  ""       ""      ""       ""  ""    ""        ""  ""     ""
                                        Aviso_Edicion_Exitosa();
                                    End;
                         End;
@@ -1226,6 +1246,8 @@ Begin
     Buscar_Obra_Nombre(Obras, Pos, Bus, obr);
 
 
+
+
 //Obras (el archivo) pos(posicion del registro de la obra en el archivo) Bus(codigo de la obra que se busca) obr(registro de la obra buscada)
     If (Pos <> -1) Then
         Begin
@@ -1233,7 +1255,7 @@ Begin
             LeerO(Obras, obr, Pos);
 
 
- //Obras(el archivo) registro(del archivo) y posicion del registro en el archivo
+            //Obras(el archivo) registro(del archivo) y posicion del registro en el archivo
             If (obr.Activo <> false) Then
                 Begin
                     Dato_Encontrado_Obra;
@@ -1281,7 +1303,9 @@ Begin
                                        ModificarO(Obras,obr,pos);
 
 
-//llamar a la funcion modificar de la unit Obras (controlar si los parametros estan bien puestos)
+
+
+                       //llamar a la funcion modificar de la unit Obras (controlar si los parametros estan bien puestos)
                                    End;
                             '2':
                                    Begin
@@ -1398,6 +1422,8 @@ Begin
         End;
     Menu_Editar();
 End;
+
+
 
 
 
