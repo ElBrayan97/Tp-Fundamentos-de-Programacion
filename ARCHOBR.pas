@@ -48,6 +48,7 @@ Procedure Buscar_Obra_Nombre (Var Obras:Archivo_Obras;Var pos:int64; Name:String
 //METODO PARA PRUEBAS
 Procedure Barrido_Obr(Var Obras:Archivo_Obras);
 
+Procedure Secuencia_Obras(var Nombre:String; Contador:Int64); //cuenta las obras de un artista
 
 
 
@@ -243,5 +244,26 @@ begin
 end;
 
 }
+
+Procedure Secuencia_Obras(var Nombre:String; Contador:Int64);
+var
+	Puntero:int64;
+Begin
+AbrirO(Obras);
+Puntero := 1;
+	Repeat
+		LeerO(Obras, Obr, Posicion);
+		If (Nombre = Obr.Artista) then
+		Begin
+			Contador := (Contador+1);
+		End;
+		inc(Puntero);
+	Until (Filesize(Obras) = Posicion);
+CerrarO(Obras);
+End;
+
+
+
+
 Begin
 End.

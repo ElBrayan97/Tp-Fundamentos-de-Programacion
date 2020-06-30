@@ -13,7 +13,8 @@ Type
         Fecha_Nacimiento:   String;
         Activo:   Boolean;
     End;
-    Archivo_Artistas =   File Of Artista;
+
+Archivo_Artistas =   File Of Artista;
 
 Var 
     Artistas :   Archivo_Artistas;
@@ -35,7 +36,7 @@ Procedure CerrarA(Var Artistas:Archivo_Artistas);
 Procedure burbuja_mejoradoA(Var Artistas:Archivo_Artistas);
 Procedure Buscar_Artista(Var Artistas:Archivo_Artistas; Var Pos:int64; Nombre:String; Var art:Artista);
 
-Procedure procesar_archivo(Var Artistas:Archivo_Artistas);
+Procedure Secuencia_Artistas(var Nombre:String; Posicion:Int64);
 // METODO DE PRUEBAS
 
 Procedure Barrido_Art(Var Artistas:Archivo_Artistas);
@@ -173,36 +174,12 @@ Begin
     CerrarA(Artistas);
 End;
 
-
-Procedure procesar_archivo(Var Artistas:Archivo_Artistas);
-// barrido para estadisticas
-
-Var
-    y, puntero :   integer; //variables de control (posicion eje y, y el puntero del archivo)
-
+Procedure Secuencia_Artistas(var Nombre:String; Posicion:Int64);
 Begin
-    y := 8;
-    puntero := 0; // inicio del archivo a tratar
-    AbrirA (Artistas); // abrir archivo
-    Gotoxy(77,4);
-    Writeln (filesize(Artistas));
-    While Not eof(Artistas) Do
-        Begin
-            If (y <= 27) Then // 27 es el tamaño de filas de la tabla
-                Begin
-                    LeerA (Artistas, Artist, puntero);
-                    gotoxy(36,y);
-                    Writeln (Artist.Nombre);
-                    gotoxy(80,y);
-                    inc (y);
-                    // posicion en la pantalla
-                    inc (puntero);
-                    // posicion en el archivo
-                End;
-        End;
-    CerrarA (Artistas);
-    burbuja_mejoradoA (Artistas);
-    readkey;
+	AbrirA(Artistas);
+	LeerA(Artistas, Artist, Posicion);
+	Nombre := Artist.Nombre;
+	CerrarA(Artistas);
 End;
 
 

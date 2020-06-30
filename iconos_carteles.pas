@@ -1051,8 +1051,8 @@ End;
 
 //Menues de ESTADISTICA
 //OBRA
-Procedure Menu_Estadistica_ObrasxAutor();
 
+Procedure Menu_Estadistica_ObrasxAutor();
 Begin
     TextColor(Blue);
     Gotoxy(33,1);
@@ -1060,15 +1060,15 @@ Begin
     Gotoxy(33,2);
     Writeln ('//               CANTIDAD DE OBRAS POR AUTOR               //');
     Gotoxy(33,3);
-    Writeln ('//                                                         //');
-    Gotoxy(33,4);
-    Writeln ('//               Cantidad total de Autores                 //');
-    Gotoxy(33,5);
     Writeln ('/////////////////////////////////////////////////////////////');
-    Gotoxy(33,6);
+    Gotoxy(33,4);
     Writeln ('//                 AUTOR                     |  CANTIDAD   //');
-    Gotoxy(33,7);
+    Gotoxy(33,5);
     Writeln ('//===========================================|=============//');
+    Gotoxy(33,6);
+    Writeln ('//                                           |             //');
+    Gotoxy(33,7);
+    Writeln ('//                                           |             //');
     Gotoxy(33,8);
     Writeln ('//                                           |             //');
     Gotoxy(33,9);
@@ -1122,12 +1122,8 @@ Begin
     Gotoxy(33,33);
     Writeln ('//                                           |             //');
     Gotoxy(33,34);
-    Writeln ('//                                           |             //');
-    Gotoxy(33,35);
-    Writeln ('//                                           |             //');
-    Gotoxy(33,36);
     Writeln ('/////////////////////////////////////////////////////////////');
-    Gotoxy(34,37);
+    Gotoxy(34,35);
     Writeln (' 1-Pagina Anterior   0-Volver al Menu   2-Pagina Siguiente');
     textcolor(green);
 End;
