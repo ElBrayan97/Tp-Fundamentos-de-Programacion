@@ -3,8 +3,7 @@ Unit ARCHOBR;
 
 Interface
 //Parte Publica
-
-Uses Crt;
+uses crt;
 
 Type 
     Obra =   Record
@@ -24,7 +23,7 @@ Type
         Activo:   boolean;
     End;
 
-    Archivo_Obras =   file Of Obra;
+Archivo_Obras = file Of Obra;
 
 Var 
     Obras:   Archivo_Obras;
@@ -48,6 +47,7 @@ Procedure Buscar_Obra_Nombre (Var Obras:Archivo_Obras;Var pos:int64; Name:String
 
 //METODO PARA PRUEBAS
 Procedure Barrido_Obr(Var Obras:Archivo_Obras);
+
 
 
 
@@ -97,7 +97,6 @@ End;
 
 Procedure burbujaO(Var Obras:Archivo_Obras);
 //BURBUJA MEJORADO PARA ARCHIVOS
-
 Var 
     L, i, j :   LongInt;
     RegA, RegB, RegAux :   Obra;
@@ -151,11 +150,10 @@ Begin
 End;
 
 
-Procedure Buscar_Obra_Codigo (Var Obras:Archivo_Obras; Var pos:int64; Code:int64
-                              ; Var Obr:Obra);
-
+Procedure Buscar_Obra_Codigo (Var Obras:Archivo_Obras; Var pos:int64; Code:int64; Var Obr:Obra); // busqueda para saber si el codigo asignado ya esta en uso
 Var 
     posicion:   integer;
+
 Begin
     AbrirO(Obras);
     posicion := 0;
@@ -167,14 +165,12 @@ Begin
                 Begin
                     pos := posicion
                 End;
-            inc(posicion)
+            inc(posicion);
         End;
     CerrarO(Obras);
 End;
 
-Procedure Buscar_Obra_Nombre (Var Obras:Archivo_Obras; Var pos:int64; Name:
-                              String; Var Obr:Obra);
-
+Procedure Buscar_Obra_Nombre (Var Obras:Archivo_Obras; Var pos:int64; Name:String; Var Obr:Obra); // busqueda de obra por nombre
 Var 
     posicion:   integer;
 
@@ -193,6 +189,7 @@ Begin
         End;
     CerrarO(Obras);
 End;
+
 
 
 

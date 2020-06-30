@@ -1,0 +1,4 @@
+{
+    "omnipascal.defaultDevelopmentEnvironment": "FreePascal",
+    "omnipascal.freePascalSourcePath": "C:\\FPC\\3.2.0\\bin\\i386-win32\\fpc"
+}

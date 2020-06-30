@@ -3,17 +3,16 @@ Unit MENU;
 
 Interface
 
-Uses crt,iconos_carteles,ARCHART,ARCHDIR,ARCHMUS,ARCHOBR,VALIDACIONES;
+Uses crt, iconos_carteles, ARCHART, ARCHDIR, ARCHMUS, ARCHOBR, VALIDACIONES;
 
-Var 
-    Opc:   char;
-    // almacena la opcion elejida en el menu x el usuario
-    X, Y:   Byte;
+Var
+    Opc:   char; // almacena la opcion elejida en el menu x el usuario
+    X, Y:   Byte; // Coordenadas para controlar algunos menus graficos
 
 
-    // variables de posicion para algunos recuadros graficos que se modifican dependiendo del tipo de menu
+// variables de posicion para algunos recuadros graficos que se modifican dependiendo del tipo de menu
 
-    //Menus (todo funciona)
+//Menus (todo funciona)
 Procedure Menu_Principal;
 Procedure Menu_Cargar;
 Procedure Menu_Editar;
@@ -21,11 +20,9 @@ Procedure Menu_Borrar;
 Procedure Menu_Estadisticas;
 
 //Cargar (verificar museo, las demas funcionan)
-Procedure MCargar_OBR (Var Obras:Archivo_Obras;Var Museos:Archivo_Museos;Var
-                       Artistas:Archivo_Artistas);
+Procedure MCargar_OBR (Var Obras:Archivo_Obras;Var Museos:Archivo_Museos;Var Artistas:Archivo_Artistas);
 Procedure MCargar_ART (Var Artistas:Archivo_Artistas; Var concarga:boolean);
-Procedure MCargar_MUS (Var Museos:Archivo_Museos; Var Directores:
-                       Archivo_Directores);
+Procedure MCargar_MUS (Var Museos:Archivo_Museos; Var Directores:Archivo_Directores);
 Procedure MCargar_Director (Var Directores:Archivo_Directores);
 
 //Baja (todas funcionan)
@@ -41,13 +38,14 @@ Procedure MModificar_Museo(Var Museos:Archivo_Museos);
 Procedure MModificar_Director(Var Directores:Archivo_Directores);
 
 //Estadistica (algoritmos al final)
+Procedure ProcesarArchivos(var ARCH_Obras:Archivo_Obras; var ARCH_Artistas:Archivo_Artistas); // Comparar los artistas con las obras (1 artista := n obras)
 
 
 
 
 
 {Procedure artistas_con_mas_obras();
-* 
+*
 
 Procedure Segun_Obra_Mostrar_Artista_Museo (var Obras:Archivo_Obras);
 Procedure Segun_Museo_Mostrar_Director_Obras (var Museos:Archivo_Museos;Var Obras:Archivo_Obras);
@@ -59,49 +57,39 @@ Procedure Segun_Artista_Mostrar_Obras(var Obras:Archivo_Obras; var Artistas:Arch
 
 Implementation
 Procedure Menu_Principal;
-
-
-// PROBAR CON EL CASE ADENTRO DEL REPEAT UNTIL A VER SI ES NECESARIO VOLVER A LLAMAR AL MENU PARA VOLVER A EL!!
 Begin
     Opc := '0';
     Repeat
         Menu_Principal_Graph();
         Opc := Readkey;
-    Until ((Opc='1') Or (Opc='2') Or (Opc='3') Or (Opc='4') Or (Opc='0'));
-
-    Case (Opc) Of 
-        '1':   Menu_Cargar();
-        '2':   Menu_Editar();
-        '3':   Menu_Borrar();
-        '4':   Menu_Estadisticas();
-        '0':
-               Begin
-                   Exit;
-               End;
-    End;
+		Case (Opc) Of
+			'1':   Menu_Cargar();
+			'2':   Menu_Editar();
+			'3':   Menu_Borrar();
+			'4':   Menu_Estadisticas();
+			'0':   Exit;
+			End;
+    Until (Opc='0');
 End;
 
 Procedure Menu_Cargar;
-
-Var 
+Var
     CC:   Boolean;
 
 Begin
     CC := False;
     Opc := '0';
     Repeat
-        Menu_Cargar_Graph;
-        Opc := Readkey;
-    Until ((Opc='1') Or (Opc='2') Or (Opc='3') Or (Opc='4') Or (Opc='0'));
-
-    Case (Opc) Of 
+     Menu_Cargar_Graph;
+     Opc := Readkey;
+     Case (Opc) Of
         '1':   MCargar_OBR(Obras,Museos,Artistas);
         '2':   MCargar_ART (Artistas,CC);
         '3':   MCargar_MUS(Museos,Directores);
         '4':   MCargar_Director(Directores);
-        '0':   Menu_Principal;
-    End;
-    Menu_Principal();
+        '0':   Exit;
+        End;
+    Until (Opc='0');
 End;
 
 Procedure Menu_Editar;
@@ -110,15 +98,15 @@ Begin
     Repeat
         Menu_Editar_Graph;
         Opc := Readkey;
-    Until ((Opc='1') Or (Opc='2') Or (Opc='3') Or (Opc='4') Or (Opc='0'));
-    Case (Opc) Of 
-        '1':   MModificar_Obra (Obras);
-        '2':   MModificar_Artista (Artistas);
-        '3':   MModificar_Museo (Museos);
-        '4':   MModificar_Director (Directores);
-        '0':   Menu_Principal;
-    End;
-    Menu_Principal;
+    
+    Case (Opc) Of
+         '1':   MModificar_Obra (Obras);
+         '2':   MModificar_Artista (Artistas);
+         '3':   MModificar_Museo (Museos);
+         '4':   MModificar_Director (Directores);
+         '0':   Exit;
+        End;
+    Until (Opc='0');
 End;
 
 Procedure Menu_Borrar;
@@ -127,15 +115,15 @@ Begin
     Repeat
         Menu_Borrar_Graph;
         Opc := Readkey;
-    Until ((Opc='1') Or (Opc='2') Or (Opc='3') Or (Opc='4') Or (Opc='0'));
-    Case (Opc) Of 
+    
+    Case (Opc) Of
         '1':   MBajar_obr (Obras);
         '2':   MBajar_Art (Artistas);
         '3':   MBajar_Mus (Museos);
         '4':   MBajar_Dir (Directores);
-        '0':   Menu_Principal;
-    End;
-    Menu_Principal;
+        '0':   Exit;
+        End;
+	Until (Opc='0');
 End;
 
 Procedure Menu_Estadisticas;
@@ -144,80 +132,46 @@ Begin
     Repeat
         Menu_Estadisticas_Graph;
         Opc := Readkey;
-    Until ((Opc='1') Or (Opc='2') Or (Opc='3') Or (Opc='4') Or (Opc='0') Or (Opc
-          ='5'));
-    Case (Opc) Of 
+    
+		Case (Opc) Of
 
-        '1':
-               Begin
-                   // OBRAS
-                   Menu_Estadistica_ObrasxAutor();
-                   //Grafica
+			'1':Begin
+				   Menu_Estadistica_ObrasxAutor();
                    procesar_archivo(Artistas);
-                   //Lógica (procesar_archivo)
-               End;
+                End;
 
-        '2':
-               Begin
-                   // MUSEO Y SUS OBRAS
+			'2':Begin
+				 Writeln('aun no echo');
+				 readkey;
+                End;
 
+			'3':Begin
+				 Writeln('aun no echo');
+				 readkey;
+                End;
 
+			'4':Begin
+				 Writeln('aun no echo');
+				 readkey;
+                End;
 
-
-{clrscr;
-		 AbrirO(Obras);
-		 LeerO(Obras,Obr,0);
-		 writeln(Obr.Nombre);
-		 CerrarO(Obras);
-		 readkey;
-		 Menu_Estadisticas;
-		}
-                   Barrido_Art(Artistas);
-                   Readkey;
-                   burbuja_mejoradoA(Artistas);
-                   Barrido_Art(Artistas);
-
-               End;
-
-        '3':
-               Begin
-                   //MOSTRAR TODAS LAS ESTADISTICAS DISPONIBLES
-                   Barrido_Mus(Museos);
-                   Readkey;
-                   burbujaM(Museos);
-                   Barrido_Mus(Museos);
-               End;
-
-        '4':
-               Begin
-                   // SUPUESTAMENTE NO ESTA ESTA OPCION XD
-                   Barrido_Dir(Directores);
-                   Readkey;
-                   burbujaD(Directores);
-                   Barrido_Dir(Directores);
-               End;
-
-        '0':
-               Begin
-                   Clrscr;
-                   Menu_Principal;
-               End;
-    End;
-    Menu_Principal;
+			'0':Clrscr;
+		End;
+	Until (Opc = '0');
 End;
 
 
-Procedure MCargar_OBR(Var Obras:Archivo_Obras; Var Museos:Archivo_Museos; Var
-                      Artistas:Archivo_Artistas);
 
-Var 
+Procedure MCargar_OBR(Var Obras:Archivo_Obras; Var Museos:Archivo_Museos; Var Artistas:Archivo_Artistas);
+
+Var
     Mus :   Museo;
     CC :   Boolean;
     Artist :   Artista;
     restaurar :   char;
     // variable de restauracion en caso de existencia
     pos, B, Code :   Int64;
-    // posicion en archivo - conversion a integer - codigo a asignar 
+    // posicion en archivo - conversion a integer - codigo a asignar
     Name, N_Mus, N_Art, N1 :   String;
     // Se usa Name para Nombre del Artista y Nombre de la Obra
 
@@ -242,7 +196,7 @@ Begin
                 Code := Random(4294967295);
                 // Codigo Random
                 Buscar_Obra_Codigo(Obras, pos, Code, Obr);
-                // Se busca si el codigo esta en uso 
+                // Se busca si el codigo esta en uso
             Until (pos = -1);
 
             AbrirO(Obras);
@@ -334,28 +288,22 @@ Begin
             // Busqueda del artista de la obra para ver si necesita ser cargado
 
             If (pos = -1) Then // Luego de Buscar... El Artista Existe?
-                Begin
-                    Aviso_Artista_Inexistente;
-                    MCargar_ART(Artistas, CC);
-                    // añadir la suma de una obra si no existe
-                End
-            Else
-                Begin
-                    AbrirA(Artistas);
-                    Artist.cant_obras := (Artist.cant_obras + 1);
-                    ModificarA(Artistas, Artist, pos);
-                    CerrarA(Artistas);
-                End;
+			Begin
+				Aviso_Artista_Inexistente;
+				MCargar_ART(Artistas, CC);
+				// añadir la suma de una obra si no existe
+            End;
+            
             Buscar_Museo_Nombre (Museos, pos, N_Mus, Mus);
 
 
             // Busqueda del museo que posee la obra para ver si necesita ser cargado
 
             If (pos = -1) Then // Si el museo no existe
-                Begin
-                    Aviso_Museo_Inexistente;
-                    MCargar_MUS(Museos, Directores);
-                End;
+			Begin
+				Aviso_Museo_Inexistente;
+				MCargar_MUS(Museos, Directores);
+			End;
         End
     Else // Si la obra ya existe
         Begin
@@ -389,10 +337,10 @@ End;
 
 Procedure MCargar_ART(Var Artistas:Archivo_Artistas; Var concarga:boolean);
 
-Var 
+Var
     Pos :   int64;
     Nombre :   String;
-    Artist :   Artista;
+
     restaurar :   char;
 
 Begin
@@ -416,19 +364,6 @@ Begin
             Readln (Artist.Direccion);
             Gotoxy (35,12);
             Readln (Artist.Fecha_Nacimiento);
-            If (concarga = False) Then
-                Begin
-                    Artist.cant_obras := 0;
-                    // al agregar un nuevo artista a este se le asignan 0 obras
-                    GuardarA (Artistas,Artist);
-                    CerrarA (Artistas);
-                End
-            Else
-                Artist.cant_obras := 1;
-            // al agregar un nuevo artista a este se le asignan 0 obras
-            GuardarA (Artistas,Artist);
-            CerrarA (Artistas);
-
             Aviso_Carga_Exitosa;
         End
     Else
@@ -462,7 +397,7 @@ Procedure MCargar_MUS(Var Museos:Archivo_Museos; Var Directores:
                       Archivo_Directores);
 // Menu de Carga de museos Nuevos (Funcionando)
 
-Var 
+Var
     Mus :   Museo;
     X, Y :   integer;
     restaurar :   Char;
@@ -567,13 +502,12 @@ Begin
                 End;
             CerrarM(Museos);
         End;
-    Menu_Principal
 End;
 
 Procedure MCargar_Director(Var Directores:Archivo_Directores);
 // Estas son las altas
 
-Var 
+Var
     pos :   Int64;
     Name :   String;
     restaurar :   char;
@@ -608,7 +542,7 @@ Begin
             GuardarD(Directores,Direct);
             Aviso_Carga_Exitosa();
             CerrarD (Directores);
-            burbujaD(Directores);
+            //burbujaD(Directores); (proboca problemas si se ejecuta, al parecer intenta leer mas alla del filesize)
 
         End
     Else // si los datos existen. aviso de datos existentes
@@ -638,13 +572,12 @@ Begin
             Else
                 CerrarD(Directores);
         End;
-    Menu_Principal();
 End;
 
 Procedure MBajar_Art(Var Artistas:Archivo_Artistas);
 //Estas son las bajas
 
-Var 
+Var
     Pos :   int64;
     Nombre :   String;
     artist :   Artista;
@@ -690,7 +623,7 @@ End;
 
 Procedure MBajar_Dir(Var Directores:Archivo_Directores);
 
-Var 
+Var
     Pos :   int64;
     Name :   String;
     direct :   Director;
@@ -738,7 +671,7 @@ End;
 Procedure MBajar_Mus(Var Museos:Archivo_Museos);
 //Estas son las bajas
 
-Var 
+Var
     Pos :   int64;
     Mus :   Museo;
     Nombre :   String;
@@ -784,10 +717,10 @@ End;
 Procedure MBajar_obr(Var Obras:Archivo_Obras);
 //Estas son las bajas
 
-Var 
+Var
     Obr :   Obra;
     Pos :   int64;
-    Nombre, N_Artista :   String;
+    Nombre :   String;
 
 Begin
     Menu_Baja_Obra (Nombre);
@@ -800,18 +733,8 @@ Begin
             If (Obr.Activo = True) Then
                 Begin
                     Obr.Activo := False;
-                    ModificarO(Obras, obr, pos);
-                    // Se modifica la variable Activo de la Obra
-                    N_Artista := Obr.Artista;
-                    CerrarO(Obras);
-                    // Cierre del Archivo Obras
-                    Buscar_Artista(Artistas, Pos, N_Artista, Artist);
-
-                    AbrirA(Artistas);
-                    LeerA(Artistas, Artist, Pos);
-                    Artist.cant_obras := (Artist.cant_obras - 1);
-                    ModificarA(Artistas,Artist,Pos);
-                    CerrarA(Artistas);
+                    ModificarO(Obras, obr, pos); // Se modifica la variable Activo de la Obra
+                    CerrarO(Obras); // Cierre del Archivo Obras
                     Aviso_Eliminacion_Exitosa();
                 End
             Else
@@ -836,7 +759,7 @@ End;
 
 Procedure MModificar_Artista(Var Artistas:Archivo_Artistas);
 
-Var 
+Var
     Opc :   char;
     artist :   Artista;
     N1, Bus:   String;
@@ -857,6 +780,7 @@ Begin
 
 
 
+
 // el Repeat y el Until se utiliza para mostrar los datos de aca abajo hasta que se apriete una de las opciones (1,2,3,a)
                         Gotoxy(1,1);
                         Menu_Editar_Artista_Part2;
@@ -872,7 +796,7 @@ Begin
                         Gotoxy (3,14);
                         Opc := Readkey;
                         TextColor(Blue);
-                        Case Opc Of 
+                        Case Opc Of
                             '1':
                                    Begin
                                        Gotoxy (3,14);
@@ -886,6 +810,7 @@ Begin
                                        // valida que el dni sea un numero
                                        Artist.DNI := Num;
                                        ModificarA(Artistas,artist,pos);
+
 
 
 
@@ -905,6 +830,7 @@ Begin
 
 
 
+
                      //llamar a la funcion modificar de la unit Artista (controlar si los parametros estan bien puestos)
                                    End;
 
@@ -916,6 +842,7 @@ Begin
                                        TextColor(Green);
                                        Readln(artist.Direccion);
                                        ModificarA(Artistas,artist,pos);
+
 
 
 
@@ -951,7 +878,7 @@ End;
 
 Procedure MModificar_Museo(Var Museos:Archivo_Museos);
 
-Var 
+Var
     Pos :   int64;
     mus :   Museo;
     Opc :   char;
@@ -988,12 +915,11 @@ Begin
                         Writeln (mus.Telefono);
                         Gotoxy(1,1);
                         Opc := Readkey;
-                        Case Opc Of 
+                        Case Opc Of
                             '1':
                                    Begin
                                        Cuadro_Edicion_Museo();
-                                       Writeln('D.N.I del Director del Museo: ',
-                                               mus.Name_Director);
+                                       Writeln('D.N.I del Director del Museo: ',mus.Name_Director);
                                        Readln(mus.Name_Director);
                                        ModificarM(Museos,mus,pos);
                                        Window(1,19,76,23);
@@ -1004,8 +930,7 @@ Begin
                             '2':
                                    Begin
                                        Cuadro_Edicion_Museo();
-                                       Writeln('Nombre del Museo: ', mus.Nombre)
-                                       ;
+                                       Writeln('Nombre del Museo: ', mus.Nombre);
                                        Readln(mus.Nombre);
                                        ModificarM(Museos,mus,pos);
                                        Window(1,19,76,23);
@@ -1016,8 +941,7 @@ Begin
                             '3':
                                    Begin
                                        Cuadro_Edicion_Museo();
-                                       Writeln('Telefono del Museo: ', mus.
-                                               Telefono);
+                                       Writeln('Telefono del Museo: ', mus.Telefono);
                                        Readln(mus.Telefono);
                                        ModificarM(Museos,mus,pos);
                                        Window(1,19,76,23);
@@ -1028,8 +952,7 @@ Begin
                             '4':
                                    Begin
                                        Cuadro_Edicion_Museo();
-                                       Writeln('Direccion del Museo: ', mus.
-                                               Calle);
+                                       Writeln('Direccion del Museo: ', mus.Calle);
                                        Readln(mus.Calle);
                                        ModificarM(Museos,mus,pos);
                                        Window(1,19,76,23);
@@ -1040,10 +963,7 @@ Begin
                             '5':
                                    Begin
                                        Cuadro_Edicion_Museo();
-                                       Writeln(
-
-                                               'Pais en el que se encuentra el Museo: '
-                                               , mus.Pais);
+                                       Writeln('Pais en el que se encuentra el Museo: ', mus.Pais);
                                        Readln(mus.Pais);
                                        ModificarM(Museos,mus,pos);
                                        Window(1,19,76,23);
@@ -1054,10 +974,7 @@ Begin
                             '6':
                                    Begin
                                        Cuadro_Edicion_Museo();
-                                       Writeln(
-
-                                               'Ciudad en la que se encuentra el Museo: '
-                                               , mus.Ciudad);
+                                       Writeln('Ciudad en la que se encuentra el Museo: ', mus.Ciudad);
                                        Readln(mus.Ciudad);
                                        ModificarM(Museos,mus,pos);
                                        Window(1,19,76,23);
@@ -1076,12 +993,11 @@ Begin
         Begin
             Aviso_Dato_Inexistente();
         End;
-    Menu_Editar();
 End;
 
 Procedure MModificar_Director(Var Directores:Archivo_Directores);
 
-Var 
+Var
     Bus :   String;
     Pos :   int64;
     direct :   Director;
@@ -1115,115 +1031,72 @@ Begin
                         Gotoxy (25,13);
                         Writeln (direct.Telefono);
                         Opc := readkey;
-                        Case Opc Of 
-                            '1':
-                                   Begin
-                                       Menu_Editar_Director_Part3();
-                                       Gotoxy(1,1);
-                                       Opc2 := Readkey;
-                                       Case Opc2 Of 
-                                           '1':
-                                                  Begin
-                                                      TextColor(Green);
-                                                      Gotoxy (3,15);
-                                                      Writeln (
+                        Case Opc Of
+                            '1':Begin
+                                 Menu_Editar_Director_Part3();
+                                 Gotoxy(1,1);
+                                 Opc2 := Readkey;
+                                   Case Opc2 Of
+                                       '1': Begin
+                                             TextColor(Green);
+                                             Gotoxy (3,15);
+                                             Writeln ('Escriba la Fecha de Inicio del Periodo: ');
+                                             TextColor(Green);
+                                             Readln(direct.
+                                             Periodo_Asignacion_Inic);
+                                             ModificarD(Directores,direct,pos); //llamar a la funcion modificar de la unit Directores (controlar si los parametros estan bien puestos)
+                                             Aviso_Edicion_Exitosa();
+                                            End;
 
-                                                               'Escriba la Fecha de Inicio del Periodo: '
-                                                      );
-                                                      TextColor(Green);
-                                                      Readln(direct.
+                                       '2': Begin
+                                             TextColor(Green);
+                                             Gotoxy (3,15);
+                                             Writeln ('Escriba la Fecha Final del Periodo: ');
+                                             TextColor(Green);
+                                             Readln(direct.Periodo_Asignacion_Fin);
+                                             ModificarD(Directores,direct,pos);
+                                             Aviso_Edicion_Exitosa();
+                                            End;
 
-                                                             Periodo_Asignacion_Inic
-                                                      );
-                                                      ModificarD(Directores,
-                                                                 direct,pos);
+                                    End;
 
+                                End;
 
+                            '2':Begin
+                                 TextColor(Green);
+                                 Gotoxy (3,15);
+                                 Writeln ('Escriba el Nombre del Director: ');
+                                 TextColor(Green);
+                                 Readln(direct.APyNom);
+                                 ModificarD(Directores,direct,pos);//llamar a la funcion modificar de la unit Directores (controlar si los parametros estan bien puestos)
+                                 Aviso_Edicion_Exitosa();
+                                End;
 
+                            '3':Begin
+                                 TextColor(Green);
+                                 Gotoxy (3,15);
+                                 Writeln ('Escriba la Direccion del Director: ');
+                                 TextColor(Green);
+                                 Readln(direct.Direccion);
+                                 ModificarD(Directores,direct,pos);//llamar a la funcion modificar de la unit Directores (controlar si los parametros estan bien puestos)
+                                 Aviso_Edicion_Exitosa();
+                                End;
 
-                  //llamar a la funcion modificar de la unit Directores (controlar si los parametros estan bien puestos)
-                                                      Aviso_Edicion_Exitosa();
-                                                  End;
-                                           '2':
-                                                  Begin
-                                                      TextColor(Green);
-                                                      Gotoxy (3,15);
-                                                      Writeln (
-
-                                                               'Escriba la Fecha Final del Periodo: '
-                                                      );
-                                                      TextColor(Green);
-                                                      Readln(direct.
-
-                                                             Periodo_Asignacion_Fin
-                                                      );
-                                                      ModificarD(Directores,
-                                                                 direct,pos);
-                                                      Aviso_Edicion_Exitosa();
-                                                  End;
-                                       End;
-                                   End;
-                            '2':
-                                   Begin
-                                       TextColor(Green);
-                                       Gotoxy (3,15);
-                                       Writeln (
-
-                                                'Escriba el Nombre del Director: '
-                                       );
-                                       TextColor(Green);
-                                       Readln(direct.APyNom);
-                                       ModificarD(Directores,direct,pos);
-
-
-
-
-                  //llamar a la funcion modificar de la unit Directores (controlar si los parametros estan bien puestos)
-                                       Aviso_Edicion_Exitosa();
-                                   End;
-                            '3':
-                                   Begin
-                                       TextColor(Green);
-                                       Gotoxy (3,15);
-                                       Writeln (
-
-                                                'Escriba la Direccion del Director: '
-                                       );
-                                       TextColor(Green);
-                                       Readln(direct.Direccion);
-                                       ModificarD(Directores,direct,pos);
-
-
-
-
-                  //llamar a la funcion modificar de la unit Directores (controlar si los parametros estan bien puestos)
-                                       Aviso_Edicion_Exitosa();
-                                   End;
-                            '4':
-                                   Begin
-                                       TextColor(Green);
-                                       Gotoxy (3,15);
-                                       Writeln (
-
-                                                'Escriba el Numero de Telefono del Director: '
-                                       );
-                                       TextColor(Green);
-                                       Readln(direct.Telefono);
-                                       ModificarD(directores,direct,pos);
-
-
-
-
-                         // ""   "" ""   ""      ""      ""  ""       ""      ""       ""  ""    ""        ""  ""     ""
-                                       Aviso_Edicion_Exitosa();
-                                   End;
+                            '4':Begin
+                                 TextColor(Green);
+                                 Gotoxy (3,15);
+                                 Writeln ('Escriba el Numero de Telefono del Director: ');
+                                 TextColor(Green);
+                                 Readln(direct.Telefono);
+                                 ModificarD(directores,direct,pos);
+                                 Aviso_Edicion_Exitosa();
+                                End;
                         End;
                     Until (Opc='0');
                 End
             Else
-                Aviso_Dato_Inexistente();
-
-            CerrarD(Directores);
+             Aviso_Dato_Inexistente();
+             CerrarD(Directores);
         End
     Else
         Begin
@@ -1234,7 +1107,7 @@ End;
 
 Procedure MModificar_Obra(Var Obras:Archivo_Obras);
 
-Var 
+Var
     obr :   Obra;
     Pos, Aux :   int64;
     Opc, N1, Bus :   String;
@@ -1244,6 +1117,7 @@ Begin
     Menu_Editar_Obra_Part1(Bus);
     // modificar para capturar el dato (ya)
     Buscar_Obra_Nombre(Obras, Pos, Bus, obr);
+
 
 
 
@@ -1293,7 +1167,7 @@ Begin
                         Cuadro_Edicion_Obra();
                         Readln(Opc);
                         Clrscr;
-                        Case Opc Of 
+                        Case Opc Of
                             '1':
                                    Begin
                                        Writeln('Descripcion: ');
@@ -1301,6 +1175,7 @@ Begin
                                        Readln(obr.Descripcion);
                                        Clrscr;
                                        ModificarO(Obras,obr,pos);
+
 
 
 
@@ -1427,50 +1302,51 @@ End;
 
 
 
+
 {
 Procedure Segun_Obra_Mostrar_Artista_Museo(var Obras:Archivo_Obras);
 var
-	Buscado:Integer;
-	pos:Integer;
-	obr:Obra;
+    Buscado:Integer;
+    pos:Integer;
+    obr:Obra;
 
 Begin
-	pos:=-1;
-	Writeln('Ingrese el Codigo de la Obra: ');
-	readln(Buscado);
-	AbrirO(Obras);
-	Buscar_Obras(Obras,pos,Buscado,obr);
-	if pos<>-1 then
-	Begin
-		LeerO(Obras,obr,pos);
-		Writeln('El Artista de la Obra ',Buscado,' es: ',obr.Artista);
-		Writeln('El Codigo del Museo de la Obra ',Buscado,' es: ',obr.Codigo_Museo);
-	End;
+    pos:=-1;
+    Writeln('Ingrese el Codigo de la Obra: ');
+    readln(Buscado);
+    AbrirO(Obras);
+    Buscar_Obras(Obras,pos,Buscado,obr);
+    if pos<>-1 then
+    Begin
+        LeerO(Obras,obr,pos);
+        Writeln('El Artista de la Obra ',Buscado,' es: ',obr.Artista);
+        Writeln('El Codigo del Museo de la Obra ',Buscado,' es: ',obr.Codigo_Museo);
+    End;
 CerrarO(Obras);
 End;
 
 
 Procedure Segun_Museo_Mostrar_Director_Obras(var Museos:Archivo_Museos;Var Obras:Archivo_Obras);
 var
-	Buscado:Integer;
-	pos:Integer;
-	Mus:Museo;//El Record se llama Museo y el Archivo Museos,
-	obr:Obra;
+    Buscado:Integer;
+    pos:Integer;
+    Mus:Museo;//El Record se llama Museo y el Archivo Museos,
+    obr:Obra;
 
 Begin
-	pos:=-1;
-	Writeln('Ingrese el Codigo del Museo: ');
-	readln(Buscado);
-	AbrirM(Museos);
-	Buscar_Museo(Museos,pos,Buscado,Mus);
-	if pos<>-1 then //con la posicion -1 digo que el Museo Existe
-	Begin
-		LeerM(Museos,Mus,pos);
-		Writeln('El Director del Museo',Buscado,' es:',Mus.Director);
-		AbrirO (Obras);
-		Writeln('Las Obras del Museo son:');
-		Buscar_Museo_en_Obras(Obras,Buscado,obr);
-	End;
+    pos:=-1;
+    Writeln('Ingrese el Codigo del Museo: ');
+    readln(Buscado);
+    AbrirM(Museos);
+    Buscar_Museo(Museos,pos,Buscado,Mus);
+    if pos<>-1 then //con la posicion -1 digo que el Museo Existe
+    Begin
+        LeerM(Museos,Mus,pos);
+        Writeln('El Director del Museo',Buscado,' es:',Mus.Director);
+        AbrirO (Obras);
+        Writeln('Las Obras del Museo son:');
+        Buscar_Museo_en_Obras(Obras,Buscado,obr);
+    End;
 CerrarM(Museos);
 CerrarO(Obras);
 End;
@@ -1478,55 +1354,51 @@ End;
 
 Procedure Segun_Artista_Mostrar_Obras(var Obras:Archivo_Obras; var Artistas:Archivo_Artistas);
 var
-	artist:Artista;
-	Obr:Obra;
-	busc:Int64;
-	name:String;
+    artist:Artista;
+    Obr:Obra;
+    busc:Int64;
+    name:String;
 
 Begin
 Menu_Estadistica_Dni_Artista(busc);
 AbrirA(Artistas);
 Buscar_Artista(Artistas,pos,busc,artist);
 If (pos <> -1) then
-	Begin
-	 LeerA(Artistas,artist,pos);
-	 name := artist.Nombre;
-	 CerrarA(Artistas);
-	 Clrscr;
-	 AbrirO(Obras);
-	 textcolor(green);
-	 Menu_Estadistica_ObrasxAutor(busc, name); // cuadro graph
-	 Buscar_Artista_en_Obras(Obras,busc,Obr,66,6); //busca en el archivo las obras del artista
-	 readkey;
-	 clrscr;
-	 CerrarO(Obras);
-	 Menu_Estadisticas;
-	End
-	Else;
-		Begin
-		 CerrarA(Artistas);
-		 Menu_Baja_Artista_Inexistente(busc);
-		 readkey;
-		 Menu_Estadisticas;
-		End;
+    Begin
+     LeerA(Artistas,artist,pos);
+     name := artist.Nombre;
+     CerrarA(Artistas);
+     Clrscr;
+     AbrirO(Obras);
+     textcolor(green);
+     Menu_Estadistica_ObrasxAutor(busc, name); // cuadro graph
+     Buscar_Artista_en_Obras(Obras,busc,Obr,66,6); //busca en el archivo las obras del artista
+     readkey;
+     clrscr;
+     CerrarO(Obras);
+     Menu_Estadisticas;
+    End
+    Else;
+        Begin
+         CerrarA(Artistas);
+         Menu_Baja_Artista_Inexistente(busc);
+         readkey;
+         Menu_Estadisticas;
+        End;
 End;
 }
 
-Begin
-    Opc := '0';
-    Repeat
-        Menu_Principal_Graph();
-        Opc := Readkey;
-    Until ((Opc='1') Or (Opc='2') Or (Opc='3') Or (Opc='4') Or (Opc='0'));
+Procedure ProcesarArchivos(var ARCH_Obras:Archivo_Obras; var ARCH_Artistas:Archivo_Artistas);
+Var
+PunteroObr, PunteroArt: Int64;
+Artista: String;
+Cont_Obras: Int64;
 
-    Case (Opc) Of 
-        '1':   Menu_Cargar();
-        '2':   Menu_Editar();
-        '3':   Menu_Borrar();
-        '4':   Menu_Estadisticas();
-        '0':
-               Begin
-                   Exit;
-               End;
-    End;
+Begin
+Repeat 
+	PunteroObr := 1; PunteroArt := 1;
+Until (Filesize(ARCH_Artistas) = PunteroArt);
+End;
+
+Begin
 End.

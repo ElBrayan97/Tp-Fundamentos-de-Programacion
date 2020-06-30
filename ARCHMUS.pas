@@ -3,8 +3,7 @@ Unit ARCHMUS;
 
 Interface
 //Parte Publica
-
-Uses Crt;
+uses crt;
 
 Type 
     Museo =   Record
@@ -12,7 +11,6 @@ Type
         Nombre, Calle, Ciudad, Pais, Name_Director :   String;
         Activo :   Boolean;
     End;
-    T_vec_mus =   array [1..9] Of Museo;
     Archivo_Museos =   File Of Museo;
 
 Var 
@@ -20,18 +18,16 @@ Var
     Mus:   Museo;
 
     //METODOS DE APERTURA, LECTURA, MODIFICACION, GUARDADO Y CIERRE
-Procedure AbrirM( Var Museos:Archivo_Museos);
+Procedure AbrirM (Var Museos:Archivo_Museos);
 Procedure LeerM (Var Museos:Archivo_Museos; Var Mus:Museo; Pos:Integer);
 Procedure ModificarM (Var Museos:Archivo_Museos; Var Mus:Museo; Pos:integer);
 Procedure GuardarM (Var Museos:Archivo_Museos; Var Mus:Museo);
 Procedure CerrarM (Var Museos:Archivo_Museos);
 
 //METODOS DE BUSQUEDA Y ORDENAMIENTO
-Procedure burbujaM(Var Museos:Archivo_Museos);
-Procedure Buscar_Museo_Codigo (Var Museos:Archivo_Museos; Var pos:int64;
-                               codigo_buscado:int64; Var Mus:Museo);
-Procedure Buscar_Museo_Nombre (Var Museos:Archivo_Museos;Var pos:int64; Nombre:
-                               String; Var Mus:Museo);
+Procedure burbujaM (Var Museos:Archivo_Museos);
+Procedure Buscar_Museo_Codigo (Var Museos:Archivo_Museos; Var pos:int64; codigo_buscado:int64; Var Mus:Museo);
+Procedure Buscar_Museo_Nombre (Var Museos:Archivo_Museos; Var pos:int64; Nombre:String; Var Mus:Museo);
 
 //METODO DE PRUEBAS
 Procedure Barrido_Mus(Var Museos:Archivo_Museos);
@@ -47,32 +43,32 @@ Begin
     Assign(Museos,'X:\ARCHMUS.dat');
     Reset(Museos);
     If (ioresult <> 0) Then
-        Begin
-            Rewrite(Museos);
-        End;
+	Begin
+		Rewrite(Museos);
+	End;
 End;
 
 Procedure LeerM(Var Museos:Archivo_Museos; Var Mus:Museo; Pos:Integer);
 Begin
-    Seek(Museos,Pos);
-    Read(Museos,Mus);
+Seek(Museos,Pos);
+Read(Museos,Mus);
 End;
 
 Procedure ModificarM(Var Museos:Archivo_Museos; Var Mus:Museo; Pos:Integer);
 Begin
-    Seek(Museos,Pos);
-    Write(Museos,Mus);
+Seek(Museos,Pos);
+Write(Museos,Mus);
 End;
 
 Procedure GuardarM (Var Museos:Archivo_Museos; Var Mus:Museo);
 Begin
-    Seek(Museos,Filesize(Museos));
-    Write(Museos,Mus);
+Seek(Museos,Filesize(Museos));
+Write(Museos,Mus);
 End;
 
 Procedure CerrarM (Var Museos:Archivo_Museos);
 Begin
-    Close(Museos);
+Close(Museos);
 End;
 
 Procedure burbujaM(Var Museos:Archivo_Museos);

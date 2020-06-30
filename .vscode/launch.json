@@ -1,0 +1,13 @@
+{
+	"version": "0.1.0",
+	"configurations": [
+		{
+			"name": "Debugger",
+			"type": "gdb",
+			"request": "launch",
+			"target": "Cuerpo_Principal.exe",
+			"cwd": "${workspaceRoot}",
+			"terminal": "cmd"
+		}
+	]
+}

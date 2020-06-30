@@ -1,8 +1,7 @@
 
 Program Cuerpo_Principal;
 
-Uses 
-crt,MENU;
+Uses crt, MENU;
 
 Var 
     R:   Char;
@@ -49,7 +48,7 @@ Begin
         Writeln ('  ');
         Gotoxy (41,21);
         Writeln ('                                    ');
-
+        
         TextBackground (Yellow);
         {Controla el recuadro AMARILLO del Cartel de Salida}
         Gotoxy (43,13);

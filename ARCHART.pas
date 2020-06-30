@@ -3,8 +3,7 @@ Unit ARCHART;
 
 Interface
 //Parte Publica
-
-Uses Crt;
+uses crt;
 
 Type 
     Artista =   Record
@@ -13,7 +12,6 @@ Type
         Direccion:   String;
         Fecha_Nacimiento:   String;
         Activo:   Boolean;
-        cant_obras:   Int64;
     End;
     Archivo_Artistas =   File Of Artista;
 
@@ -24,7 +22,7 @@ Var
     //esta es la variable del tipo del registro para leer en el archivo.
 
     //METODOS DE APERTURA, LECTURA, MODIFICACION, GUARDADO Y CIERRE
-
+	
 Procedure AbrirA(Var Artistas:Archivo_Artistas);
 Procedure LeerA(Var Artistas:Archivo_Artistas; Var Reg:Artista; Pos:Integer);
 Procedure ModificarA(Var Artistas:Archivo_Artistas; Var Reg:Artista; Pos:Integer
@@ -35,9 +33,7 @@ Procedure CerrarA(Var Artistas:Archivo_Artistas);
 //METODOS DE BUSQUEDA Y ORDENAMIENTO
 
 Procedure burbuja_mejoradoA(Var Artistas:Archivo_Artistas);
-Procedure Buscar_Artista(Var Artistas:Archivo_Artistas; Var Pos:int64; Nombre:
-                         String; Var art:Artista);
-Procedure ordenar_nobras(Var Artistas:Archivo_Artistas);
+Procedure Buscar_Artista(Var Artistas:Archivo_Artistas; Var Pos:int64; Nombre:String; Var art:Artista);
 
 Procedure procesar_archivo(Var Artistas:Archivo_Artistas);
 // METODO DE PRUEBAS
@@ -69,8 +65,7 @@ Begin
 End;
 
 
-Procedure ModificarA(Var Artistas:Archivo_Artistas; Var Reg:Artista; Pos:Integer
-);
+Procedure ModificarA(Var Artistas:Archivo_Artistas; Var Reg:Artista; Pos:Integer);
 Begin
     Seek(Artistas,Pos);
     Write(Artistas,Reg);
@@ -122,39 +117,7 @@ Begin
     CerrarA(Artistas);
 End;
 
-Procedure ordenar_nobras(Var Artistas:Archivo_Artistas);
-//ordenar por mayor cantidad de obras
-
-Var 
-    L, i, j :   LongInt;
-    RegA, RegB, RegAux :   Artista;
-
-Begin
-    AbrirA(Artistas);
-    L := FileSize(Artistas);
-    For j := 1 To (L-1) Do
-        Begin
-            //mientras no este ordenado
-            For i := 0 To (L-j-1) Do
-                Begin
-                    //Ciclo de i y el adyascente
-                    LeerA (Artistas, RegA, i);
-                    //Obtengo los parametros por los cuales quiero ordenar
-                    LeerA (Artistas, RegB, i+1);
-                    If RegB.cant_obras < RegA.cant_obras Then
-                        Begin
-                            RegAux := RegB;
-                            ModificarA (Artistas, RegAux, i);
-                            ModificarA (Artistas, RegA, i+1);
-                        End;
-                End;
-        End;
-    CerrarA(Artistas);
-End;
-
-Procedure Buscar_Artista(Var Artistas:Archivo_Artistas; Var pos:int64; Nombre:
-                         String; Var art:Artista);
-
+Procedure Buscar_Artista(Var Artistas:Archivo_Artistas; Var pos:int64; Nombre:String; Var art:Artista);
 Var 
     posicion :   int64;
 
@@ -214,22 +177,15 @@ End;
 Procedure procesar_archivo(Var Artistas:Archivo_Artistas);
 // barrido para estadisticas
 
-Var 
-    Artist :   Artista;
-    //variable tipo registro ARTISTA
-    y, puntero :   integer;
-    //variables de control (posicion eje y, y el puntero del archivo)
+Var
+    y, puntero :   integer; //variables de control (posicion eje y, y el puntero del archivo)
 
 Begin
-    y := 6;
-    puntero := 0;
-    // inicio del archivo a tratar
-    ordenar_nobras (Artistas);
-    // Ordenar por la variable cantidad de obras
-    AbrirA (Artistas);
-    // abrir archivo
+    y := 8;
+    puntero := 0; // inicio del archivo a tratar
+    AbrirA (Artistas); // abrir archivo
+    Gotoxy(77,4);
     Writeln (filesize(Artistas));
-    readkey;
     While Not eof(Artistas) Do
         Begin
             If (y <= 27) Then // 27 es el tamaño de filas de la tabla
@@ -238,7 +194,6 @@ Begin
                     gotoxy(36,y);
                     Writeln (Artist.Nombre);
                     gotoxy(80,y);
-                    Writeln (Artist.cant_obras);
                     inc (y);
                     // posicion en la pantalla
                     inc (puntero);
