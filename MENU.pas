@@ -148,7 +148,7 @@ Opc := '0';
 
 			'1':Begin
 				   Menu_Estadistica_ObrasxAutor();
-                   //procesar_archivo(Artistas);
+                   ProcesarArchivos(Obras, Artistas);
                 End;
 
 			'2':Begin
@@ -1372,36 +1372,37 @@ End;
 
 Procedure ProcesarArchivos(var ARCH_Obras:Archivo_Obras; var ARCH_Artistas:Archivo_Artistas);
 Var
-PunteroArt: Int64;
-Cont_Obras: Int64;
-Artista, Opc : String;
-ciclos:byte;
+	PunteroArt: Int64;
+	Cont_Obras: Int64;
+	Artista, Opc : String;
+	ciclos: byte;
+
 Begin
-ciclos:=0;
-PunteroArt := 1;
+ciclos:= 0;
+PunteroArt:= 1;
 	Repeat
 		Repeat
-			Cont_Obras := 0;
+			Cont_Obras:= 0;
 			Secuencia_Artistas(Artista, PunteroArt);
 			Secuencia_Obras(Artista, Cont_Obras);
 			Gotoxy(x,y); Writeln(Artista);
 			Gotoxy(x,y); Writeln(Cont_Obras);
 			inc(ciclos);
-		Until (Filesize(ARCH_Artistas) = PunteroArt) or (ciclos = 28);
+		Until (Filesize(ARCH_Artistas) = PunteroArt) or (ciclos = 25);
 	 
-	 Opc := Readkey;
+	 Opc:= Readkey;
 	 
 		Case (Opc) of
-			
 			'1':Begin // Vuelve a mostrar la lista de datos anterios, si es que la hay
+				 clrscr;
+				 Menu_Estadistica_ObrasxAutor();
 				 ciclos:= 0;
-				 if (PunteroArt > 28) then // validacion para evitar overflow
+				 if (PunteroArt >= 25) then // validacion para evitar overflow
 					Begin
-						PunteroArt := (PunteroArt - 28);
+						PunteroArt := (PunteroArt - 25);
 					End
 					Else
 						PunteroArt := 1;
-				
 					Repeat
 						Cont_Obras:= 0;
 						Secuencia_Artistas(Artista, PunteroArt);
@@ -1409,10 +1410,12 @@ PunteroArt := 1;
 						Gotoxy(x,y); Writeln(Artista);
 						Gotoxy(x,y); Writeln(Cont_Obras);
 						inc(ciclos);
-					Until (Filesize(ARCH_Artistas) = PunteroArt) or (ciclos = 28);
+					Until (Filesize(ARCH_Artistas) = PunteroArt) or (ciclos = 25);
 				End;
 				
 			'2':Begin // Muestra la lista de datos siguiente, si es que la hay.
+				 clrscr;
+				 Menu_Estadistica_ObrasxAutor();
 				 ciclos:= 0;
 					Repeat
 						Cont_Obras := 0;
@@ -1421,12 +1424,11 @@ PunteroArt := 1;
 						Gotoxy(x,y); Writeln(Artista);
 						Gotoxy(x,y); Writeln(Cont_Obras);
 						inc(ciclos);
-					Until (Filesize(ARCH_Artistas) = PunteroArt) or (ciclos = 28);
+					Until (Filesize(ARCH_Artistas) = PunteroArt) or (ciclos = 25);
 				End;
 			
 			'3':Exit; // Sale de este procedimeinto y vuelve al menu de estadisticas
 		End;
-		
 	Until (Opc='3');
 End;
 

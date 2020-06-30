@@ -1118,12 +1118,8 @@ Begin
     Gotoxy(33,31);
     Writeln ('//                                           |             //');
     Gotoxy(33,32);
-    Writeln ('//                                           |             //');
-    Gotoxy(33,33);
-    Writeln ('//                                           |             //');
-    Gotoxy(33,34);
     Writeln ('/////////////////////////////////////////////////////////////');
-    Gotoxy(34,35);
+    Gotoxy(34,33);
     Writeln (' 1-Pagina Anterior   0-Volver al Menu   2-Pagina Siguiente');
     textcolor(green);
 End;

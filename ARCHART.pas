@@ -180,6 +180,7 @@ Begin
 	LeerA(Artistas, Artist, Posicion);
 	Nombre := Artist.Nombre;
 	CerrarA(Artistas);
+	inc(Posicion);
 End;
 
 
