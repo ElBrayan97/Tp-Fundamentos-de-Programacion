@@ -144,26 +144,22 @@ End;
 Procedure Barrido_Dir(Var Directores:Archivo_Directores);
 
 Var 
-	Punt, Lim :   int64;
-	Registro :   Director;
+	Punt, Lim : int64;
 
 Begin
-clrscr;
-// borrar!
-Gotoxy(1,25);
-AbrirD(Directores);
-Lim := FileSize(Directores);
-Punt := 0;
-	While (Not eof) And (punt <> Lim) Do
-	Begin
-		LeerD(Directores,Registro,Punt);
-		If Registro.Activo = True Then
+	AbrirD(Directores);
+	Lim := FileSize(Directores);
+	Punt := 0;
+		While (Not eof) And (punt <> Lim) Do
 		Begin
-			Writeln(Registro.APyNom);
+			LeerD(Directores, Direct, Punt);
+				If (Direct.Activo = True) Then
+				Begin
+					Writeln(Direct.APyNom);
+				End;
+			Punt := (Punt+1);
 		End;
-		Punt := (Punt+1);
-	End;
-CerrarD(Directores);
+	CerrarD(Directores);
 End;
 
 

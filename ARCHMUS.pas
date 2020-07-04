@@ -167,25 +167,18 @@ End;
 Procedure Barrido_Mus(Var Museos:Archivo_Museos);
 
 Var 
-    Punt, Lim :   int64;
-    Registro :   Museo;
+    Punt, Lim : int64;
 
 Begin
-    clrscr;
-    // borrar!
-    Gotoxy(1,25);
     AbrirM(Museos);
-    // apertura del archivo
     Lim := FileSize(Museos);
-    // tamaño del archivo
     Punt := 0;
-    //posicion en el archivo
-    While (Not eof) And (punt <> Lim) Do
+		While (Not eof) And (punt <> Lim) Do
         Begin
-            LeerM(Museos,Registro,Punt);
-            If Registro.Activo = True Then
+            LeerM(Museos, Mus, Punt);
+				If (Mus.Activo = True) Then
                 Begin
-                    Writeln(Registro.Nombre);
+                    Writeln(Mus.Nombre);
                 End;
             Punt := (Punt+1);
         End;

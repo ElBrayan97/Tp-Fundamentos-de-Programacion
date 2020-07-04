@@ -129,19 +129,16 @@ End;
 Procedure Barrido_Obr(Var Obras:Archivo_Obras);
 
 Var 
-    Punt, Lim :   int64;
+    Punt, Lim : int64;
 
 Begin
-    clrscr;
-    // borrar!
-    Gotoxy(1,25);
     AbrirO(Obras);
     Lim := FileSize(Obras);
     Punt := 0;
-    While (Not eof) And (punt <> Lim) Do
+		While (Not eof) And (punt <> Lim) Do
         Begin
             LeerO(Obras, Obr, Punt);
-            If Obr.Activo = True Then
+				If (Obr.Activo = True) Then
                 Begin
                     Writeln(Obr.Nombre);
                 End;

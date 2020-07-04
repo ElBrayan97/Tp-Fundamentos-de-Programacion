@@ -21,7 +21,7 @@ Procedure Menu_Estadisticas;
 
 //Cargar (verificar museo, las demas funcionan)
 Procedure MCargar_OBR (Var Obras:Archivo_Obras;Var Museos:Archivo_Museos;Var Artistas:Archivo_Artistas);
-Procedure MCargar_ART (Var Artistas:Archivo_Artistas; Var concarga:boolean);
+Procedure MCargar_ART (Var Artistas:Archivo_Artistas);
 Procedure MCargar_MUS (Var Museos:Archivo_Museos; Var Directores:Archivo_Directores);
 Procedure MCargar_Director (Var Directores:Archivo_Directores);
 
@@ -38,9 +38,9 @@ Procedure MModificar_Museo(Var Museos:Archivo_Museos);
 Procedure MModificar_Director(Var Directores:Archivo_Directores);
 
 //Estadistica (algoritmos al final)
-Procedure ProcesarArchivos(var ARCH_Obras:Archivo_Obras; var ARCH_Artistas:Archivo_Artistas); // Comparar los artistas con las obras (1 artista := n obras)
+{Procedure ProcesarArchivos(var ARCH_Obras:Archivo_Obras; var ARCH_Artistas:Archivo_Artistas); }// Comparar los artistas con las obras (1 artista := n obras)
 
-
+procedure pruebarara(var ARCH_Artistas:Archivo_Artistas);
 
 
 
@@ -77,18 +77,16 @@ End;
 
 Procedure Menu_Cargar;
 Var
-    CC: Boolean;
 	Opc: char;
 	
 Begin
-    CC := False;
     Repeat
      Opc := '0';
      Menu_Cargar_Graph;
      Opc := Readkey;
      Case (Opc) Of
          '1':   MCargar_OBR(Obras,Museos,Artistas);
-         '2':   MCargar_ART (Artistas,CC);
+         '2':   MCargar_ART (Artistas);
          '3':   MCargar_MUS(Museos,Directores);
          '4':   MCargar_Director(Directores);
          '0':   clrscr;
@@ -148,12 +146,16 @@ Opc := '0';
 
 			'1':Begin
 				   Menu_Estadistica_ObrasxAutor();
-                   ProcesarArchivos(Obras, Artistas);
+                  { ProcesarArchivos(Obras, Artistas);}
                 End;
 
 			'2':Begin
 				 Writeln('aun no echo');
 				 readkey;
+				 {}
+				 Menu_Estadistica_ObrasxAutor();
+				 pruebarara(Artistas);
+                 {}
                 End;
 
 			'3':Begin
@@ -162,8 +164,28 @@ Opc := '0';
                 End;
 
 			'4':Begin
-				 Writeln('aun no echo');
-				 readkey;
+				 clrscr;
+				 TextColor(Red);
+				 Writeln('Barrido Obras');
+				 Barrido_Obr(Obras);
+				 Writeln(' ');
+				 
+				 TextColor(Green);
+				 Writeln('Barrido Artistas');
+				 Barrido_Art(Artistas);
+				 Writeln(' ');
+				 
+				 TextColor(Blue);
+				 Writeln('Barrido Museos:');
+				 Barrido_Mus(Museos);
+				 Writeln(' ');
+				 
+				 TextColor(Yellow);
+				 Writeln('Barrido Directores');
+                 Barrido_Dir(Directores);
+                 Writeln(' ');
+                 
+                 Readkey;
                 End;
 
 			'0':clrscr;
@@ -172,42 +194,29 @@ Opc := '0';
 End;
 
 
-
 Procedure MCargar_OBR(Var Obras:Archivo_Obras; Var Museos:Archivo_Museos; Var Artistas:Archivo_Artistas);
-
 Var
     Mus :   Museo;
-    CC :   Boolean;
     Artist :   Artista;
-    restaurar :   char;
-    // variable de restauracion en caso de existencia
-    pos, B, Code :   Int64;
-    // posicion en archivo - conversion a integer - codigo a asignar
-    Name, N_Mus, N_Art, N1 :   String;
-    // Se usa Name para Nombre del Artista y Nombre de la Obra
-
+    restaurar :   char; // variable de restauracion en caso de existencia
+    pos, B, Code :   Int64; // posicion en archivo - conversion a integer - codigo a asignar
+    Name, N_Mus, N_Art, N1 :   String; // Se usa Name para Nombre del Artista y Nombre de la Obra
 
 Begin
-    CC := True;
     pos := -1;
     B := 0;
     Code := 0;
     restaurar := 'n';
-    Menu_Cargar_Obra;
-    // Carga de la Interfaz
+    Menu_Cargar_Obra; // Carga de la Interfaz
     TextColor (Green);
     Gotoxy (33,5);
-    Readln(Name);
-    // Nombre de la Obra
-    Buscar_Obra_Nombre (Obras, pos, Name, obr);
-    // Si el Nombre no existe en el Archivo
+    Readln(Name); // Nombre de la Obra
+    Buscar_Obra_Nombre (Obras, pos, Name, obr); // Si el Nombre no existe en el Archivo
     If (pos = -1) Then // Si la obra no existe
         Begin
             Repeat
-                Code := Random(4294967295);
-                // Codigo Random
-                Buscar_Obra_Codigo(Obras, pos, Code, Obr);
-                // Se busca si el codigo esta en uso
+                Code := Random(4294967295); // Codigo Random
+                Buscar_Obra_Codigo(Obras, pos, Code, Obr); // Se busca si el codigo esta en uso
             Until (pos = -1);
 
             AbrirO(Obras);
@@ -301,8 +310,7 @@ Begin
             If (pos = -1) Then // Luego de Buscar... El Artista Existe?
 			Begin
 				Aviso_Artista_Inexistente;
-				MCargar_ART(Artistas, CC);
-				// añadir la suma de una obra si no existe
+				MCargar_ART(Artistas); // VARIABLE cc YA NO ES NECESARIA
             End;
             
             Buscar_Museo_Nombre (Museos, pos, N_Mus, Mus);
@@ -346,10 +354,10 @@ Begin
         End;
 End;
 
-Procedure MCargar_ART(Var Artistas:Archivo_Artistas; Var concarga:boolean);
+Procedure MCargar_ART(Var Artistas:Archivo_Artistas);
 Var
-    Pos :   int64;
-    Nombre :   String;
+    Pos:   int64;
+    Nombre, DNI :   String;
     restaurar :   char;
 
 Begin
@@ -358,48 +366,48 @@ Begin
     TextColor (Green);
     Gotoxy (34,6);
     Readln (Nombre);
-    Buscar_Artista(Artistas,Pos,Nombre,Artist);
+    Buscar_Artista(Artistas, Pos, Nombre, Artist);
     // Busqueda del Artista en el Archivo
-    If (Pos = -1) Then
+		If (Pos = -1) Then
         Begin
-            AbrirA(Artistas);
             Menu_Cargar_Artista_Part2;
+            AbrirA(Artistas);
             Artist.Nombre := Nombre;
             Artist.Activo := True;
             TextColor(Green);
             Gotoxy (31,8);
-            Readln (Artist.DNI);
+            Readln (DNI);
+            Validacion_Integer(DNI, Artist.DNI, 31, 8);
             Gotoxy (37,10);
             Readln (Artist.Direccion);
             Gotoxy (35,12);
             Readln (Artist.Fecha_Nacimiento);
+            GuardarA(Artistas,Artist);
             Aviso_Carga_Exitosa;
+            CerrarA(Artistas);
         End
     Else
-        Begin
-            Clrscr;
-            Aviso_Dato_Existente;
-            AbrirA(Artistas);
-            LeerA(Artistas,artist,Pos);
-            If (Artist.Activo = False) Then
-                Begin
-                    Aviso_Dato_Oculto;
-                    Repeat
-                        restaurar := readkey;
-                    Until (restaurar = 'N') Or (restaurar ='n') Or (restaurar =
-                          'S') Or (restaurar ='s');
-
-                    If (restaurar ='S') Or (restaurar ='s') Then
-                        Begin
-                            Clrscr;
-                            Artist.Activo := true;
-                            ModificarA(Artistas,Artist,pos);
-                            Aviso_Restauracion_Exitosa;
-                            CerrarA(Artistas);
-                        End;
-                End;
-            CerrarA(Artistas);
-        End;
+	Begin
+		Clrscr;
+		Aviso_Dato_Existente;
+		AbrirA(Artistas);
+		LeerA(Artistas, artist, Pos);
+			If (Artist.Activo = False) Then
+			Begin
+				Aviso_Dato_Oculto;
+				Repeat
+					restaurar := readkey;
+				Until (restaurar = 'N') Or (restaurar ='n') Or (restaurar = 'S') Or (restaurar ='s');
+				If (restaurar ='S') Or (restaurar ='s') Then
+					Begin
+						Clrscr;
+						Artist.Activo := true;
+						ModificarA(Artistas,Artist,pos);
+						Aviso_Restauracion_Exitosa;
+					End;
+			End;
+		CerrarA(Artistas);
+	End;
 End;
 
 Procedure MCargar_MUS(Var Museos:Archivo_Museos; Var Directores:Archivo_Directores); // Menu de Carga de museos Nuevos (Funcionando)
@@ -511,7 +519,7 @@ End;
 Procedure MCargar_Director(Var Directores:Archivo_Directores);
 Var
     pos :   Int64;
-    Name :   String;
+    Name, DNI :   String;
     restaurar :   char;
     Direct :   Director;
 
@@ -532,7 +540,8 @@ Begin
             Menu_Cargar_Director_Part2;
             TextColor (Green);
             Gotoxy (33,8);
-            Readln (Direct.DNI);
+            Readln (DNI);
+			Validacion_Integer(DNI, Direct.DNI, 33, 8);
             Gotoxy (36,10);
             Readln (Direct.Direccion);
             Gotoxy (35,14);
@@ -620,7 +629,6 @@ Begin
             Readkey;
         End;
     Clrscr;
-    Menu_Borrar();
 End;
 
 Procedure MBajar_Dir(Var Directores:Archivo_Directores);
@@ -667,7 +675,6 @@ Begin
             readkey;
         End;
     Clrscr;
-    Menu_Borrar();
 End;
 
 Procedure MBajar_Mus(Var Museos:Archivo_Museos);
@@ -713,7 +720,6 @@ Begin
             Readkey;
         End;
     Clrscr;
-    Menu_Borrar();
 End;
 
 Procedure MBajar_obr(Var Obras:Archivo_Obras);
@@ -756,7 +762,6 @@ Begin
             Readkey;
         End;
     Clrscr;
-    Menu_Borrar();
 End;
 
 Procedure MModificar_Artista(Var Artistas:Archivo_Artistas);
@@ -1358,79 +1363,117 @@ If (pos <> -1) then
      readkey;
      clrscr;
      CerrarO(Obras);
-     Menu_Estadisticas;
     End
     Else;
         Begin
          CerrarA(Artistas);
          Menu_Baja_Artista_Inexistente(busc);
          readkey;
-         Menu_Estadisticas;
         End;
 End;
 }
+
+{ hay que borrar esto}
+
+procedure pruebarara(var ARCH_Artistas:Archivo_Artistas);
+var 
+	PunteroArt, Lim: Int64;
+	Artista : String;
+	x : byte;
+const
+	y = 6;
+
+begin	
+x:= 37;
+PunteroArt:= 1;
+AbrirA(ARCH_Artistas);
+Lim := Filesize(ARCH_Artistas);
+CerrarA(ARCH_Artistas);
+	If lim > 1 then
+	Begin
+		Repeat
+			Artista:='';
+			Secuencia_Artistas(ARCH_Artistas, Artista, PunteroArt);
+			readkey;
+			Gotoxy(x,(y+PunteroArt)); Writeln(Artista);
+		Until ( PunteroArt = Lim);
+	End;
+	readkey;
+End;
+{ hay que borrar esto}
+
+
+{
 
 Procedure ProcesarArchivos(var ARCH_Obras:Archivo_Obras; var ARCH_Artistas:Archivo_Artistas);
 Var
 	PunteroArt: Int64;
 	Cont_Obras: Int64;
 	Artista, Opc : String;
-	ciclos: byte;
-
+	ciclos, x, y : byte;
+	
 Begin
+x:= 36;
+y:= 6;
 ciclos:= 0;
 PunteroArt:= 1;
 	Repeat
-		Repeat
-			Cont_Obras:= 0;
-			Secuencia_Artistas(Artista, PunteroArt);
-			Secuencia_Obras(Artista, Cont_Obras);
-			Gotoxy(x,y); Writeln(Artista);
-			Gotoxy(x,y); Writeln(Cont_Obras);
-			inc(ciclos);
-		Until (Filesize(ARCH_Artistas) = PunteroArt) or (ciclos = 25);
-	 
-	 Opc:= Readkey;
-	 
-		Case (Opc) of
-			'1':Begin // Vuelve a mostrar la lista de datos anterios, si es que la hay
-				 clrscr;
-				 Menu_Estadistica_ObrasxAutor();
-				 ciclos:= 0;
-				 if (PunteroArt >= 25) then // validacion para evitar overflow
-					Begin
-						PunteroArt := (PunteroArt - 25);
-					End
-					Else
-						PunteroArt := 1;
-					Repeat
-						Cont_Obras:= 0;
-						Secuencia_Artistas(Artista, PunteroArt);
-						Secuencia_Obras(Artista, Cont_Obras);
-						Gotoxy(x,y); Writeln(Artista);
-						Gotoxy(x,y); Writeln(Cont_Obras);
-						inc(ciclos);
-					Until (Filesize(ARCH_Artistas) = PunteroArt) or (ciclos = 25);
-				End;
+		Artista:='';
+		Cont_Obras:= 0;
+		Secuencia_Artistas(ARCH_Artistas, Artista, PunteroArt);
+		
+		readkey;
+		
+		Gotoxy(x,y); Writeln(Artista);
+		Secuencia_Obras(Artista, Cont_Obras);
+		Gotoxy(x,y); Writeln(Cont_Obras);
+		inc(y);
+		inc(ciclos);
+		
+		gotoxy(1,y); writeln(ciclos);
+	Until (Filesize(ARCH_Artistas) = PunteroArt) or (ciclos = 25);
+		 Opc:= Readkey;
+		 
+			Case (Opc) of
+				'1':Begin // Vuelve a mostrar la lista de datos anterios, si es que la hay
+					 clrscr;
+					 Menu_Estadistica_ObrasxAutor();
+					 ciclos:= 0;
+					 if (PunteroArt >= 25) then // validacion para evitar overflow
+						Begin
+							PunteroArt := (PunteroArt - 25);
+						End
+						Else
+							PunteroArt := 1;
+						Repeat
+							Cont_Obras:= 0;
+							Secuencia_Artistas(Artistas, Artista, PunteroArt);
+							Secuencia_Obras(Artista, Cont_Obras);
+							Gotoxy(x,y); Writeln(Artista);
+							Gotoxy(x,y); Writeln(Cont_Obras);
+							inc(ciclos);
+						Until (Filesize(ARCH_Artistas) = PunteroArt) or (ciclos = 25);
+					End;
+					
+				'2':Begin // Muestra la lista de datos siguiente, si es que la hay.
+					 clrscr;
+					 Menu_Estadistica_ObrasxAutor();
+					 ciclos:= 0;
+						Repeat
+							Cont_Obras := 0;
+							Secuencia_Artistas(Artistas, Artista, PunteroArt);
+							Secuencia_Obras(Artista, Cont_Obras);
+							Gotoxy(x,y); Writeln(Artista);
+							Gotoxy(x,y); Writeln(Cont_Obras);
+							inc(ciclos);
+						Until (Filesize(ARCH_Artistas) = PunteroArt) or (ciclos = 25);
+					End;
 				
-			'2':Begin // Muestra la lista de datos siguiente, si es que la hay.
-				 clrscr;
-				 Menu_Estadistica_ObrasxAutor();
-				 ciclos:= 0;
-					Repeat
-						Cont_Obras := 0;
-						Secuencia_Artistas(Artista, PunteroArt);
-						Secuencia_Obras(Artista, Cont_Obras);
-						Gotoxy(x,y); Writeln(Artista);
-						Gotoxy(x,y); Writeln(Cont_Obras);
-						inc(ciclos);
-					Until (Filesize(ARCH_Artistas) = PunteroArt) or (ciclos = 25);
-				End;
-			
-			'3':Exit; // Sale de este procedimeinto y vuelve al menu de estadisticas
-		End;
-	Until (Opc='3');
-End;
-
+				'3':Exit; // Sale de este procedimeinto y vuelve al menu de estadisticas
+			End;
+		Until (Opc='3');
+	End;}
+	
+	
 Begin
 End.

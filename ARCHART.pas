@@ -36,7 +36,7 @@ Procedure CerrarA(Var Artistas:Archivo_Artistas);
 Procedure burbuja_mejoradoA(Var Artistas:Archivo_Artistas);
 Procedure Buscar_Artista(Var Artistas:Archivo_Artistas; Var Pos:int64; Nombre:String; Var art:Artista);
 
-Procedure Secuencia_Artistas(var Nombre:String; Posicion:Int64);
+Procedure Secuencia_Artistas(Var Artistas:Archivo_Artistas; var Nombre:String; var Posicion:Int64);
 // METODO DE PRUEBAS
 
 Procedure Barrido_Art(Var Artistas:Archivo_Artistas);
@@ -152,29 +152,26 @@ End;
 Procedure Barrido_Art(Var Artistas:Archivo_Artistas);
 
 Var 
-    Punt, Lim :   int64;
-    Registro :   Artista;
+    Punt, Lim : int64;
 
 Begin
-    clrscr;
-    // borrar!
     AbrirA(Artistas);
     Lim := FileSize(Artistas);
     Punt := 0;
-    While (Not eof) And (punt <> Lim) Do
+		While (Not eof) And (punt <> Lim) Do
         Begin
-            LeerA(Artistas,Registro,Punt);
-            If Registro.Activo = True Then
+            LeerA(Artistas, Artist, Punt);
+				If (Artist.Activo = True) Then
                 Begin
-                    Writeln(Registro.Nombre);
-                    readkey;
+                    Writeln(Artist.Nombre);
                 End;
-            Punt := (Punt+1);
+            Punt := (Punt + 1);
         End;
     CerrarA(Artistas);
 End;
 
-Procedure Secuencia_Artistas(var Nombre:String; Posicion:Int64);
+
+Procedure Secuencia_Artistas(Var Artistas:Archivo_Artistas; var Nombre:String; var Posicion:Int64);
 Begin
 	AbrirA(Artistas);
 	LeerA(Artistas, Artist, Posicion);
