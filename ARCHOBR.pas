@@ -39,16 +39,13 @@ Procedure CerrarO (Var Obras:Archivo_Obras);
 
 //METODOS DE BUSQUEDA Y ORDENAMIENTO
 Procedure burbujaO (Var Obras:Archivo_Obras);
-Procedure Buscar_Obra_Codigo (Var Obras:Archivo_Obras;Var pos:int64; Code:int64;
-                              Var obr:Obra);
+Procedure Buscar_Obra_Codigo (Var Obras:Archivo_Obras;Var pos:int64; Code:int64; Var obr:Obra);
 //el archivo solo va desde var hasta_obra
-Procedure Buscar_Obra_Nombre (Var Obras:Archivo_Obras;Var pos:int64; Name:String
-                              ; Var obr:Obra);
-
+Procedure Buscar_Obra_Nombre (Var Obras:Archivo_Obras;Var pos:int64; Name:String; Var obr:Obra);
 //METODO PARA PRUEBAS
 Procedure Barrido_Obr(Var Obras:Archivo_Obras);
 
-Procedure Secuencia_Obras(var Nombre:String; Contador:Int64); //cuenta las obras de un artista
+Procedure Secuencia_Obras(var Obras:Archivo_Obras; Nombre:String; var Contador:Int64); //cuenta las obras de un artista
 
 
 
@@ -242,24 +239,18 @@ end;
 
 }
 
-Procedure Secuencia_Obras(var Nombre:String; Contador:Int64);
-var
-	Puntero:int64;
+Procedure Secuencia_Obras(var Obras:Archivo_Obras; Nombre:String; var Contador:Int64);
+
 Begin
 AbrirO(Obras);
-Puntero := 1;
-	Repeat
+	While not eof(Obras) do
 		LeerO(Obras, Obr, Posicion);
 		If (Nombre = Obr.Artista) then
-		Begin
-			Contador := (Contador+1);
-		End;
-		inc(Puntero);
-	Until (Filesize(Obras) = Posicion);
+			Begin
+				inc(Contador);
+			End;
 CerrarO(Obras);
 End;
-
-
 
 
 Begin

@@ -40,7 +40,7 @@ Procedure MModificar_Director(Var Directores:Archivo_Directores);
 //Estadistica (algoritmos al final)
 {Procedure ProcesarArchivos(var ARCH_Obras:Archivo_Obras; var ARCH_Artistas:Archivo_Artistas); }// Comparar los artistas con las obras (1 artista := n obras)
 
-procedure pruebarara(var ARCH_Artistas:Archivo_Artistas);
+procedure pruebarara(var ARCH_Artistas:Archivo_Artistas; var ARCH_Obras:Archivo_Obras);
 
 
 
@@ -150,11 +150,9 @@ Opc := '0';
                 End;
 
 			'2':Begin
-				 Writeln('aun no echo');
-				 readkey;
 				 {}
 				 Menu_Estadistica_ObrasxAutor();
-				 pruebarara(Artistas);
+				 pruebarara(Artistas, Obras);
                  {}
                 End;
 
@@ -203,10 +201,9 @@ Var
     Name, N_Mus, N_Art, N1 :   String; // Se usa Name para Nombre del Artista y Nombre de la Obra
 
 Begin
-    pos := -1;
     B := 0;
+    pos := -1;
     Code := 0;
-    restaurar := 'n';
     Menu_Cargar_Obra; // Carga de la Interfaz
     TextColor (Green);
     Gotoxy (33,5);
@@ -326,6 +323,7 @@ Begin
         End
     Else // Si la obra ya existe
         Begin
+			restaurar := 'n';
             Aviso_Dato_Existente();
             AbrirO(Obras);
             LeerO(Obras, Obr, Pos);
@@ -1375,30 +1373,39 @@ End;
 
 { hay que borrar esto}
 
-procedure pruebarara(var ARCH_Artistas:Archivo_Artistas);
+procedure pruebarara(var ARCH_Artistas:Archivo_Artistas; var ARCH_Obras:Archivo_Obras);
 var 
-	PunteroArt, Lim: Int64;
+	PunteroArt, Lim, Cant: Int64;
 	Artista : String;
 	x : byte;
 const
 	y = 6;
+	x2 =95;
 
 begin	
 x:= 37;
-PunteroArt:= 1;
+PunteroArt:= 0;
 AbrirA(ARCH_Artistas);
 Lim := Filesize(ARCH_Artistas);
 CerrarA(ARCH_Artistas);
-	If lim > 1 then
+	If (lim > 0) then
 	Begin
 		Repeat
+			// Busqueda en archivos
 			Artista:='';
 			Secuencia_Artistas(ARCH_Artistas, Artista, PunteroArt);
+			Cant := 0;
+			Secuencia_Obras(ARCH_Obras, Artista, Cant);
+			
+			// Impresion en menu
+			Gotoxy(x,(y+PunteroArt));
+			Writeln(Artista);
+			Gotoxy(x2,(y+PunteroArt)); 
+			Writeln(Cant);
 			readkey;
-			Gotoxy(x,(y+PunteroArt)); Writeln(Artista);
-		Until ( PunteroArt = Lim);
+		Until (PunteroArt = Lim);
 	End;
-	readkey;
+readkey;
 End;
 { hay que borrar esto}
 

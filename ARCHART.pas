@@ -165,7 +165,7 @@ Begin
                 Begin
                     Writeln(Artist.Nombre);
                 End;
-            Punt := (Punt + 1);
+            inc(Punt);
         End;
     CerrarA(Artistas);
 End;
