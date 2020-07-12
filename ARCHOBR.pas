@@ -191,7 +191,6 @@ End;
 
 {
 Procedure Buscar_Museo_en_Obras(var Obras:Archivo_Obras; buscado:String;var Obr:Obra); // Con este procedure recorro el archivo, para mostrar las Obras que pertenecen a un determinado Museo.
-
 var 
  	posicion:integer;                                                                 //Solo muestra, no devuelve ninguna posicion o dato.
 
@@ -208,8 +207,7 @@ begin
 	end;	
 End;
 
-Procedure Buscar_Artista_en_Obras(var Obras:Archivo_Obras; buscado:Int64 ;var Obr:Obra; x:Byte; y:Byte);// Con este procedure recorro el archivo Obras, para mostrar los Obras que pertenecen a un determinado Artista.
-
+Procedure Buscar_Artista_en_Obras(var Obras:Archivo_Obras; buscado:Int64 ;var Obr:Obra; x:Byte; y:Byte); // Con este procedure recorro el archivo Obras, para mostrar los Obras que pertenecen a un determinado Artista.
 var 
 	posicion,contador:Integer;
 
@@ -236,20 +234,27 @@ begin
 	end;
  Gotoxy(63,30);Writeln(contador);
 end;
-
 }
 
 Procedure Secuencia_Obras(var Obras:Archivo_Obras; Nombre:String; var Contador:Int64);
-
+var
+	Lim, Punt: int64;
+	
 Begin
-AbrirO(Obras);
-	While not eof(Obras) do
-		LeerO(Obras, Obr, Posicion);
-		If (Nombre = Obr.Artista) then
-			Begin
-				inc(Contador);
-			End;
-CerrarO(Obras);
+	Contador := 0;
+    AbrirO(Obras);
+    Lim := FileSize(Obras);
+    Punt := 0;
+		While (Not eof) And (punt = Lim) Do
+        Begin
+            LeerO(Obras, Obr, Punt);
+				If (Obr.Activo = True) and (Obr.Nombre = Nombre) Then
+                Begin
+                    Inc(Contador);
+                End;
+            Punt := (Punt + 1);
+        End;
+    CerrarO(Obras);
 End;
 
 

@@ -14,7 +14,7 @@ Type
         Activo:   Boolean;
     End;
 
-Archivo_Artistas =   File Of Artista;
+Archivo_Artistas = File Of Artista;
 
 Var 
     Artistas :   Archivo_Artistas;
@@ -26,8 +26,7 @@ Var
 	
 Procedure AbrirA(Var Artistas:Archivo_Artistas);
 Procedure LeerA(Var Artistas:Archivo_Artistas; Var Reg:Artista; Pos:Integer);
-Procedure ModificarA(Var Artistas:Archivo_Artistas; Var Reg:Artista; Pos:Integer
-);
+Procedure ModificarA(Var Artistas:Archivo_Artistas; Var Reg:Artista; Pos:Integer);
 Procedure GuardarA(Var Artistas:Archivo_Artistas; Reg:Artista);
 Procedure CerrarA(Var Artistas:Archivo_Artistas);
 
@@ -137,8 +136,7 @@ Begin
 
                 // Si el nombre del artista del registro coincide con el Nombre Buscado
                 Begin
-                    pos := Posicion
-                           // se devuelve la posicion del registro en el archivo
+                    pos := Posicion // se devuelve la posicion del registro en el archivo
                 End;
             Inc(Posicion);
         End;
@@ -150,7 +148,6 @@ End;
 * }
 
 Procedure Barrido_Art(Var Artistas:Archivo_Artistas);
-
 Var 
     Punt, Lim : int64;
 
@@ -175,7 +172,7 @@ Procedure Secuencia_Artistas(Var Artistas:Archivo_Artistas; var Nombre:String; v
 Begin
 	AbrirA(Artistas);
 	LeerA(Artistas, Artist, Posicion);
-	Nombre := Artist.Nombre;
+	Nombre := (Artist.Nombre);
 	CerrarA(Artistas);
 	inc(Posicion);
 End;

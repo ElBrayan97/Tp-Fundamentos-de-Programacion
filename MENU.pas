@@ -1380,7 +1380,7 @@ var
 	x : byte;
 const
 	y = 6;
-	x2 =95;
+	x2 =85;
 
 begin	
 x:= 37;
@@ -1388,21 +1388,19 @@ PunteroArt:= 0;
 AbrirA(ARCH_Artistas);
 Lim := Filesize(ARCH_Artistas);
 CerrarA(ARCH_Artistas);
-	If (lim > 0) then
+	If (Lim > 0) then
 	Begin
 		Repeat
 			// Busqueda en archivos
 			Artista:='';
-			Secuencia_Artistas(ARCH_Artistas, Artista, PunteroArt);
-			Cant := 0;
-			Secuencia_Obras(ARCH_Obras, Artista, Cant);
+			Secuencia_Artistas(ARCH_Artistas, Artista, PunteroArt); // Carga la variable artistas de forma consecutiva
+			Secuencia_Obras(ARCH_Obras, Artista, Cant); // utiliza la variable Artista para encontrar la cantidad correspondiente de obras con esa Variable
 			
 			// Impresion en menu
 			Gotoxy(x,(y+PunteroArt));
 			Writeln(Artista);
 			Gotoxy(x2,(y+PunteroArt)); 
 			Writeln(Cant);
-			readkey;
 		Until (PunteroArt = Lim);
 	End;
 readkey;
