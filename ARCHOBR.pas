@@ -238,21 +238,21 @@ end;
 
 Procedure Secuencia_Obras(var Obras:Archivo_Obras; Nombre:String; var Contador:Int64);
 var
-	Lim, Punt: int64;
-	
+	Lim, pos: int64;
+
 Begin
 	Contador := 0;
     AbrirO(Obras);
     Lim := FileSize(Obras);
-    Punt := 0;
-		While (Not eof) And (punt = Lim) Do
+    pos := 0;
+		While (Not eof (Obras)) And (pos <> Lim) Do
         Begin
-            LeerO(Obras, Obr, Punt);
-				If (Obr.Activo = True) and (Obr.Nombre = Nombre) Then
+            LeerO(Obras, Obr, pos);
+				If (Obr.Artista = Nombre) Then
                 Begin
                     Inc(Contador);
                 End;
-            Punt := (Punt + 1);
+         inc(pos);
         End;
     CerrarO(Obras);
 End;

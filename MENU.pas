@@ -1377,13 +1377,12 @@ procedure pruebarara(var ARCH_Artistas:Archivo_Artistas; var ARCH_Obras:Archivo_
 var 
 	PunteroArt, Lim, Cant: Int64;
 	Artista : String;
-	x : byte;
 const
 	y = 6;
-	x2 =85;
+	x = 37;
+	x2 = 85;
 
-begin	
-x:= 37;
+begin
 PunteroArt:= 0;
 AbrirA(ARCH_Artistas);
 Lim := Filesize(ARCH_Artistas);
