@@ -1373,7 +1373,7 @@ End;
 
 procedure Estadistica_Artistas_Obras(var ARCH_Artistas:Archivo_Artistas; var ARCH_Obras:Archivo_Obras);
 var 
-	PunteroArt, Lim, Cant: Int64;
+	PunteroArt, Cant: Int64;
 	Artista : String;
 	// para control de la lista
 	count:byte;
@@ -1385,9 +1385,6 @@ const
 
 begin
 PunteroArt:= 0;
-AbrirA(ARCH_Artistas);
-Lim := Filesize(ARCH_Artistas);
-CerrarA(ARCH_Artistas);
 	If (Lim > 0) then
 	Begin
 	 Count:=0;
@@ -1403,27 +1400,65 @@ CerrarA(ARCH_Artistas);
 			Gotoxy(x2,(y+PunteroArt)); 
 			Writeln(Cant);
 			Inc(count);
-		Until (PunteroArt = Lim) or (count = 25);
+		Until (count = 25);
 
 		Repeat
 			pressed := readkey;
 			case (pressed) of
-				'1':Atras();
-				'2':Adelante();
+				'1':Atras(ARCH_Artistas,ARCH_Obras,PunteroArt);
+				'2':Adelante(ARCH_Artistas,ARCH_Obras,PunteroArt);
 			End;
 		Until (pressed = '0')
 	End;
 readkey;
 End;
 
-Procedure Adelante();
-Begin
+Procedure Adelante(var ARCH_Artistas:Archivo_Artistas; var ARCH_Obras:Archivo_Obras; var PunteroArt:int64);
+var
+	PunteroArt, Cant: Int64;
+	Artista : String;
+	// para control de la lista
+	count:byte;
+	pressed:char;
+const
+	y = 6;
+	x = 37;
+	x2 = 85;
 
+Begin
+count := 0;
+PunteroArt := (PunteroArt + 25);
+	Repeat
+		// Busqueda en archivos
+		Artista:='';
+		Secuencia_Artistas(ARCH_Artistas, Artista, PunteroArt); // Carga la variable artistas de forma consecutiva
+		Secuencia_Obras(ARCH_Obras, Artista, Cant); // utiliza la variable Artista para encontrar la cantidad correspondiente de obras con esa Variable
+		
+		// Impresion en menu
+		Gotoxy(x,(y+PunteroArt));
+		Writeln(Artista);
+		Gotoxy(x2,(y+PunteroArt)); 
+		Writeln(Cant);
+		Inc(count);
+	Until (PunteroArt = Lim) or (count = 25);
 End;
 
-Procedure Atras();
+Procedure Atras(var ARCH_Artistas:Archivo_Artistas; var ARCH_Obras:Archivo_Obras; PunteroArt);
 Begin
-
+	
+	Repeat
+		// Busqueda en archivos
+		Artista:='';
+		Secuencia_Artistas(ARCH_Artistas, Artista, PunteroArt); // Carga la variable artistas de forma consecutiva
+		Secuencia_Obras(ARCH_Obras, Artista, Cant); // utiliza la variable Artista para encontrar la cantidad correspondiente de obras con esa Variable
+		
+		// Impresion en menu
+		Gotoxy(x,(y+PunteroArt));
+		Writeln(Artista);
+		Gotoxy(x2,(y+PunteroArt)); 
+		Writeln(Cant);
+		Inc(count);
+	Until (PunteroArt = Lim) or (count = 25);
 End;
 
 
