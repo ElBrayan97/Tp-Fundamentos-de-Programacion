@@ -40,9 +40,9 @@ Procedure MModificar_Director(Var Directores:Archivo_Directores);
 //Estadistica (algoritmos al final)
 {Procedure ProcesarArchivos(var ARCH_Obras:Archivo_Obras; var ARCH_Artistas:Archivo_Artistas); }// Comparar los artistas con las obras (1 artista := n obras)
 
-procedure pruebarara(var ARCH_Artistas:Archivo_Artistas; var ARCH_Obras:Archivo_Obras);
-
-
+procedure Estadistica_Artistas_Obras(var ARCH_Artistas:Archivo_Artistas; var ARCH_Obras:Archivo_Obras);
+Procedure Adelante();
+Procedure Atras();
 
 {Procedure artistas_con_mas_obras();
 *
@@ -144,16 +144,14 @@ Opc := '0';
         Opc := Readkey;
 		Case (Opc) Of
 
-			'1':Begin
+			'1':Begin 
 				   Menu_Estadistica_ObrasxAutor();
                   { ProcesarArchivos(Obras, Artistas);}
                 End;
 
-			'2':Begin
-				 {}
+			'2':Begin // Cantidad de Obras por Artista
 				 Menu_Estadistica_ObrasxAutor();
-				 pruebarara(Artistas, Obras);
-                 {}
+				 Estadistica_Artistas_Obras(Artistas, Obras);
                 End;
 
 			'3':Begin
@@ -1373,10 +1371,13 @@ End;
 
 { hay que borrar esto}
 
-procedure pruebarara(var ARCH_Artistas:Archivo_Artistas; var ARCH_Obras:Archivo_Obras);
+procedure Estadistica_Artistas_Obras(var ARCH_Artistas:Archivo_Artistas; var ARCH_Obras:Archivo_Obras);
 var 
 	PunteroArt, Lim, Cant: Int64;
 	Artista : String;
+	// para control de la lista
+	count:byte;
+	pressed:char;
 const
 	y = 6;
 	x = 37;
@@ -1389,6 +1390,7 @@ Lim := Filesize(ARCH_Artistas);
 CerrarA(ARCH_Artistas);
 	If (Lim > 0) then
 	Begin
+	 Count:=0;
 		Repeat
 			// Busqueda en archivos
 			Artista:='';
@@ -1400,10 +1402,33 @@ CerrarA(ARCH_Artistas);
 			Writeln(Artista);
 			Gotoxy(x2,(y+PunteroArt)); 
 			Writeln(Cant);
-		Until (PunteroArt = Lim);
+			Inc(count);
+		Until (PunteroArt = Lim) or (count = 25);
+
+		Repeat
+			pressed := readkey;
+			case (pressed) of
+				'1':Atras();
+				'2':Adelante();
+			End;
+		Until (pressed = '0')
 	End;
 readkey;
 End;
+
+Procedure Adelante();
+Begin
+
+End;
+
+Procedure Atras();
+Begin
+
+End;
+
+
+
+
 { hay que borrar esto}
 
 
