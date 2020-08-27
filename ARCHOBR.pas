@@ -47,11 +47,10 @@ Procedure Barrido_Obr(Var Obras:Archivo_Obras);
 
 Procedure Secuencia_Obras(var Obras:Archivo_Obras; Nombre:String; var Contador:Int64); //cuenta las obras de un artista
 
-
-
 {Procedure Buscar_Museo_en_Obras (var Obras:Archivo_Obras; buscado:String; var obr:Obra);
-Procedure Buscar_Artista_en_Obras (var Obras:Archivo_Obras; buscado:Int64 ;var Obr:Obra; x:Byte; y:Byte);
 }
+Procedure Buscar_Artista_en_Obras(var Obras:Archivo_Obras; buscado:String ;var Obr:Obra; x:Byte; y:Byte);
+
 
 Implementation
 //Parte Privada
@@ -206,35 +205,34 @@ begin
 	 inc(posicion)
 	end;	
 End;
-
-Procedure Buscar_Artista_en_Obras(var Obras:Archivo_Obras; buscado:Int64 ;var Obr:Obra; x:Byte; y:Byte); // Con este procedure recorro el archivo Obras, para mostrar los Obras que pertenecen a un determinado Artista.
+}
+Procedure Buscar_Artista_en_Obras(var Obras:Archivo_Obras; buscado:String ;var Obr:Obra; x:Byte; y:Byte); // Con este procedure recorro el archivo Obras, para mostrar los Obras que pertenecen a un determinado Artista.
 var 
-	posicion,contador:Integer;
+	posicion: Int64;
 
 const
 	a=22;
 
 begin
+ AbrirO(Obras);
  posicion:=0;
- contador:=0;
  textcolor(green);
  while not eof (Obras) do // controla si se llego al final del archivo
 	begin
-	 LeerO(Obras,Obr,posicion);
+	 LeerO(Obras, Obr, posicion);
 	 if (Obr.Artista = buscado) then // controla la existencia del artista
 		begin
 		 Gotoxy(36,y);
-		 Writeln(Obr.Tipo);
-		 Gotoxy(x,y);
-		 Writeln(Obr.Codigo_Obra); //muestra el codigo de la obra
-		 inc(contador);
-		 inc(posicion);
-		 inc(y);
+		 Writeln(Obr.Nombre); // nombre de la obra
+		 Gotoxy(64,y);
+		 Writeln (Obr.Nombre_Museo); // museo en el que se encuentra la obra
+		 inc(posicion); // puntero del archivo
+		 inc(y); //posicion del cursor
 		end;
 	end;
- Gotoxy(63,30);Writeln(contador);
+CerrarO(Obras);
 end;
-}
+
 
 Procedure Secuencia_Obras(var Obras:Archivo_Obras; Nombre:String; var Contador:Int64);
 var

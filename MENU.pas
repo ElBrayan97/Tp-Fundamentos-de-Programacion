@@ -50,9 +50,9 @@ Procedure Adelante(var ARCH_Artistas:Archivo_Artistas; var ARCH_Obras:Archivo_Ob
 Procedure Segun_Obra_Mostrar_Artista_Museo (var Obras:Archivo_Obras);
 Procedure Segun_Museo_Mostrar_Director_Obras (var Museos:Archivo_Museos;Var Obras:Archivo_Obras);
 
-
-Procedure Segun_Artista_Mostrar_Obras(var Obras:Archivo_Obras; var Artistas:Archivo_Artistas);
 }
+Procedure Segun_ArtistaMOSTRARObras(var Obras:Archivo_Obras; var Artistas:Archivo_Artistas);
+
 ///////////////////////////////////////
 
 Implementation
@@ -144,9 +144,8 @@ Opc := '0';
         Opc := Readkey;
 		Case (Opc) Of
 
-			'1':Begin 
-				   Menu_Estadistica_ObrasxAutor();
-                  { ProcesarArchivos(Obras, Artistas);}
+			'1':Begin // obras por autor
+				 Segun_ArtistaMOSTRARObras(Obras, Artistas);
                 End;
 
 			'2':Begin // Cantidad de Obras por Artista
@@ -155,7 +154,7 @@ Opc := '0';
                 End;
 
 			'3':Begin
-				 Writeln('aun no echo');
+				 Writeln('nada por aki :V');
 				 readkey;
                 End;
 
@@ -915,7 +914,7 @@ Begin
                             '1':
                                    Begin
                                        Cuadro_Edicion_Museo();
-                                       Writeln('D.N.I del Director del Museo: ',mus.Name_Director);
+                                       Writeln('Nombre del Director del Museo: ',mus.Name_Director);
                                        Readln(mus.Name_Director);
                                        ModificarM(Museos,mus,pos);
                                        Window(1,19,76,23);
@@ -1330,40 +1329,33 @@ CerrarM(Museos);
 CerrarO(Obras);
 End;
 
+}
 
-Procedure Segun_Artista_Mostrar_Obras(var Obras:Archivo_Obras; var Artistas:Archivo_Artistas);
+Procedure Segun_ArtistaMOSTRARObras(var Obras:Archivo_Obras; var Artistas:Archivo_Artistas);
 var
-    artist:Artista;
-    Obr:Obra;
-    busc:Int64;
-    name:String;
+    artist :Artista;
+    Obr :Obra;
+    busc :String;
+    pos :int64;
 
 Begin
 Menu_Estadistica_Dni_Artista(busc);
-AbrirA(Artistas);
-Buscar_Artista(Artistas,pos,busc,artist);
-If (pos <> -1) then
+Buscar_Artista(Artistas, pos, busc, artist);
+If (pos <> -1) then //si el artista existe
     Begin
-     LeerA(Artistas,artist,pos);
-     name := artist.Nombre;
-     CerrarA(Artistas);
      Clrscr;
-     AbrirO(Obras);
      textcolor(green);
-     Menu_Estadistica_ObrasxAutor(busc, name); // cuadro graph
-     Buscar_Artista_en_Obras(Obras,busc,Obr,66,6); //busca en el archivo las obras del artista
+     Menu_Estadistica_ObrasdelAutor(busc); // cuadro graph
+     Buscar_Artista_en_Obras(Obras, busc, Obr, 66, 6); //busca en el archivo las obras del artista
      readkey;
      clrscr;
-     CerrarO(Obras);
     End
-    Else;
+    Else // si el artista no existe
         Begin
-         CerrarA(Artistas);
-         Menu_Baja_Artista_Inexistente(busc);
+         Menu_Baja_Artista_Inexistente(); // Notifica que el artista buscado no existe
          readkey;
         End;
 End;
-}
 
 { hay que borrar esto}
 

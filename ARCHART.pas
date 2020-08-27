@@ -132,16 +132,13 @@ Begin
             LeerA (Artistas, Artist, Posicion);
             // Se lee el registro del archivo que esta en la Posicion...
             If Artist.Nombre = Nombre Then
-
-
                 // Si el nombre del artista del registro coincide con el Nombre Buscado
                 Begin
                     pos := Posicion // se devuelve la posicion del registro en el archivo
                 End;
             Inc(Posicion);
         End;
-    CerrarA(Artistas);
-    // Cierre del Archivo
+    CerrarA(Artistas); // Cierre del Archivo
 End;
 
 {METODOS PARA PRUEBAS

@@ -67,8 +67,8 @@ Procedure Menu_Baja_Director_Inexistente();
 //Menues de Estadistica  ///////////////////////////////////////////////
 //OBRA
 Procedure Menu_Estadistica_ObrasxAutor();
-Procedure Menu_Estadistica_Dni_Artista(Var busc:int64);
-
+Procedure Menu_Estadistica_Dni_Artista(Var busc:string);
+Procedure Menu_Estadistica_ObrasdelAutor(autor:string);
 
 {Procedure Menu_Estadistica_Obra_Part2();
 
@@ -239,18 +239,18 @@ Begin
 End;
 
 
-Procedure Menu_Estadistica_Dni_Artista(Var busc:int64);
+Procedure Menu_Estadistica_Dni_Artista(Var busc:string);
 Begin
-    busc := 0;
+    busc := '';
     Textcolor(blue);
     Gotoxy (34,4);
-    Writeln ('////////////////////////////////////////////////////////////////');
+    Writeln ('/////////////////////////////////////////////////////////////////////');
     Gotoxy (34,5);
-    Writeln ('//Ingrese el DNI del Artista para ver sus obras:              //');
+    Writeln ('//Ingrese el Nombre del Artista para ver sus obras:                //');
     Gotoxy (34,6);
-    Writeln ('////////////////////////////////////////////////////////////////');
+    Writeln ('/////////////////////////////////////////////////////////////////////');
     textcolor(green);
-    Gotoxy (83,5);
+    Gotoxy (86,5);
     Readln(busc);
 End;
 
@@ -396,7 +396,7 @@ Procedure Menu_Cargar_Director_Part2();
 Begin
     Textcolor (Blue);
     Gotoxy (1,8);
-    Writeln ('|Ingrese el D.N.I. del Director:                       \\');
+    Writeln ('|Ingrese el Nombre del Director:                       \\');
     Writeln ('|------------------------------------------------------\\');
     Writeln ('|Ingrese la Direccion del Director:                    \\');
     Writeln ('|------------------------------------------------------\\');
@@ -648,7 +648,7 @@ Begin
     Writeln ('|-------------------------------------------------------------------------\\');
     Writeln ('| Nombre:                                                                 \\');
     Writeln ('|-------------------------------------------------------------------------\\');
-    Writeln ('| D.N.I. del Director:                                                    \\');
+    Writeln ('| Nombre del Director:                                                    \\');
     Writeln ('|-------------------------------------------------------------------------\\');
     Writeln ('| Calle:                                                                  \\');
     Writeln ('|-------------------------------------------------------------------------\\');
@@ -667,7 +667,7 @@ Begin
     Gotoxy (77,9);
     Writeln ('//////////////////////////////////////');
     Gotoxy (77,10);
-    Writeln ('//--> 1- D.N.I. del Director        //');
+    Writeln ('//--> 1- Nombre del Director        //');
     Gotoxy (77,11);
     Writeln ('//--> 2- Nombre                     //');
     Gotoxy (77,12);
@@ -1125,6 +1125,78 @@ Begin
 End;
 
 
+Procedure Menu_Estadistica_ObrasdelAutor(autor:string);
+Begin
+    TextColor(Blue);
+    Gotoxy(33,1);
+    Writeln ('/////////////////////////////////////////////////////////////');
+    Gotoxy(33,2);
+    Writeln ('// OBRAS DEL AUTOR:                                        //');
+    Gotoxy(33,3);
+    Writeln ('/////////////////////////////////////////////////////////////');
+    Gotoxy(33,4);
+    Writeln ('//         OBRA              |           MUSEO             //');
+    Gotoxy(33,5);
+    Writeln ('//===========================|=============================//');
+    Gotoxy(33,6);
+    Writeln ('//                           |                             //');
+    Gotoxy(33,7);
+    Writeln ('//                           |                             //');
+    Gotoxy(33,8);
+    Writeln ('//                           |                             //');
+    Gotoxy(33,9);
+    Writeln ('//                           |                             //');
+    Gotoxy(33,10);
+    Writeln ('//                           |                             //');
+    Gotoxy(33,11);
+    Writeln ('//                           |                             //');
+    Gotoxy(33,12);
+    Writeln ('//                           |                             //');
+    Gotoxy(33,13);
+    Writeln ('//                           |                             //');
+    Gotoxy(33,14);
+    Writeln ('//                           |                             //');
+    Gotoxy(33,15);
+    Writeln ('//                           |                             //');
+    Gotoxy(33,16);
+    Writeln ('//                           |                             //');
+    Gotoxy(33,17);
+    Writeln ('//                           |                             //');
+    Gotoxy(33,18);
+    Writeln ('//                           |                             //');
+    Gotoxy(33,19);
+    Writeln ('//                           |                             //');
+    Gotoxy(33,20);
+    Writeln ('//                           |                             //');
+    Gotoxy(33,21);
+    Writeln ('//                           |                             //');
+    Gotoxy(33,22);
+    Writeln ('//                           |                             //');
+    Gotoxy(33,23);
+    Writeln ('//                           |                             //');
+    Gotoxy(33,24);
+    Writeln ('//                           |                             //');
+    Gotoxy(33,25);
+    Writeln ('//                           |                             //');
+    Gotoxy(33,26);
+    Writeln ('//                           |                             //');
+    Gotoxy(33,27);
+    Writeln ('//                           |                             //');
+    Gotoxy(33,28);
+    Writeln ('//                           |                             //');
+    Gotoxy(33,29);
+    Writeln ('//                           |                             //');
+    Gotoxy(33,30);
+    Writeln ('//                           |                             //');
+    Gotoxy(33,31);
+    Writeln ('//                           |                             //');
+    Gotoxy(33,32);
+    Writeln ('/////////////////////////////////////////////////////////////');
+    Gotoxy(34,33);
+    Writeln (' 1-Pagina Anterior   0-Volver al Menu   2-Pagina Siguiente');
+    Textcolor(green);
+    Gotoxy(53,2); Writeln(autor);
+End;
 {Procedure Menu_Estadistica_Obra_Part2();
 Begin
 
