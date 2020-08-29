@@ -163,24 +163,22 @@ Opc := '0';
 				 TextColor(Red);
 				 Writeln('Barrido Obras');
 				 Barrido_Obr(Obras);
-				 Writeln(' ');
-				 
+			
 				 TextColor(Green);
+				 Gotoxy(25,1);
 				 Writeln('Barrido Artistas');
 				 Barrido_Art(Artistas);
-				 Writeln(' ');
-				 
+				
 				 TextColor(Blue);
+				 Gotoxy(50,1);
 				 Writeln('Barrido Museos:');
 				 Barrido_Mus(Museos);
-				 Writeln(' ');
 				 
 				 TextColor(Yellow);
+				 Gotoxy(75,1);
 				 Writeln('Barrido Directores');
                  Barrido_Dir(Directores);
-                 Writeln(' ');
-                 
-                 Readkey;
+
                 End;
 
 			'0':clrscr;
@@ -455,11 +453,11 @@ Begin
             Mus.Telefono := B;
             //Almacenamiento del Telefono
 
-            Gotoxy (32,18);
+            Gotoxy (34,18);
             Readln (Busc2);
             // Nombre Director
             Mus.Name_Director := Busc2;
-            //Almacenamiento del DNI
+            //Almacenamiento del Nombre del Director
 
             Mus.activo := true;
             // Estado
@@ -468,7 +466,7 @@ Begin
             CerrarM (Museos);
             // Cerrar archivo museo
 
-            //burbujaM(Museos);
+            burbujaM(Museos);
 
             Aviso_Carga_Exitosa();
             Buscar_Director (Directores, Pos, Busc2, Direct2);
@@ -548,7 +546,7 @@ Begin
             GuardarD(Directores,Direct);
             Aviso_Carga_Exitosa();
             CerrarD (Directores);
-            //burbujaD(Directores); (proboca problemas si se ejecuta, al parecer intenta leer mas alla del filesize)
+            burbujaD(Directores); //(proboca problemas si se ejecuta, al parecer intenta leer mas alla del filesize)
 
         End
     Else // si los datos existen. aviso de datos existentes
@@ -1345,14 +1343,14 @@ If (pos <> -1) then //si el artista existe
     Begin
      Clrscr;
      textcolor(green);
-     Menu_Estadistica_ObrasdelAutor(busc); // cuadro graph
-     Buscar_Artista_en_Obras(Obras, busc, Obr, 66, 6); //busca en el archivo las obras del artista
+     Menu_Estadistica_ObrasdelAutor(busc); // cuadro grafico
+     Buscar_Artista_en_Obras(Obras, busc, Obr, 66, 6); //busca en el archivo las obras del artista {busc}
      readkey;
      clrscr;
     End
     Else // si el artista no existe
         Begin
-         Menu_Baja_Artista_Inexistente(); // Notifica que el artista buscado no existe
+         Menu_Baja_Artista_Inexistente(); // Notifica que el artista buscado no existe {hay que modificarlo, no pega ni con la gotita xD}
          readkey;
         End;
 End;

@@ -97,50 +97,52 @@ Procedure burbujaO(Var Obras:Archivo_Obras);
 Var 
     L, i, j :   LongInt;
     RegA, RegB, RegAux :   Obra;
-
-Begin
-    AbrirO(Obras);
-    L := FileSize(Obras);
-    For j := 1 To (L-1) Do
-        Begin
-            //mientras no este ordenado
-            For i := 0 To (L-j-1) Do
-                Begin
-                    //Ciclo de i y el adyascente
-                    LeerO (Obras, RegA, i);
-                    //Obtengo los parametros por los cuales quiero ordenar
-                    LeerO (Obras, RegB, i+1);
-                    If RegB.Nombre < RegA.Nombre Then
-                        Begin
-                            RegAux := RegB;
-                            ModificarO (Obras, RegAux, i);
-                            ModificarO (Obras, RegA, i+1);
-                        End;
-                End;
-        End;
-    CerrarO(Obras);
-End;
-
+begin
+AbrirO(Obras);
+L := FileSize(Obras);
+	if (L>1) then;
+	begin
+		for j := 1 to (L-1) do
+		begin //mientras no este ordenado
+			for i := 0 to (L-j-1) do
+			begin //Ciclo de i y el adyascente
+			 LeerO (Obras, RegA, i); //Obtengo los parametros por los cuales quiero ordenar
+			 LeerO (Obras, RegB, i+1);
+				if (RegB.Nombre < RegA.Nombre)then
+				begin
+				 RegAux := RegB;
+				 ModificarO (Obras, RegAux, i);
+				 ModificarO (Obras, RegA, i+1);
+				end;
+			end;
+		end;
+	end;
+CerrarO(Obras);
+end;
 
 Procedure Barrido_Obr(Var Obras:Archivo_Obras);
 
 Var 
-    Punt, Lim : int64;
-
+    Punt : int64;
+	y : integer;
 Begin
+	burbujaO(Obras);
+	y :=  2;
     AbrirO(Obras);
-    Lim := FileSize(Obras);
     Punt := 0;
-		While (Not eof) And (punt <> Lim) Do
+		While (Not eof(Obras)) do
         Begin
-            LeerO(Obras, Obr, Punt);
-				If (Obr.Activo = True) Then
-                Begin
-                    Writeln(Obr.Nombre);
-                End;
-            Punt := (Punt + 1);
+         LeerO(Obras, Obr, Punt);
+			If (Obr.Activo = True) Then
+			Begin
+				gotoxy(1,y);
+				Writeln(Obr.Nombre);
+				inc(y);
+			End;
+         inc(Punt);
         End;
     CerrarO(Obras);
+readkey;
 End;
 
 
@@ -206,6 +208,7 @@ begin
 	end;	
 End;
 }
+
 Procedure Buscar_Artista_en_Obras(var Obras:Archivo_Obras; buscado:String ;var Obr:Obra; x:Byte; y:Byte); // Con este procedure recorro el archivo Obras, para mostrar los Obras que pertenecen a un determinado Artista.
 var 
 	posicion: Int64;
@@ -215,7 +218,7 @@ const
 
 begin
  AbrirO(Obras);
- posicion:=0;
+ posicion:=0; //puntero
  textcolor(green);
  while not eof (Obras) do // controla si se llego al final del archivo
 	begin
@@ -226,9 +229,9 @@ begin
 		 Writeln(Obr.Nombre); // nombre de la obra
 		 Gotoxy(64,y);
 		 Writeln (Obr.Nombre_Museo); // museo en el que se encuentra la obra
-		 inc(posicion); // puntero del archivo
 		 inc(y); //posicion del cursor
 		end;
+	 inc(posicion); // puntero del archivo
 	end;
 CerrarO(Obras);
 end;

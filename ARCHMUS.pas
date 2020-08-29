@@ -75,45 +75,56 @@ Procedure burbujaM(Var Museos:Archivo_Museos);
 //BURBUJA MEJORADO PARA ARCHIVOS
 
 Var 
-    L, i :   LongInt;
-    orden :   boolean;
+    L, i, j :   LongInt;
     RegA, RegB, RegAux :   Museo;
+begin
+AbrirM(Museos);
+L := FileSize(Museos);
+	if (L>1) then;
+	begin
+		for j := 1 to (L-1) do
+		begin //mientras no este ordenado
+			for i := 0 to (L-j-1) do
+			begin //Ciclo de i y el adyascente
+			 LeerM (Museos, RegA, i); //Obtengo los parametros por los cuales quiero ordenar
+			 LeerM (Museos, RegB, i+1);
+				if (RegB.Nombre < RegA.Nombre) then
+				begin
+				 RegAux := RegB;
+				 ModificarM (Museos, RegAux, i);
+				 ModificarM (Museos, RegA, i+1);
+				end;
+			end;
+		end;
+	end;
+CerrarM(Museos);
+end;
+
+{
+Procedure BurbujaMejorado (Var L: ListaEmpleados; N: Integer);
+Var
+	I,J: Integer;
+	Aux : Empleado
+	Ordenado : Boolean;
+
 Begin
-    i := 1;
-    AbrirM(Museos);
-    L := FileSize(Museos);
-    If (L=1) Then // si el archivo tiene menos de 2 registros no se ordena
-        Begin
-            orden := false;
-            While Not(orden) Do
-                Begin
-                    //mientras no este ordenado 
-                    orden := true;
-                    For i := 0 To (L-1) Do
-                        Begin
-                            // Ciclo de i y el adyascente
-                            If Not eof(Museos) Then
-                                Begin
-                                    LeerM(Museos,RegA,i);
+I : = 1;
+Repeat
+Ordenado : = True;
+	For J : = 1 To N – 1 Do
+		If L [ J ]. Nombre > L [ J + 1 ]. Nombre Then
+		Begin
+			Aux : = Lista [ J ];
+			Lista [ J ] : = Lista [ J + 1 ];
+			Lista [ J + 1 ] : = Aux ;
+			Ordenado : = False
+		End;
+	 inc(I)
+Until Ordenado Or ( I > N – 1 )
+End;}
 
-                                    //Obtengo los parametros por los cuales quiero ordenar
-                                    LeerM(Museos,RegB,i+1);
-                                    If RegB.Nombre > RegA.Nombre Then
-                                        Begin
-                                            orden := false;
-                                            RegAux := RegB;
-                                            ModificarM(Museos,RegA,i+1);
-                                            ModificarM(Museos,RegAux,i);
-                                        End;
-                                End;
-                        End;
-                End;
-        End;
-    CerrarM(Museos);
-End;
 
-Procedure Buscar_Museo_Codigo(Var Museos:Archivo_Museos;Var pos:int64;
-                              codigo_buscado:int64; Var Mus:Museo);
+Procedure Buscar_Museo_Codigo(Var Museos:Archivo_Museos;Var pos:int64; codigo_buscado:int64; Var Mus:Museo);
 
 Var 
     posicion :   int64;
@@ -168,8 +179,10 @@ Procedure Barrido_Mus(Var Museos:Archivo_Museos);
 
 Var 
     Punt, Lim : int64;
-
+	y:integer;
 Begin
+	burbujaM(Museos);
+	y:=2;
     AbrirM(Museos);
     Lim := FileSize(Museos);
     Punt := 0;
@@ -178,11 +191,14 @@ Begin
             LeerM(Museos, Mus, Punt);
 				If (Mus.Activo = True) Then
                 Begin
+					Gotoxy(50,y);
                     Writeln(Mus.Nombre);
+                    inc(y);
                 End;
             Punt := (Punt+1);
         End;
     CerrarM(Museos);
+readkey;
 End;
 
 

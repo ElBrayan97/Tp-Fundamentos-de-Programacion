@@ -81,40 +81,31 @@ End;
 
 Procedure burbujaD(Var Directores:Archivo_Directores);
 //BURBUJA MEJORADO PARA ARCHIVOS
-
 Var 
-	L, i :   LongInt;
-	orden :   boolean;
-	RegA, RegB, RegAux :   Director;
-Begin
-i := 1;
+    L, i, j :   LongInt;
+    RegA, RegB, RegAux :   Director;
+begin
 AbrirD(Directores);
 L := FileSize(Directores);
-orden := false;
-	If (L > 2) then //Verifica el tamaño del archvio
-	Begin
-		While Not(orden) Do	//mientras no este ordenado 
-		Begin
-			orden := true;
-			For i := 0 To (L-1) Do // Ciclo de i y el adyascente
-			Begin
-				If Not eof(Directores) Then
-				Begin
-					LeerD(Directores,RegA,i); //Obtengo los parametros por los cuales quiero ordenar
-					LeerD(Directores,RegB,i+1);
-					If (RegB.APyNom > RegA.APyNom) Then
-					Begin
-						orden := false;
-						RegAux := RegB;
-						ModificarD(Directores,RegA,i+1);
-						ModificarD(Directores,RegAux,i);
-					End;
-				End;
-			End;
-		End;
-	End;
+	if (L>1) then;
+	begin
+		for j := 1 to (L-1) do
+		begin //mientras no este ordenado
+			for i := 0 to (L-j-1) do
+			begin //Ciclo de i y el adyascente
+			 LeerD (Directores, RegA, i); //Obtengo los parametros por los cuales quiero ordenar
+			 LeerD (Directores, RegB, i+1);
+				if (RegB.APyNom < RegA.APyNom) then
+				begin
+				 RegAux := RegB;
+				 ModificarD (Directores, RegAux, i);
+				 ModificarD (Directores, RegA, i+1);
+				end;
+			end;
+		end;
+	end;
 CerrarD(Directores);
-End;
+end;
 
 
 Procedure Buscar_Director(Var Directores:Archivo_Directores;  Var pos:int64; buscado:String;  Var Direct:Director);
@@ -145,8 +136,10 @@ Procedure Barrido_Dir(Var Directores:Archivo_Directores);
 
 Var 
 	Punt, Lim : int64;
-
+	y:integer;
 Begin
+	burbujaD(Directores);
+	y:=2;
 	AbrirD(Directores);
 	Lim := FileSize(Directores);
 	Punt := 0;
@@ -155,11 +148,14 @@ Begin
 			LeerD(Directores, Direct, Punt);
 				If (Direct.Activo = True) Then
 				Begin
+					Gotoxy(75,y);
 					Writeln(Direct.APyNom);
+					inc(y);
 				End;
 			Punt := (Punt+1);
 		End;
 	CerrarD(Directores);
+readkey;
 End;
 
 

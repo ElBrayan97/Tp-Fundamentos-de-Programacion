@@ -32,7 +32,7 @@ Procedure CerrarA(Var Artistas:Archivo_Artistas);
 
 //METODOS DE BUSQUEDA Y ORDENAMIENTO
 
-Procedure burbuja_mejoradoA(Var Artistas:Archivo_Artistas);
+Procedure burbujaA(Var Artistas:Archivo_Artistas);
 Procedure Buscar_Artista(Var Artistas:Archivo_Artistas; Var Pos:int64; Nombre:String; Var art:Artista);
 
 Procedure Secuencia_Artistas(Var Artistas:Archivo_Artistas; var Nombre:String; var Posicion:Int64);
@@ -87,35 +87,34 @@ End;
 {METODOS DE ORDENAMIENTO Y BUSQUEDA
 }
 
-Procedure burbuja_mejoradoA(Var Artistas:Archivo_Artistas);
+Procedure burbujaA(Var Artistas:Archivo_Artistas);
 //BURBUJA MEJORADO PARA ARCHIVOS
-
 Var 
     L, i, j :   LongInt;
     RegA, RegB, RegAux :   Artista;
+begin
+AbrirA(Artistas);
+L := FileSize(Artistas);
+	if (L>1) then;
+	begin
+		for j := 1 to (L-1) do
+		begin //mientras no este ordenado
+			for i := 0 to (L-j-1) do
+			begin //Ciclo de i y el adyascente
+			 LeerA (Artistas, RegA, i); //Obtengo los parametros por los cuales quiero ordenar
+			 LeerA (Artistas, RegB, i+1);
+				if (RegB.Nombre < RegA.Nombre) then
+				begin
+				 RegAux := RegB;
+				 ModificarA (Artistas, RegAux, i);
+				 ModificarA (Artistas, RegA, i+1);
+				end;
+			end;
+		end;
+	end;
+CerrarA(Artistas);
+end;
 
-Begin
-    AbrirA(Artistas);
-    L := FileSize(Artistas);
-    For j := 1 To (L-1) Do
-        Begin
-            //mientras no este ordenado
-            For i := 0 To (L-j-1) Do
-                Begin
-                    //Ciclo de i y el adyascente
-                    LeerA (Artistas, RegA, i);
-                    //Obtengo los parametros por los cuales quiero ordenar
-                    LeerA (Artistas, RegB, i+1);
-                    If RegB.Nombre < RegA.Nombre Then
-                        Begin
-                            RegAux := RegB;
-                            ModificarA (Artistas, RegAux, i);
-                            ModificarA (Artistas, RegA, i+1);
-                        End;
-                End;
-        End;
-    CerrarA(Artistas);
-End;
 
 Procedure Buscar_Artista(Var Artistas:Archivo_Artistas; Var pos:int64; Nombre:String; Var art:Artista);
 Var 
@@ -147,8 +146,10 @@ End;
 Procedure Barrido_Art(Var Artistas:Archivo_Artistas);
 Var 
     Punt, Lim : int64;
-
+	y:integer;
 Begin
+	burbujaA(Artistas);
+	y:=2;
     AbrirA(Artistas);
     Lim := FileSize(Artistas);
     Punt := 0;
@@ -157,11 +158,14 @@ Begin
             LeerA(Artistas, Artist, Punt);
 				If (Artist.Activo = True) Then
                 Begin
+					Gotoxy(25,y);
                     Writeln(Artist.Nombre);
+					inc(y);
                 End;
             inc(Punt);
         End;
     CerrarA(Artistas);
+readkey;
 End;
 
 
