@@ -1,4 +1,3 @@
-
 Unit MENU;
 
 Interface
@@ -39,7 +38,7 @@ Procedure MModificar_Director(Var Directores:Archivo_Directores);
 
 //Estadistica (algoritmos al final)
 {Procedure ProcesarArchivos(var ARCH_Obras:Archivo_Obras; var ARCH_Artistas:Archivo_Artistas); }// Comparar los artistas con las obras (1 artista := n obras)
-
+Procedure Segun_ObraMostrar(var Obras:Archivo_Obras);
 procedure Estadistica_Artistas_Obras(var ARCH_Artistas:Archivo_Artistas; var ARCH_Obras:Archivo_Obras);
 Procedure Atras(var ARCH_Artistas:Archivo_Artistas; var ARCH_Obras:Archivo_Obras; var PunteroArt:int64; var Lim:Int64);
 Procedure Adelante(var ARCH_Artistas:Archivo_Artistas; var ARCH_Obras:Archivo_Obras; var PunteroArt:int64; var Lim:Int64);
@@ -144,18 +143,19 @@ Opc := '0';
         Opc := Readkey;
 		Case (Opc) Of
 
-			'1':Begin // obras por autor
+			'1':Begin // Dado un Artista Mostrar sus Obras
 				 Segun_ArtistaMOSTRARObras(Obras, Artistas);
                 End;
 
-			'2':Begin // Cantidad de Obras por Artista
+			'2':Begin // Dado un Museo Mostrar Director y Lista de Obras
 				 Menu_Estadistica_ObrasxAutor();
 				 Estadistica_Artistas_Obras(Artistas, Obras);
                 End;
 
-			'3':Begin
-				 Writeln('nada por aki :V');
+			'3':Begin // Esto esta de adorno V:
+				 Segun_ObraMostrar(Obras);
 				 readkey;
+				 Clrscr;
                 End;
 
 			'4':Begin
@@ -1156,7 +1156,7 @@ Begin
                                        Readln(obr.Descripcion);
                                        Clrscr;
                                        ModificarO(Obras,obr,pos);
-
+									   Window (1,1,120,35);
 
 
 
@@ -1170,6 +1170,7 @@ Begin
                                        Readln(obr.Tipo);
                                        Clrscr;
                                        ModificarO(Obras,obr,pos);
+                                       Window (1,1,120,35);
                                    End;
                             '3':
                                    Begin
@@ -1178,7 +1179,8 @@ Begin
                                        Readln(obr.Material);
                                        Clrscr;
                                        ModificarO(Obras,obr,pos);
-                                   End;
+                                       Window (1,1,120,35);
+                                    End;
                             '4':
                                    Begin
                                        Writeln('Estilo: ');
@@ -1186,10 +1188,10 @@ Begin
                                        Readln(obr.Estilo);
                                        Clrscr;
                                        ModificarO(Obras,obr,pos);
+                                       Window (1,1,120,35);
                                    End;
                             '5':
                                    Begin
-
                                        Writeln('Altura: ');
                                        Gotoxy (70,17);
                                        Readln(N1);
@@ -1197,6 +1199,7 @@ Begin
                                        obr.Altura := Aux;
                                        Clrscr;
                                        ModificarO(Obras,obr,pos);
+                                       Window (1,1,120,35);
                                    End;
                             '6':
                                    Begin
@@ -1207,6 +1210,7 @@ Begin
                                        obr.Peso := Aux;
                                        Clrscr;
                                        ModificarO(Obras,obr,pos);
+                                       Window (1,1,120,35);
                                    End;
                             '7':
                                    Begin
@@ -1215,6 +1219,7 @@ Begin
                                        Readln(obr.Completo);
                                        Clrscr;
                                        ModificarO(Obras,obr,pos);
+                                       Window (1,1,120,35);
                                    End;
                             '8':
                                    Begin
@@ -1225,6 +1230,7 @@ Begin
                                        obr.Partes := Aux;
                                        Clrscr;
                                        ModificarO(Obras,obr,pos);
+                                       Window (1,1,120,35);
                                    End;
                             '9':
                                    Begin
@@ -1235,6 +1241,7 @@ Begin
                                        obr.Anio := Aux;
                                        Clrscr;
                                        ModificarO(Obras,obr,pos);
+                                       Window (1,1,120,35);
                                    End;
                             '10':
                                     Begin
@@ -1243,6 +1250,7 @@ Begin
                                         Readln(obr.Artista);
                                         Clrscr;
                                         ModificarO(Obras,obr,pos);
+                                        Window (1,1,120,35);
                                     End;
                             '11':
                                     Begin
@@ -1252,6 +1260,7 @@ Begin
                                         // Lectura del nombre del Museo
                                         Clrscr;
                                         ModificarO(Obras,obr,pos);
+                                        Window (1,1,120,35);
                                     End;
                             '12':
                                     Begin
@@ -1262,10 +1271,11 @@ Begin
                                         obr.Codigo_Obra := Aux;
                                         Clrscr;
                                         ModificarO(Obras,obr,pos);
+                                        Window (1,1,120,35);
                                     End;
                         End;
-                        Window(1,1,120,35);
                     Until (Opc='0') Or (Opc='00');
+                    Window (1,1,120,35);
                     Aviso_Carga_Exitosa();
                 End
             Else
@@ -1464,9 +1474,26 @@ count :=0;
 	Until (PunteroArt=Lim) or (count=25);
 End;
 
+Procedure Segun_ObraMostrar(var Obras:Archivo_Obras);
+var
+	busc:string;
+	pos:int64;
+
+Begin
+Menu_Estadistica_Dni_Artista(busc);
+Buscar_Obra_Nombre(Obras, pos, busc, Obr);
+Clrscr;
+Obra_Museo_Artista(); //hacer parte grafica!!!! para ayer
+TextColor(Blue);
+Gotoxy(10,2);
+writeln (Obr.Nombre); // Nombre de la Obra
+gotoxy(11,4);
+writeln (Obr.Nombre_Museo); // Nombre del Museo
+gotoxy(11,6);
+writeln (Obr.Artista); // Nombre del Artista
+End;
+
 { hay que borrar esto}
-
-
 {
 
 Procedure ProcesarArchivos(var ARCH_Obras:Archivo_Obras; var ARCH_Artistas:Archivo_Artistas);
@@ -1537,7 +1564,5 @@ PunteroArt:= 1;
 			End;
 		Until (Opc='3');
 	End;}
-	
-	
 Begin
 End.

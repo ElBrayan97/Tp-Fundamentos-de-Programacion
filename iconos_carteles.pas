@@ -69,7 +69,7 @@ Procedure Menu_Baja_Director_Inexistente();
 Procedure Menu_Estadistica_ObrasxAutor();
 Procedure Menu_Estadistica_Dni_Artista(Var busc:string);
 Procedure Menu_Estadistica_ObrasdelAutor(autor:string);
-
+Procedure Obra_Museo_Artista ();
 {Procedure Menu_Estadistica_Obra_Part2();
 
 
@@ -1515,6 +1515,27 @@ Begin
     Writeln ('             ');
     Delay(1000);
     Clrscr;
+End;
+
+Procedure Obra_Museo_Artista();
+
+Begin
+Gotoxy(1,1);
+Writeln('/////////////////////////////////////////////////////////////////////');
+Gotoxy(1,2);
+Writeln('// OBRA:                                                           //');
+Gotoxy(1,3);
+Writeln('/////////////////////////////////////////////////////////////////////');
+Gotoxy(1,4);
+Writeln('// MUSEO:                                                          //');
+Gotoxy(1,5);
+Writeln('/////////////////////////////////////////////////////////////////////');
+Gotoxy(1,6);
+Writeln('// AUTOR:                                                          //');
+Gotoxy(1,7);
+Writeln('/////////////////////////////////////////////////////////////////////');
+Writeln('         -> Presione Cualquier Tecla Para Volver al Menu <-          ');
+Gotoxy(1,9);
 End;
 
 Begin

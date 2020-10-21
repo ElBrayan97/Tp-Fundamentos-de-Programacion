@@ -148,8 +148,7 @@ Begin
 End;
 
 
-Procedure Buscar_Museo_Nombre(Var Museos:Archivo_Museos; Var pos:int64; Nombre:
-                              String; Var Mus:Museo);
+Procedure Buscar_Museo_Nombre(Var Museos:Archivo_Museos; Var pos:int64; Nombre:String; Var Mus:Museo);
 
 Var 
     posicion :   int64;
