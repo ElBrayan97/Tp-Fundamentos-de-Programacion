@@ -378,6 +378,7 @@ Begin
             GuardarA(Artistas,Artist);
             Aviso_Carga_Exitosa;
             CerrarA(Artistas);
+            burbujaA(Artistas);
         End
     Else
 	Begin
@@ -480,7 +481,6 @@ Begin
                     Aviso_Director_Inexistente;
                     MCargar_Director(Directores);
                 End;
-            Exit;
         End
     Else // aviso de museo existente
         Begin
@@ -1390,7 +1390,7 @@ Count := 0;
 		Gotoxy(x2,(y+count)); 
 		Writeln(Cant);
 		Inc(count);
-	Until (Lim=PunteroArt) or (count=26);
+	Until (Lim = PunteroArt) or (count = 6);
 
 	Repeat // La lista siguiente y anterior
 		pressed := readkey;

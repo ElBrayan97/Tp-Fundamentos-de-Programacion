@@ -1078,7 +1078,7 @@ Begin
     Gotoxy(33,11);
     Writeln ('//                                           |             //');
     Gotoxy(33,12);
-    Writeln ('//                                           |             //');
+    Writeln ('//             =========                     |             //');
     Gotoxy(33,13);
     Writeln ('//                                           |             //');
     Gotoxy(33,14);
