@@ -7,8 +7,8 @@ uses crt;
 
 Type 
     Obra =   Record
-        Nombre:   String;
-        Artista:   String;
+        Nombre:   String; //de la obra
+        Artista:   String; // nombre
         Anio:   Integer;
         Descripcion:   String;
         Tipo:   String;
@@ -47,8 +47,8 @@ Procedure Barrido_Obr(Var Obras:Archivo_Obras);
 
 Procedure Secuencia_Obras(var Obras:Archivo_Obras; Nombre:String; var Contador:Int64); //cuenta las obras de un artista
 
-{Procedure Buscar_Museo_en_Obras (var Obras:Archivo_Obras; buscado:String; var obr:Obra);
-}
+Procedure Buscar_Museo_en_Obras (var Obras:Archivo_Obras; buscado:String; var obr:Obra);
+
 Procedure Buscar_Artista_en_Obras(var Obras:Archivo_Obras; buscado:String ;var Obr:Obra; x:Byte; y:Byte);
 
 
@@ -187,27 +187,25 @@ Begin
 End;
 
 
-
-
-
-{
 Procedure Buscar_Museo_en_Obras(var Obras:Archivo_Obras; buscado:String;var Obr:Obra); // Con este procedure recorro el archivo, para mostrar las Obras que pertenecen a un determinado Museo.
 var 
  	posicion:integer;                                                                 //Solo muestra, no devuelve ninguna posicion o dato.
 
 begin
+AbrirO(Obras);
  posicion:=0;
  while (not eof ( Obras)) do
 	begin
 	 LeerO (Obras,Obr, posicion);
-	 if Obr.Nombre_Museo = buscado then
+	 if (Obr.Nombre_Museo = buscado) and (Obr.Activo =True) then
 		begin
-		 Writeln(Obr.Codigo_Obra);//Mostraria por ej enccontrado tal cosa...
+		 Writeln(Obr.Nombre); //Mostraria por ej enccontrado tal cosa...
 		end;
 	 inc(posicion)
 	end;	
+CerrarO(Obras);
 End;
-}
+
 
 Procedure Buscar_Artista_en_Obras(var Obras:Archivo_Obras; buscado:String ;var Obr:Obra; x:Byte; y:Byte); // Con este procedure recorro el archivo Obras, para mostrar los Obras que pertenecen a un determinado Artista.
 var 

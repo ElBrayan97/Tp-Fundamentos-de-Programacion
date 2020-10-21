@@ -38,7 +38,7 @@ Procedure MModificar_Director(Var Directores:Archivo_Directores);
 
 //Estadistica (algoritmos al final)
 {Procedure ProcesarArchivos(var ARCH_Obras:Archivo_Obras; var ARCH_Artistas:Archivo_Artistas); }// Comparar los artistas con las obras (1 artista := n obras)
-Procedure Segun_ObraMostrar(var Obras:Archivo_Obras);
+Procedure Segun_Obra_MuseoArtista(var Obras:Archivo_Obras);
 procedure Estadistica_Artistas_Obras(var ARCH_Artistas:Archivo_Artistas; var ARCH_Obras:Archivo_Obras);
 Procedure Atras(var ARCH_Artistas:Archivo_Artistas; var ARCH_Obras:Archivo_Obras; var PunteroArt:int64; var Lim:Int64);
 Procedure Adelante(var ARCH_Artistas:Archivo_Artistas; var ARCH_Obras:Archivo_Obras; var PunteroArt:int64; var Lim:Int64);
@@ -50,8 +50,8 @@ Procedure Segun_Obra_Mostrar_Artista_Museo (var Obras:Archivo_Obras);
 Procedure Segun_Museo_Mostrar_Director_Obras (var Museos:Archivo_Museos;Var Obras:Archivo_Obras);
 
 }
-Procedure Segun_ArtistaMOSTRARObras(var Obras:Archivo_Obras; var Artistas:Archivo_Artistas);
-
+Procedure Segun_ArtistaObras(var Obras:Archivo_Obras; var Artistas:Archivo_Artistas);
+Procedure Segun_Museo_DirectorObras(var Museos:Archivo_Museos; var Obras:Archivo_Obras);
 ///////////////////////////////////////
 
 Implementation
@@ -144,21 +144,20 @@ Opc := '0';
 		Case (Opc) Of
 
 			'1':Begin // Dado un Artista Mostrar sus Obras
-				 Segun_ArtistaMOSTRARObras(Obras, Artistas);
-                End;
-
-			'2':Begin // Dado un Museo Mostrar Director y Lista de Obras
-				 Menu_Estadistica_ObrasxAutor();
-				 Estadistica_Artistas_Obras(Artistas, Obras);
-                End;
-
-			'3':Begin // Esto esta de adorno V:
-				 Segun_ObraMostrar(Obras);
+				 Segun_Obra_MuseoArtista(Obras); // Caracteristica 1
 				 readkey;
 				 Clrscr;
                 End;
 
-			'4':Begin
+			'2':Begin // Dado un Museo Mostrar Director y Lista de Obras
+				 Segun_Museo_DirectorObras(Museos,Obras); //Caracteristica 2
+                End;
+
+			'3':Begin // Esto esta de adorno V:
+				 Segun_ArtistaObras(Obras, Artistas); // Caracteristica 3
+                End;
+
+			'4':Begin // BARRIDO DE PRUEBAS (OCULTO EN EL MENU) Caracterisitica Oculta
 				 clrscr;
 				 TextColor(Red);
 				 Writeln('Barrido Obras');
@@ -1312,34 +1311,36 @@ CerrarO(Obras);
 End;
 
 
-Procedure Segun_Museo_Mostrar_Director_Obras(var Museos:Archivo_Museos;Var Obras:Archivo_Obras);
+Procedure Segun_Museo_DirectorObras(var Museos:Archivo_Museos;Var Obras:Archivo_Obras);
 var
-    Buscado:Integer;
-    pos:Integer;
-    Mus:Museo;//El Record se llama Museo y el Archivo Museos,
-    obr:Obra;
+    Buscado:String; //Museo a Buscar
+    pos:Int64; //puntero
+    Mus:Museo; //Registro de Msuseo
+    obr:Obra; //Registro de Obras
 
 Begin
     pos:=-1;
-    Writeln('Ingrese el Codigo del Museo: ');
+    Writeln('Ingrese el Nombre del Museo: '); //ARMAR GRAPH (CUADRO DE BUSQUEDA)
     readln(Buscado);
-    AbrirM(Museos);
-    Buscar_Museo(Museos,pos,Buscado,Mus);
-    if pos<>-1 then //con la posicion -1 digo que el Museo Existe
+    Buscar_Museo_Nombre(Museos,pos,Buscado,Mus);
+    Writeln(pos);
+    readkey;
+    if (pos<>-1) then //con la posicion -1 digo que el Museo Existe
     Begin
         LeerM(Museos,Mus,pos);
-        Writeln('El Director del Museo',Buscado,' es:',Mus.Director);
-        AbrirO (Obras);
+        Menu_Museo_DirectorObras(); //parte grafica
+        Writeln('El Director del Museo ',Buscado,' es:',Mus.Name_Director);
         Writeln('Las Obras del Museo son:');
         Buscar_Museo_en_Obras(Obras,Buscado,obr);
-    End;
-CerrarM(Museos);
-CerrarO(Obras);
+    End
+    Else
+		Begin
+		 Writeln ('El museo buscado no existe');
+		 Readkey;
+		End;
 End;
-
 }
-
-Procedure Segun_ArtistaMOSTRARObras(var Obras:Archivo_Obras; var Artistas:Archivo_Artistas);
+Procedure Segun_ArtistaObras(var Obras:Archivo_Obras; var Artistas:Archivo_Artistas);
 var
     artist :Artista;
     Obr :Obra;
@@ -1360,8 +1361,7 @@ If (pos <> -1) then //si el artista existe
     End
     Else // si el artista no existe
         Begin
-         Menu_Baja_Artista_Inexistente(); // Notifica que el artista buscado no existe {hay que modificarlo, no pega ni con la gotita xD}
-         readkey;
+         Menu_Obra_Inexistente(); // Notifica que el artista buscado no existe {hay que modificarlo, no pega ni con la gotita xD}
         End;
 End;
 
@@ -1468,29 +1468,64 @@ count :=0;
 		// Impresion en menu
 		Gotoxy(x,(y+count));
 		Writeln(Artista);
-		Gotoxy(x2,(y+count)); 
+		Gotoxy(x2,(y+count));
 		Writeln(Cant);
 		Inc(count);
 	Until (PunteroArt=Lim) or (count=25);
 End;
 
-Procedure Segun_ObraMostrar(var Obras:Archivo_Obras);
+Procedure Segun_Museo_DirectorObras(var Museos:Archivo_Museos; var Obras:Archivo_Obras);
+var
+	Mus: Museo;
+    Obr :Obra;
+    busc :String;
+    pos :int64;
+
+Begin
+Menu_Estadistica_Dni_Artista(busc); //parte grafica
+Buscar_Museo_Nombre(Museos, pos, busc, Mus);
+If (pos <> -1) then //si el artista existe
+    Begin
+     Clrscr;
+     textcolor(green);
+     Writeln('El director del museo ',busc,' es: ', Mus.Name_Director);
+     Buscar_Museo_en_Obras(Obras, busc, Obr); //busca en el archivo las obras del artista {busc}
+     readkey;
+     clrscr;
+    End
+    Else // si el artista no existe
+        Begin
+         Menu_Obra_Inexistente(); // Notifica que el artista buscado no existe {hay que modificarlo, no pega ni con la gotita xD}
+		 readkey;
+        End;
+End;
+
+Procedure Segun_Obra_MuseoArtista(var Obras:Archivo_Obras);
 var
 	busc:string;
 	pos:int64;
 
 Begin
+pos:=-1;
 Menu_Estadistica_Dni_Artista(busc);
 Buscar_Obra_Nombre(Obras, pos, busc, Obr);
-Clrscr;
-Obra_Museo_Artista(); //hacer parte grafica!!!! para ayer
-TextColor(Blue);
-Gotoxy(10,2);
-writeln (Obr.Nombre); // Nombre de la Obra
-gotoxy(11,4);
-writeln (Obr.Nombre_Museo); // Nombre del Museo
-gotoxy(11,6);
-writeln (Obr.Artista); // Nombre del Artista
+	If (pos=-1) then
+	Begin
+		Menu_Obra_Inexistente();
+	End
+	Else
+		Begin
+	 	Clrscr;
+		Obra_Museo_Artista(); //hacer parte grafica!!!! para ayer
+		TextColor(Blue);
+		Gotoxy(10,2);
+		writeln (Obr.Nombre); // Nombre de la Obra
+		gotoxy(11,4);
+		writeln (Obr.Nombre_Museo); // Nombre del Museo
+		gotoxy(11,6);
+		writeln (Obr.Artista); // Nombre del Artista
+		Gotoxy(60,10);
+		End;
 End;
 
 { hay que borrar esto}

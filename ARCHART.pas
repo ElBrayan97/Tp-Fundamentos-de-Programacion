@@ -168,7 +168,6 @@ Begin
 readkey;
 End;
 
-
 Procedure Secuencia_Artistas(Var Artistas:Archivo_Artistas; var Nombre:String; var Posicion:Int64);
 Begin
 	AbrirA(Artistas);
@@ -176,6 +175,7 @@ Begin
 	Nombre := (Artist.Nombre);
 	CerrarA(Artistas);
 	inc(Posicion);
+
 End;
 
 

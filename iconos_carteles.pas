@@ -70,8 +70,9 @@ Procedure Menu_Estadistica_ObrasxAutor();
 Procedure Menu_Estadistica_Dni_Artista(Var busc:string);
 Procedure Menu_Estadistica_ObrasdelAutor(autor:string);
 Procedure Obra_Museo_Artista ();
+Procedure Menu_Obra_Inexistente();
+Procedure Menu_Museo_DirectorObras();
 {Procedure Menu_Estadistica_Obra_Part2();
-
 
 //ARTISTA
 Procedure Menu_Estadistica_Artista_Part1();
@@ -223,14 +224,13 @@ Begin
     Writeln ('|============================\\');
     //Y = (1 A 16)
     Writeln ('|                            \\');
-    Writeln ('|   1: OBRAS                 \\');
+    Writeln ('| 1: OBRA: MUSEO Y ARTISTA   \\');
     Writeln ('|                            \\');
-    Writeln ('|   2: MUSEO Y SUS OBRAS     \\');
+    Writeln ('| 2: MUSEO: DIRECTOR Y OBRAS \\');
     Writeln ('|                            \\');
-    Writeln ('|   3: MOSTRAR TODAS LAS     \\');
-    Writeln ('|   ESTADISTICAS DISPONIBLES \\');
+    Writeln ('| 3: ARTISTA Y SUS OBRAS     \\');
     Writeln ('|                            \\');
-    Writeln ('|   0: ATRAS                 \\');
+    Writeln ('| 0: ATRAS                   \\');
     Writeln ('|  __________________________\\');
     Writeln ('| /');
     Writeln ('| \');
@@ -244,11 +244,11 @@ Begin
     busc := '';
     Textcolor(blue);
     Gotoxy (34,4);
-    Writeln ('/////////////////////////////////////////////////////////////////////');
+    Writeln ('/////////////////////////////////////////////////////////////////////////////////////');
     Gotoxy (34,5);
-    Writeln ('//Ingrese el Nombre del Artista para ver sus obras:                //');
+    Writeln ('//Ingrese el Nombre del Artista para ver sus obras:                                //');
     Gotoxy (34,6);
-    Writeln ('/////////////////////////////////////////////////////////////////////');
+    Writeln ('/////////////////////////////////////////////////////////////////////////////////////');
     textcolor(green);
     Gotoxy (86,5);
     Readln(busc);
@@ -1197,6 +1197,60 @@ Begin
     Textcolor(green);
     Gotoxy(53,2); Writeln(autor);
 End;
+
+Procedure Menu_Museo_DirectorObras();
+Begin
+    TextColor(Blue);
+    Gotoxy(33,1);
+    Writeln ('/////////////////////////////////////////////////////////////');
+    Gotoxy(33,2);
+    Writeln ('// MUSEO:                                                  //');
+    Gotoxy(33,3);
+    Writeln ('//=========================================================//');
+    Gotoxy(33,4);
+    Writeln ('// DIRECTOR:                                               //');
+    Gotoxy(33,5);
+    Writeln ('//=========================================================//');
+    Gotoxy(33,6);
+    Writeln ('//                                                         //');
+    Gotoxy(33,7);
+    Writeln ('//                                                         //');
+    Gotoxy(33,8);
+    Writeln ('//                                                         //');
+    Gotoxy(33,9);
+    Writeln ('//                                                         //');
+    Gotoxy(33,10);
+    Writeln ('//                                                         //');
+    Gotoxy(33,11);
+    Writeln ('//                                                         //');
+    Gotoxy(33,12);
+    Writeln ('//                                                         //');
+    Gotoxy(33,13);
+    Writeln ('//                                                         //');
+    Gotoxy(33,23);
+    Writeln ('//                                                         //');
+    Gotoxy(33,24);
+    Writeln ('//                                                         //');
+    Gotoxy(33,25);
+    Writeln ('//                                                         //');
+    Gotoxy(33,26);
+    Writeln ('//                                                         //');
+    Gotoxy(33,27);
+    Writeln ('//                                                         //');
+    Gotoxy(33,28);
+    Writeln ('//                                                         //');
+    Gotoxy(33,29);
+    Writeln ('//                                                         //');
+    Gotoxy(33,30);
+    Writeln ('//                                                         //');
+    Gotoxy(33,31);
+    Writeln ('//                                                         //');
+    Gotoxy(33,32);
+    Writeln ('/////////////////////////////////////////////////////////////');
+    Gotoxy(34,33);
+    Writeln (' 1-Pagina Anterior   0-Volver al Menu   2-Pagina Siguiente');
+    Textcolor(green);
+End;
 {Procedure Menu_Estadistica_Obra_Part2();
 Begin
 
@@ -1535,7 +1589,29 @@ Writeln('// AUTOR:                                                          //')
 Gotoxy(1,7);
 Writeln('/////////////////////////////////////////////////////////////////////');
 Writeln('         -> Presione Cualquier Tecla Para Volver al Menu <-          ');
-Gotoxy(1,9);
+End;
+
+Procedure Menu_Obra_Inexistente();
+Begin
+    TextColor (Red);
+    Gotoxy (32,3);
+    Writeln        ('/////////////////////////////////////////////////////////////////////////////////////////');
+    Gotoxy (32,4);
+    Writeln        ('//');
+    Gotoxy (32,5);
+    Writeln        ('//');
+    Gotoxy (32,6);
+    Writeln        ('//');
+    Gotoxy (32,7);
+    Writeln        ('/////////////////////////////////////////////////////////////////////////////////////////');
+
+
+	Gotoxy(119,4);
+	Writeln('//');
+	Gotoxy(119,5);
+	Writeln('//');
+	Gotoxy(119,6);
+    Writeln('//');
 End;
 
 Begin

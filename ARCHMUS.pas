@@ -1,4 +1,3 @@
-
 Unit ARCHMUS;
 
 Interface
@@ -156,9 +155,8 @@ Var
 Begin
     posicion := 0;
     pos := -1;
-    AbrirM(Museos);
-    // Apertura del Archivo de Museos
-    While (Not eof (Museos)) And (pos = -1) Do
+    AbrirM(Museos); // Apertura del Archivo de Museos
+    While (Not eof(Museos)) And (pos = -1) Do
         Begin
             LeerM(Museos, Mus, posicion);
             If (Mus.Nombre = Nombre)Then
@@ -167,8 +165,7 @@ Begin
                 End;
             inc(posicion);
         End;
-    CerrarM(Museos);
-    // Cierre del Archivo de Museos
+    CerrarM(Museos); // Cierre del Archivo de Museos
 End;
 
 {METODOS PARA PRUEBAS
