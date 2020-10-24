@@ -165,7 +165,6 @@ Begin
             inc(Punt);
         End;
     CerrarA(Artistas);
-readkey;
 End;
 
 Procedure Secuencia_Artistas(Var Artistas:Archivo_Artistas; var Nombre:String; var Posicion:Int64);

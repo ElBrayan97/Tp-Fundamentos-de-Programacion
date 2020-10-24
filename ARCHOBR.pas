@@ -50,7 +50,7 @@ Procedure Secuencia_Obras(var Obras:Archivo_Obras; Nombre:String; var Contador:I
 Procedure Buscar_Museo_en_Obras (var Obras:Archivo_Obras; buscado:String; var obr:Obra);
 
 Procedure Buscar_Artista_en_Obras(var Obras:Archivo_Obras; buscado:String ;var Obr:Obra; x:Byte; y:Byte);
-
+Procedure Buscar_Artista_Modificar(var Obras:Archivo_Obras; var Obr:Obra; buscado:String; reemplazo:String);
 
 Implementation
 //Parte Privada
@@ -142,7 +142,6 @@ Begin
          inc(Punt);
         End;
     CerrarO(Obras);
-readkey;
 End;
 
 
@@ -206,8 +205,33 @@ AbrirO(Obras);
 CerrarO(Obras);
 End;
 
+Procedure Buscar_Artista_Modificar(var Obras:Archivo_Obras; var Obr:Obra; buscado:String; reemplazo:String);
+{
+Esta funcion busca por nombre de artista en el archivo de obras y
+cuando lo encuentra, lo reemplaza x el nuevo nombre}
+var 
+	posicion: Int64;
 
-Procedure Buscar_Artista_en_Obras(var Obras:Archivo_Obras; buscado:String ;var Obr:Obra; x:Byte; y:Byte); // Con este procedure recorro el archivo Obras, para mostrar los Obras que pertenecen a un determinado Artista.
+begin
+ AbrirO(Obras);
+ posicion:=0; //puntero
+ while not eof (Obras) do // controla si se llego al final del archivo
+	begin
+	 LeerO(Obras, Obr, posicion);
+	 if (Obr.Artista = buscado) then // controla la existencia del artista
+		begin
+		 Obr.Artista := reemplazo;
+		 ModificarO(Obras,Obr,posicion)
+		end;
+	 inc(posicion); // puntero del archivo
+	end;
+CerrarO(Obras);
+end;
+
+Procedure Buscar_Artista_en_Obras(var Obras:Archivo_Obras; buscado:String ;var Obr:Obra; x:Byte; y:Byte);
+{
+Con este procedure recorro el archivo Obras, para mostrar los Obras que pertenecen a un determinado Artista.
+}
 var 
 	posicion: Int64;
 

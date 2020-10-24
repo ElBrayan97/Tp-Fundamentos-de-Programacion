@@ -155,7 +155,6 @@ Begin
 			Punt := (Punt+1);
 		End;
 	CerrarD(Directores);
-readkey;
 End;
 
 

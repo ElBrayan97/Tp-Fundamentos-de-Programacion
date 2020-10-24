@@ -194,7 +194,6 @@ Begin
             Punt := (Punt+1);
         End;
     CerrarM(Museos);
-readkey;
 End;
 
 

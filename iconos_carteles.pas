@@ -528,7 +528,7 @@ Begin
     Gotoxy(70,6);
     Writeln ('\\-> 3- Material   |-> 11- Nombre Museo\\');
     Gotoxy(70,7);
-    Writeln ('\\-> 4- Estilo     |-> 12- Codigo Obra \\');
+    Writeln ('\\-> 4- Estilo     |-> 12- Nombre Obra \\');
     Gotoxy(70,8);
     Writeln ('\\-> 5- Altura     |                   \\');
     Gotoxy(70,9);
