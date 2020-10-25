@@ -27,7 +27,7 @@ Procedure MCargar_Director (Var Directores:Archivo_Directores);
 //Modificar (verificar que los carteles y marcos no se superponen)
 Procedure MModificar_Obra(Var Obras:Archivo_Obras;  var Museos:Archivo_Museos; var Artistas:Archivo_Artistas; var Directores:Archivo_Directores);
 Procedure MModificar_Artista(Var Artistas:Archivo_Artistas; var Obras:Archivo_Obras);
-Procedure MModificar_Museo(Var Museos:Archivo_Museos);
+Procedure MModificar_Museo(Var Museos:Archivo_Museos; var Obras:Archivo_Obras );
 Procedure MModificar_Director(Var Directores:Archivo_Directores);
 
 //Baja (todas funcionan)
@@ -105,7 +105,7 @@ Begin
 		Case (Opc) Of
 			 '1':   MModificar_Obra (Obras, Museos, Artistas, Directores);
 			 '2':   MModificar_Artista (Artistas,Obras);
-			 '3':   MModificar_Museo (Museos);
+			 '3':   MModificar_Museo (Museos,Obras);
 			 '4':   MModificar_Director (Directores);
 			 '0':   clrscr;
 			End;
@@ -805,8 +805,6 @@ Begin
 
                             '2':
                                 Begin
-									{si cambio el nombre del artista tengo que buscar todas las obras que tengan este 
-									artista y cambiar la variable del nombre del artista por el nuevo nombre!}
 									Gotoxy (3,14);
 									Writeln ('Nombre: ');
 									Gotoxy (11,14);
@@ -853,23 +851,23 @@ Begin
         End;
 End;
 
-Procedure MModificar_Museo(Var Museos:Archivo_Museos);
+Procedure MModificar_Museo(Var Museos:Archivo_Museos; var Obras:Archivo_Obras );
 
-Var
+Var 
+	Mus :   Museo; {registro}
+    Obr :   Obra; {registro}
     Pos :   int64;
-    mus :   Museo;
     Opc :   char;
-    Bus :   String;
+    Bus, reemplazo :   String;
 
 Begin
     Menu_Editar_Museo_Part1(Bus);
-    // modificar cartel para capturar el dato (ya)
     TextColor(Green);
-    Buscar_Museo_Nombre (Museos, Pos, Bus, mus);
+    Buscar_Museo_Nombre (Museos, Pos, Bus, Mus);
     If (Pos <> -1) Then
         Begin
             AbrirM(Museos);
-            LeerM(Museos, mus, Pos);
+            LeerM(Museos, Mus, Pos);
             If (mus.Activo <> false) Then
                 Begin
                     Dato_Encontrado_Museo;
@@ -896,9 +894,9 @@ Begin
                             '1':
 								Begin
 									Cuadro_Edicion_Museo();
-									Writeln('Nombre del Director del Museo: ',mus.Name_Director);
-									Readln(mus.Name_Director);
-									ModificarM(Museos,mus,pos);
+									Writeln('Nombre del Director del Museo: ');
+									Readln(Mus.Name_Director);
+									ModificarM(Museos,Mus,pos);
 									Window(1,19,76,23);
 									Clrscr;
 									Window(1,1,120,80);
@@ -907,9 +905,11 @@ Begin
                             '2':
 							    Begin
 									Cuadro_Edicion_Museo();
-									Writeln('Nombre del Museo: ', mus.Nombre);
-									Readln(mus.Nombre);
-									ModificarM(Museos,mus,pos);
+									Writeln('Nombre del Museo: ');
+									Readln(reemplazo);
+									Buscar_Museo_Modificar(Obras,Obr,Mus.Nombre,reemplazo); {si el nombre del museo se modifica esto asegura q se modifique tambien en el archivo de las obras que esten en ese museo}
+									Mus.Nombre:=reemplazo;
+									ModificarM(Museos,Mus,pos);
 									Window(1,19,76,23);
 									Clrscr;
 									Window(1,1,120,80);
@@ -918,7 +918,7 @@ Begin
                             '3':
 							    Begin
 									Cuadro_Edicion_Museo();
-									Writeln('Telefono del Museo: ', mus.Telefono);
+									Writeln('Telefono del Museo: ');
 									Readln(mus.Telefono);
 									ModificarM(Museos,mus,pos);
 									Window(1,19,76,23);
@@ -929,7 +929,7 @@ Begin
                             '4':
 								Begin
 									Cuadro_Edicion_Museo();
-									Writeln('Direccion del Museo: ', mus.Calle);
+									Writeln('Direccion del Museo: ');
 									Readln(mus.Calle);
 									ModificarM(Museos,mus,pos);
 									Window(1,19,76,23);
@@ -940,7 +940,7 @@ Begin
                             '5':
 								Begin
 									Cuadro_Edicion_Museo();
-									Writeln('Pais en el que se encuentra el Museo: ', mus.Pais);
+									Writeln('Pais en el que se encuentra el Museo: ');
 									Readln(mus.Pais);
 									ModificarM(Museos,mus,pos);
 									Window(1,19,76,23);
@@ -951,7 +951,7 @@ Begin
                             '6':
 								Begin
 									Cuadro_Edicion_Museo();
-									Writeln('Ciudad en la que se encuentra el Museo: ', mus.Ciudad);
+									Writeln('Ciudad en la que se encuentra el Museo: ');
 									Readln(mus.Ciudad);
 									ModificarM(Museos,mus,pos);
 									Window(1,19,76,23);
@@ -965,8 +965,8 @@ Begin
             Else
 				begin
 					Aviso_Dato_Inexistente();
-					CerrarM(Museos);
 				end;
+			CerrarM(Museos);
         End
     Else
         Begin
@@ -1084,18 +1084,18 @@ End;
 Procedure MModificar_Obra(Var Obras:Archivo_Obras;  var Museos:Archivo_Museos; var Artistas:Archivo_Artistas; var Directores:Archivo_Directores);
 
 Var
-    obr :   Obra;
+    Obr :   Obra;
     Pos, posaux, Aux :   int64;
     Opc, N1, Bus :   String; //Variable de opciones y variable para verificacion de string/integer
 
 Begin
     Menu_Editar_Obra_Part1(Bus); // modificar para capturar el dato (ya)
-    Buscar_Obra_Nombre(Obras, Pos, Bus, obr); //Obras (el archivo) pos(posicion del registro de la obra en el archivo) Bus(codigo de la obra que se busca) obr(registro de la obra buscada)
+    Buscar_Obra_Nombre(Obras, Pos, Bus, Obr); //Obras (el archivo) pos(posicion del registro de la obra en el archivo) Bus(codigo de la obra que se busca) obr(registro de la obra buscada)
     If (Pos <> -1) Then
         Begin
             AbrirO(Obras);
-            LeerO(Obras, obr, Pos); //Obras(el archivo) registro(del archivo) y posicion del registro en el archivo
-            If (obr.Activo <> false) Then
+            LeerO(Obras, Obr, Pos);
+            If (Obr.Activo <> false) Then
                 Begin
                     Dato_Encontrado_Obra;
                     Repeat
@@ -1276,7 +1276,7 @@ Begin
                 End
             Else
                 Aviso_Dato_Inexistente();
-            CerrarO(Obras);
+         CerrarO(Obras);
         End   
     Else
         Begin

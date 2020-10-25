@@ -28,8 +28,10 @@ Procedure burbujaM (Var Museos:Archivo_Museos);
 Procedure Buscar_Museo_Codigo (Var Museos:Archivo_Museos; Var pos:int64; codigo_buscado:int64; Var Mus:Museo);
 Procedure Buscar_Museo_Nombre (Var Museos:Archivo_Museos; Var pos:int64; Nombre:String; Var Mus:Museo);
 
-//METODO DE PRUEBAS
+//METODOS DE ANALISIS
 Procedure Barrido_Mus(Var Museos:Archivo_Museos);
+Procedure Buscar_Museo_Modificar(var Museos:Archivo_Museos; var Mus:Museo; buscado:String; reemplazo:String);
+
 
 Implementation
 //Parte Privada
@@ -196,6 +198,28 @@ Begin
     CerrarM(Museos);
 End;
 
+Procedure Buscar_Museo_Modificar(var Museos:Archivo_Museos; var Mus:Museo; buscado:String; reemplazo:String);
+{
+Esta funcion busca por nombre en el archivo y
+cuando lo encuentra, lo reemplaza x el nombre nuevo}
+var 
+	posicion: Int64;
+
+begin
+ AbrirM(Museos);
+ posicion:=0; //puntero
+ while not eof (Museos) do // controla si se llego al final del archivo
+	begin
+	 LeerM(Museos, Mus, posicion);
+	 if (Mus.Name_Director = buscado) then // controla la existencia del artista
+		begin
+		 Mus.Name_Director := reemplazo;
+		 ModificarM(Museos, Mus, posicion)
+		end;
+	 inc(posicion); // puntero del archivo
+	end;
+CerrarM(Museos);
+end;
 
 Begin
 End.

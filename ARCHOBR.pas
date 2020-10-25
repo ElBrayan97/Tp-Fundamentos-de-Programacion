@@ -30,7 +30,7 @@ Var
     Obr:   Obra;
     Posicion:   Integer;
 
-    //METODOS DE APERTURA, LECTURA, MODIFICACION, GUARDADO Y CIERRE
+//METODOS DE APERTURA, LECTURA, MODIFICACION, GUARDADO Y CIERRE
 Procedure AbrirO (Var Obras:Archivo_Obras);
 Procedure LeerO (Var Obras:Archivo_Obras;Var Obr:Obra; Posicion:Integer);
 Procedure ModificarO (Var Obras:Archivo_Obras; Var Obr:Obra; Posicion:Integer);
@@ -40,18 +40,15 @@ Procedure CerrarO (Var Obras:Archivo_Obras);
 //METODOS DE BUSQUEDA Y ORDENAMIENTO
 Procedure burbujaO (Var Obras:Archivo_Obras);
 Procedure Buscar_Obra_Codigo (Var Obras:Archivo_Obras;Var pos:int64; Code:int64; Var obr:Obra);
-//el archivo solo va desde var hasta_obra
 Procedure Buscar_Obra_Nombre (Var Obras:Archivo_Obras;Var pos:int64; Name:String; Var obr:Obra);
-//METODO PARA PRUEBAS
+
+//METODOS DE ANALISIS
 Procedure Barrido_Obr(Var Obras:Archivo_Obras);
-
-Procedure Secuencia_Obras(var Obras:Archivo_Obras; Nombre:String; var Contador:Int64); //cuenta las obras de un artista
-
-Procedure Buscar_Museo_en_Obras (var Obras:Archivo_Obras; buscado:String; var obr:Obra);
-
-Procedure Buscar_Artista_en_Obras(var Obras:Archivo_Obras; buscado:String ;var Obr:Obra; x:Byte; y:Byte);
-Procedure Buscar_Artista_Modificar(var Obras:Archivo_Obras; var Obr:Obra; buscado:String; reemplazo:String);
-
+Procedure Secuencia_Obras(var Obras:Archivo_Obras; Nombre:String; var Contador:Int64); //cuenta las obras de un artista (ya no es necesario)
+Procedure Buscar_Museo_en_Obras (var Obras:Archivo_Obras; buscado:String; var obr:Obra); //Busca un Museo en el archivo Obras
+Procedure Buscar_Artista_en_Obras(var Obras:Archivo_Obras; buscado:String ;var Obr:Obra; x:Byte; y:Byte); // Busca un Artista en el Archivo Obras
+Procedure Buscar_Artista_Modificar(var Obras:Archivo_Obras; var Obr:Obra; buscado:String; reemplazo:String); // Busca un Artista en el Archivo Obras y lo modifica
+Procedure Buscar_Museo_Modificar(var Obras:Archivo_Obras; var Obr:Obra; buscado:String; reemplazo:String); // Busca un museo en el Archivo Obras y lo modifica
 Implementation
 //Parte Privada
 
@@ -68,11 +65,13 @@ Begin
         End;
 End;
 
+
 Procedure ModificarO(Var Obras:Archivo_Obras; Var Obr:Obra; Posicion:Integer);
 Begin
     Seek(Obras,Posicion);
     Write(Obras,Obr);
 End;
+
 
 Procedure LeerO(Var Obras:Archivo_Obras;Var Obr:Obra; Posicion:Integer);
 Begin
@@ -80,17 +79,24 @@ Begin
     Read(Obras,Obr);
 End;
 
+
 Procedure GuardarO(Var Obras:Archivo_Obras; Var Obr:Obra);
 Begin
     Seek(Obras,Filesize(Obras));
     Write(Obras,Obr);
 End;
 
+
 Procedure CerrarO(Var Obras:Archivo_Obras);
 Begin
     Close(Obras);
 End;
 
+
+
+
+
+{ORDENAMIENTO Y BUSQUEDA}
 
 Procedure burbujaO(Var Obras:Archivo_Obras);
 //BURBUJA MEJORADO PARA ARCHIVOS
@@ -120,6 +126,55 @@ L := FileSize(Obras);
 CerrarO(Obras);
 end;
 
+
+Procedure Buscar_Obra_Codigo (Var Obras:Archivo_Obras; Var pos:int64; Code:int64; Var Obr:Obra); // busqueda para saber si el codigo asignado ya esta en uso
+Var 
+    posicion:   integer;
+
+Begin
+    AbrirO(Obras);
+    posicion := 0;
+    pos := -1;
+    While (Not eof ( Obras)) And (pos=-1) Do
+        Begin
+            LeerO (Obras,Obr, posicion);
+            If (Obr.Codigo_Obra = Code) Then
+                Begin
+                    pos := posicion
+                End;
+            inc(posicion);
+        End;
+    CerrarO(Obras);
+End;
+
+
+Procedure Buscar_Obra_Nombre (Var Obras:Archivo_Obras; Var pos:int64; Name:String; Var Obr:Obra); // busqueda de obra por nombre
+Var 
+    posicion:   integer;
+
+Begin
+    AbrirO(Obras);
+    posicion := 0;
+    pos := -1;
+    While (Not eof ( Obras)) And (pos=-1) Do
+        Begin
+            LeerO (Obras, Obr, posicion);
+            If (Obr.Nombre = Name) Then
+                Begin
+                    pos := posicion
+                End;
+            inc(posicion)
+        End;
+    CerrarO(Obras);
+End;
+
+
+
+
+
+
+{ANALISIS}
+
 Procedure Barrido_Obr(Var Obras:Archivo_Obras);
 
 Var 
@@ -145,42 +200,23 @@ Begin
 End;
 
 
-Procedure Buscar_Obra_Codigo (Var Obras:Archivo_Obras; Var pos:int64; Code:int64; Var Obr:Obra); // busqueda para saber si el codigo asignado ya esta en uso
-Var 
-    posicion:   integer;
+Procedure Secuencia_Obras(var Obras:Archivo_Obras; Nombre:String; var Contador:Int64);
+var
+	Lim, pos: int64;
 
 Begin
+	Contador := 0;
     AbrirO(Obras);
-    posicion := 0;
-    pos := -1;
-    While (Not eof ( Obras)) And (pos=-1) Do
+    Lim := FileSize(Obras);
+    pos := 0;
+		While (Not eof (Obras)) And (pos <> Lim) Do
         Begin
-            LeerO (Obras,Obr, posicion);
-            If (Obr.Codigo_Obra = Code) Then
+            LeerO(Obras, Obr, pos);
+				If (Obr.Artista = Nombre) Then
                 Begin
-                    pos := posicion
+                    Inc(Contador);
                 End;
-            inc(posicion);
-        End;
-    CerrarO(Obras);
-End;
-
-Procedure Buscar_Obra_Nombre (Var Obras:Archivo_Obras; Var pos:int64; Name:String; Var Obr:Obra); // busqueda de obra por nombre
-Var 
-    posicion:   integer;
-
-Begin
-    AbrirO(Obras);
-    posicion := 0;
-    pos := -1;
-    While (Not eof ( Obras)) And (pos=-1) Do
-        Begin
-            LeerO (Obras, Obr, posicion);
-            If (Obr.Nombre = Name) Then
-                Begin
-                    pos := posicion
-                End;
-            inc(posicion)
+         inc(pos);
         End;
     CerrarO(Obras);
 End;
@@ -205,28 +241,6 @@ AbrirO(Obras);
 CerrarO(Obras);
 End;
 
-Procedure Buscar_Artista_Modificar(var Obras:Archivo_Obras; var Obr:Obra; buscado:String; reemplazo:String);
-{
-Esta funcion busca por nombre de artista en el archivo de obras y
-cuando lo encuentra, lo reemplaza x el nuevo nombre}
-var 
-	posicion: Int64;
-
-begin
- AbrirO(Obras);
- posicion:=0; //puntero
- while not eof (Obras) do // controla si se llego al final del archivo
-	begin
-	 LeerO(Obras, Obr, posicion);
-	 if (Obr.Artista = buscado) then // controla la existencia del artista
-		begin
-		 Obr.Artista := reemplazo;
-		 ModificarO(Obras,Obr,posicion)
-		end;
-	 inc(posicion); // puntero del archivo
-	end;
-CerrarO(Obras);
-end;
 
 Procedure Buscar_Artista_en_Obras(var Obras:Archivo_Obras; buscado:String ;var Obr:Obra; x:Byte; y:Byte);
 {
@@ -259,26 +273,52 @@ CerrarO(Obras);
 end;
 
 
-Procedure Secuencia_Obras(var Obras:Archivo_Obras; Nombre:String; var Contador:Int64);
-var
-	Lim, pos: int64;
+Procedure Buscar_Artista_Modificar(var Obras:Archivo_Obras; var Obr:Obra; buscado:String; reemplazo:String);
+{
+Esta funcion busca por nombre en el archivo y
+cuando lo encuentra, lo reemplaza x el nombre nuevo}
+var 
+	posicion: Int64;
 
-Begin
-	Contador := 0;
-    AbrirO(Obras);
-    Lim := FileSize(Obras);
-    pos := 0;
-		While (Not eof (Obras)) And (pos <> Lim) Do
-        Begin
-            LeerO(Obras, Obr, pos);
-				If (Obr.Artista = Nombre) Then
-                Begin
-                    Inc(Contador);
-                End;
-         inc(pos);
-        End;
-    CerrarO(Obras);
-End;
+begin
+ AbrirO(Obras);
+ posicion:=0; //puntero
+ while not eof (Obras) do // controla si se llego al final del archivo
+	begin
+	 LeerO(Obras, Obr, posicion);
+	 if (Obr.Artista = buscado) then // controla la existencia del artista
+		begin
+		 Obr.Artista := reemplazo;
+		 ModificarO(Obras,Obr,posicion)
+		end;
+	 inc(posicion); // puntero del archivo
+	end;
+CerrarO(Obras);
+end;
+
+Procedure Buscar_Museo_Modificar(var Obras:Archivo_Obras; var Obr:Obra; buscado:String; reemplazo:String);
+{
+Esta funcion busca por nombre en el archivo y
+cuando lo encuentra, lo reemplaza x el nombre nuevo}
+var 
+	posicion: Int64;
+
+begin
+ AbrirO(Obras);
+ posicion:=0; //puntero
+ while not eof (Obras) do // controla si se llego al final del archivo
+	begin
+	 LeerO(Obras, Obr, posicion);
+	 if (Obr.Nombre_Museo = buscado) then // controla la existencia del artista
+		begin
+		 Obr.Nombre_Museo := reemplazo;
+		 ModificarO(Obras,Obr,posicion)
+		end;
+	 inc(posicion); // puntero del archivo
+	end;
+CerrarO(Obras);
+end;
+
 
 
 Begin
