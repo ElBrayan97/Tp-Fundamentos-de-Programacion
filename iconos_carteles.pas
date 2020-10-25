@@ -67,7 +67,9 @@ Procedure Menu_Baja_Director_Inexistente();
 //Menues de Estadistica  ///////////////////////////////////////////////
 //OBRA
 Procedure Menu_Estadistica_ObrasxAutor();
-Procedure Menu_Estadistica_Dni_Artista(Var busc:string);
+Procedure Menu_Estadistica_Artista(Var busc:string);
+Procedure Menu_Estadistica_Obra(Var busc:string);
+Procedure Menu_Estadistica_Museo(Var busc:string);
 Procedure Menu_Estadistica_ObrasdelAutor(autor:string);
 Procedure Obra_Museo_Artista ();
 Procedure Menu_Obra_Inexistente();
@@ -235,31 +237,62 @@ Begin
     Writeln ('| /');
     Writeln ('| \');
     Writeln ('|__> Ingrese una opcion: ');
-    Gotoxy (25,16);
+    Gotoxy (26,15);
 End;
 
 
-Procedure Menu_Estadistica_Dni_Artista(Var busc:string);
+Procedure Menu_Estadistica_Artista(Var busc:string);
 Begin
     busc := '';
     Textcolor(blue);
     Gotoxy (34,4);
     Writeln ('/////////////////////////////////////////////////////////////////////////////////////');
     Gotoxy (34,5);
-    Writeln ('//Ingrese el Nombre del Artista para ver sus obras:                                //');
+    Writeln ('//Ingrese el Nombre del Artista:                                                   //');
     Gotoxy (34,6);
     Writeln ('/////////////////////////////////////////////////////////////////////////////////////');
     textcolor(green);
-    Gotoxy (86,5);
+    Gotoxy (68,5);
     Readln(busc);
+    Gotoxy (68,5);
 End;
 
+Procedure Menu_Estadistica_Obra(Var busc:string);
+Begin
+    busc := '';
+    Textcolor(blue);
+    Gotoxy (34,4);
+    Writeln ('/////////////////////////////////////////////////////////////////////////////////////');
+    Gotoxy (34,5);
+    Writeln ('//Ingrese el Nombre de la Obra:                                                    //');
+    Gotoxy (34,6);
+    Writeln ('/////////////////////////////////////////////////////////////////////////////////////');
+    textcolor(green);
+    Gotoxy (67,5);
+    Readln(busc);
+    Gotoxy (67,5);
+End;
+
+Procedure Menu_Estadistica_Museo(Var busc:string);
+Begin
+    busc := '';
+    Textcolor(blue);
+    Gotoxy (34,4);
+    Writeln ('/////////////////////////////////////////////////////////////////////////////////////');
+    Gotoxy (34,5);
+    Writeln ('//Ingrese el Nombre del Museo:                                                     //');
+    Gotoxy (34,6);
+    Writeln ('/////////////////////////////////////////////////////////////////////////////////////');
+    textcolor(green);
+    Gotoxy (66,5);
+    Readln(busc);
+	Gotoxy (66,5);
+End;
 
 //MENUES DE CARGA
 {
 A partir de aqui se declaran los menues
  graficos para la carga de datos}
-
 //OBRA
 Procedure Menu_Cargar_Obra();
 Begin
@@ -732,15 +765,9 @@ Begin
     Writeln ('| Desde el:                    |Hasta el:                    \\');
     Writeln ('|------------------------------------------------------------\\');
     Writeln ('| Telefono de Contacto:                                      \\');
-    Writeln (
-           '|\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\'
-    );
-    Writeln (
-           '|\                                                                                                       \\'
-    );
-    Writeln (
-           '|\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\'
-    );
+    Writeln ('|\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\');
+    Writeln ('|\                                                                                                       \\');
+    Writeln ('|\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\');
     TextColor(Blue);
     Gotoxy (1,18);
     Gotoxy (64,1);

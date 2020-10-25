@@ -28,7 +28,7 @@ Procedure MCargar_Director (Var Directores:Archivo_Directores);
 Procedure MModificar_Obra(Var Obras:Archivo_Obras;  var Museos:Archivo_Museos; var Artistas:Archivo_Artistas; var Directores:Archivo_Directores);
 Procedure MModificar_Artista(Var Artistas:Archivo_Artistas; var Obras:Archivo_Obras);
 Procedure MModificar_Museo(Var Museos:Archivo_Museos; var Obras:Archivo_Obras );
-Procedure MModificar_Director(Var Directores:Archivo_Directores);
+Procedure MModificar_Director(Var Directores:Archivo_Directores; var Museos:Archivo_Museos);
 
 //Baja (todas funcionan)
 Procedure MBajar_obr (Var Obras:Archivo_Obras);
@@ -106,7 +106,7 @@ Begin
 			 '1':   MModificar_Obra (Obras, Museos, Artistas, Directores);
 			 '2':   MModificar_Artista (Artistas,Obras);
 			 '3':   MModificar_Museo (Museos,Obras);
-			 '4':   MModificar_Director (Directores);
+			 '4':   MModificar_Director (Directores,Museos);
 			 '0':   clrscr;
 			End;
     Until (Opc = '0');
@@ -150,10 +150,14 @@ Opc := '0';
 
 			'2':Begin // Dado un Museo Mostrar Director y Lista de Obras
 				 Segun_Museo_DirectorObras(Museos,Obras); //Caracteristica 2
+				 readkey;
+				 clrscr;
                 End;
 
 			'3':Begin // Esto esta de adorno V:
 				 Segun_ArtistaObras(Obras, Artistas); // Caracteristica 3
+				 readkey;
+				 clrscr;
                 End;
 
 			'4':Begin // BARRIDO DE PRUEBAS (OCULTO EN EL MENU) Caracterisitica Oculta
@@ -974,12 +978,13 @@ Begin
         End;
 End;
 
-Procedure MModificar_Director(Var Directores:Archivo_Directores);
+Procedure MModificar_Director(Var Directores:Archivo_Directores; var Museos:Archivo_Museos);
 
-Var
-    Bus :   String;
+Var 
+	direct :   Director;
+    Mus: Museo;
+    Bus , reemplazo:   String;
     Pos :   int64;
-    direct :   Director;
     Opc, Opc2 :   char;
 
 
@@ -1009,22 +1014,22 @@ Begin
                         Writeln (direct.Periodo_Asignacion_Fin);
                         Gotoxy (25,13);
                         Writeln (direct.Telefono);
+                        Gotoxy (3,15);
                         Opc := readkey;
                         Case Opc Of
                             '1':Begin
 									Menu_Editar_Director_Part3();
-									Gotoxy(1,1);
+									Gotoxy(3,15);
 									Opc2 := Readkey;
 									Case Opc2 Of
                                        '1': Begin
 												TextColor(Green);
 												Gotoxy (3,15);
 												Writeln ('Escriba la Fecha de Inicio del Periodo: ');
+												Gotoxy (42,15);
 												TextColor(Green);
-												Readln(direct.
-												Periodo_Asignacion_Inic);
+												Readln(direct.Periodo_Asignacion_Inic);
 												ModificarD(Directores,direct,pos); //llamar a la funcion modificar de la unit Directores (controlar si los parametros estan bien puestos)
-												Aviso_Edicion_Exitosa();
                                             End;
 
                                        '2': Begin
@@ -1032,9 +1037,9 @@ Begin
 												Gotoxy (3,15);
 												Writeln ('Escriba la Fecha Final del Periodo: ');
 												TextColor(Green);
+												Gotoxy(38,15);
 												Readln(direct.Periodo_Asignacion_Fin);
 												ModificarD(Directores,direct,pos);
-												Aviso_Edicion_Exitosa();
                                             End;
                                     End;
                                 End;
@@ -1043,33 +1048,36 @@ Begin
                                  TextColor(Green);
                                  Gotoxy (3,15);
                                  Writeln ('Escriba el Nombre del Director: ');
+                                 Gotoxy (34,15);
                                  TextColor(Green);
-                                 Readln(direct.APyNom);
+                                 Readln(reemplazo);
+                                 Buscar_Director_Modificar(Museos, Mus, direct.APyNom, reemplazo);
+                                 direct.APyNom:=reemplazo;
                                  ModificarD(Directores,direct,pos);//llamar a la funcion modificar de la unit Directores (controlar si los parametros estan bien puestos)
-                                 Aviso_Edicion_Exitosa();
                                 End;
 
                             '3':Begin
                                  TextColor(Green);
                                  Gotoxy (3,15);
                                  Writeln ('Escriba la Direccion del Director: ');
+                                 Gotoxy (37,15);
                                  TextColor(Green);
                                  Readln(direct.Direccion);
                                  ModificarD(Directores,direct,pos);//llamar a la funcion modificar de la unit Directores (controlar si los parametros estan bien puestos)
-                                 Aviso_Edicion_Exitosa();
                                 End;
 
                             '4':Begin
                                  TextColor(Green);
                                  Gotoxy (3,15);
                                  Writeln ('Escriba el Numero de Telefono del Director: ');
+                                 Gotoxy (46,15);
                                  TextColor(Green);
                                  Readln(direct.Telefono);
                                  ModificarD(directores,direct,pos);
-                                 Aviso_Edicion_Exitosa();
                                 End;
                         End;
                     Until (Opc='0');
+                 Aviso_Edicion_Exitosa();
                 End
             Else
              Aviso_Dato_Inexistente();
@@ -1345,7 +1353,7 @@ var
     pos :int64;
 
 Begin
-Menu_Estadistica_Dni_Artista(busc);
+Menu_Estadistica_Artista(busc);
 Buscar_Artista(Artistas, pos, busc, artist);
 If (pos <> -1) then //si el artista existe
     Begin
@@ -1479,7 +1487,7 @@ var
     pos :int64;
 
 Begin
-Menu_Estadistica_Dni_Artista(busc); //parte grafica
+Menu_Estadistica_Artista(busc); //parte grafica
 Buscar_Museo_Nombre(Museos, pos, busc, Mus);
 If (pos <> -1) then //si el artista existe
     Begin
@@ -1504,7 +1512,7 @@ var
 
 Begin
 pos:=-1;
-Menu_Estadistica_Dni_Artista(busc);
+Menu_Estadistica_Obra(busc);
 Buscar_Obra_Nombre(Obras, pos, busc, Obr);
 	If (pos=-1) then
 	Begin

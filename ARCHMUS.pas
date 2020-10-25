@@ -30,7 +30,7 @@ Procedure Buscar_Museo_Nombre (Var Museos:Archivo_Museos; Var pos:int64; Nombre:
 
 //METODOS DE ANALISIS
 Procedure Barrido_Mus(Var Museos:Archivo_Museos);
-Procedure Buscar_Museo_Modificar(var Museos:Archivo_Museos; var Mus:Museo; buscado:String; reemplazo:String);
+Procedure Buscar_Director_Modificar(var Museos:Archivo_Museos; var Mus:Museo; buscado:String; reemplazo:String);
 
 
 Implementation
@@ -198,7 +198,7 @@ Begin
     CerrarM(Museos);
 End;
 
-Procedure Buscar_Museo_Modificar(var Museos:Archivo_Museos; var Mus:Museo; buscado:String; reemplazo:String);
+Procedure Buscar_Director_Modificar(var Museos:Archivo_Museos; var Mus:Museo; buscado:String; reemplazo:String);
 {
 Esta funcion busca por nombre en el archivo y
 cuando lo encuentra, lo reemplaza x el nombre nuevo}
