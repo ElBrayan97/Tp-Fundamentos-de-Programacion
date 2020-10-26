@@ -238,7 +238,7 @@ begin
 		repeat// controla si se llego al final del archivo o si se lleno la lista
 			begin
 			 LeerO(Obras, Obr, posicion);
-			 if (Obr.Nombre_Museo = buscado) then // controla la existencia del artista
+			 if (Obr.Nombre_Museo = buscado) and (Obr.Activo=True) then // controla la existencia del artista
 				begin
 				 Gotoxy(36,y);
 				 Writeln(Obr.Nombre); // nombre de la obra
@@ -252,6 +252,19 @@ begin
 	Else
 		begin
 			posicion:=0;
+			repeat// controla si se llego al final del archivo o si se lleno la lista
+				begin
+				 LeerO(Obras, Obr, posicion);
+				 if (Obr.Nombre_Museo = buscado) and (Obr.Activo=True) then // controla la existencia del artista
+					begin
+					 Gotoxy(36,y);
+					 Writeln(Obr.Nombre); // nombre de la obra
+					 inc(y); //posicion del cursor
+					 inc(cont);
+					end;
+				 inc(posicion); // puntero del archivo
+				end;
+			until (posicion=Filesize(Obras)) or (cont=tam_lista);
 		end;
  CerrarO(Obras);
 
@@ -268,18 +281,16 @@ const
 	tam_lista=2;
 	
 begin
- cont:=0;
- AbrirO(Obras);
- textcolor(green);
+cont:=0;
+AbrirO(Obras);
+textcolor(green);
 	If (posicion < Filesize(Obras)) and (posicion >= 0) then
 	begin
 		repeat// controla si se llego al final del archivo
 			begin
 			 LeerO(Obras, Obr, posicion);
-			 if (Obr.Artista = buscado) then // controla la existencia del artista
+			 if (Obr.Artista = buscado) and (Obr.Activo = True) then // controla la existencia del artista
 				begin
-				 Gotoxy(30,y);
-				 Writeln(posicion);
 				 Gotoxy(36,y);
 				 Writeln(Obr.Nombre); // nombre de la obra
 				 Gotoxy(64,y);
@@ -290,8 +301,27 @@ begin
 			 inc(posicion); // puntero del archivo
 			end;
 		until (posicion=Filesize(Obras)) or (cont=tam_lista);
-	End;
- CerrarO(Obras);
+	End
+	Else
+		begin
+		 posicion:=0;
+			repeat// controla si se llego al final del archivo
+				begin
+				 LeerO(Obras, Obr, posicion);
+				 if (Obr.Artista = buscado) and (Obr.Activo = True) then // controla la existencia del artista
+					begin
+					 Gotoxy(36,y);
+					 Writeln(Obr.Nombre); // nombre de la obra
+					 Gotoxy(64,y);
+					 Writeln (Obr.Nombre_Museo); // museo en el que se encuentra la obra
+					 inc(y); //posicion del cursor
+					 inc(cont);
+					end;
+				 inc(posicion); // puntero del archivo
+				end;
+			until (posicion=Filesize(Obras)) or (cont=tam_lista);
+		end;
+CerrarO(Obras);
 end;
 
 

@@ -1380,7 +1380,7 @@ If (pos <> -1) then //si el artista existe
 	end
     Else // si el artista no existe
         Begin
-         Menu_Obra_Inexistente(); // Notifica que el artista buscado no existe {hay que modificarlo, no pega ni con la gotita xD}
+			Menu_Obra_Inexistente(); // Notifica que el artista buscado no existe {hay que modificarlo, no pega ni con la gotita xD}
         End;
 End;
 
