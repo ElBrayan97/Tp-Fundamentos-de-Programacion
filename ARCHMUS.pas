@@ -107,7 +107,7 @@ Var
 	I,J: Integer;
 	Aux : Empleado
 	Ordenado : Boolean;
-
+asdfasfgasehaer
 Begin
 I : = 1;
 Repeat

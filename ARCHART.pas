@@ -17,12 +17,10 @@ Type
 Archivo_Artistas = File Of Artista;
 
 Var 
-    Artistas :   Archivo_Artistas;
-    //esta es la variable para abrir el archivo.
-    Artist :   Artista;
-    //esta es la variable del tipo del registro para leer en el archivo.
+    Artistas :   Archivo_Artistas; // Variable de tipo archivo.
+    Artist :   Artista; // Variable de tipo Registro
 
-    //METODOS DE APERTURA, LECTURA, MODIFICACION, GUARDADO Y CIERRE
+//METODOS DE APERTURA, LECTURA, MODIFICACION, GUARDADO Y CIERRE
 	
 Procedure AbrirA(Var Artistas:Archivo_Artistas);
 Procedure LeerA(Var Artistas:Archivo_Artistas; Var Reg:Artista; Pos:Integer);
@@ -58,7 +56,6 @@ End;
 
 
 Procedure LeerA(Var Artistas:Archivo_Artistas; Var Reg:Artista; Pos:Integer);
-//Lee una posicion "Pos" del archivo y lo muestra 
 Begin
     seek(Artistas,Pos);
     read(Artistas,Reg);
@@ -147,13 +144,14 @@ Procedure Barrido_Art(Var Artistas:Archivo_Artistas);
 Var 
     Punt, Lim : int64;
 	y:integer;
+
 Begin
 	burbujaA(Artistas);
 	y:=2;
     AbrirA(Artistas);
     Lim := FileSize(Artistas);
     Punt := 0;
-		While (Not eof) And (punt <> Lim) Do
+		While (Not eof(Artistas)) And (punt <> Lim) Do
         Begin
             LeerA(Artistas, Artist, Punt);
 				If (Artist.Activo = True) Then

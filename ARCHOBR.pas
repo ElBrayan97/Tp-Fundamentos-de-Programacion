@@ -45,8 +45,8 @@ Procedure Buscar_Obra_Nombre (Var Obras:Archivo_Obras;Var pos:int64; Name:String
 //METODOS DE ANALISIS
 Procedure Barrido_Obr(Var Obras:Archivo_Obras);
 Procedure Secuencia_Obras(var Obras:Archivo_Obras; Nombre:String; var Contador:Int64); //cuenta las obras de un artista (ya no es necesario)
-Procedure Buscar_Museo_en_Obras (var Obras:Archivo_Obras; buscado:String; var obr:Obra); //Busca un Museo en el archivo Obras
-Procedure Buscar_Artista_en_Obras(var Obras:Archivo_Obras; buscado:String ;var Obr:Obra; x:Byte; y:Byte); // Busca un Artista en el Archivo Obras
+Procedure Buscar_Museo_en_Obras (var Obras:Archivo_Obras; buscado:String; var obr:Obra; y:Byte; var posicion:int64); //Busca un Museo en el archivo Obras
+Procedure Buscar_Artista_en_Obras(var Obras:Archivo_Obras; buscado:String ;var Obr:Obra; y:Byte; var posicion:int64); // Busca un Artista en el Archivo Obras
 Procedure Buscar_Artista_Modificar(var Obras:Archivo_Obras; var Obr:Obra; buscado:String; reemplazo:String); // Busca un Artista en el Archivo Obras y lo modifica
 Procedure Buscar_Museo_Modificar(var Obras:Archivo_Obras; var Obr:Obra; buscado:String; reemplazo:String); // Busca un museo en el Archivo Obras y lo modifica
 Implementation
@@ -222,54 +222,80 @@ Begin
 End;
 
 
-Procedure Buscar_Museo_en_Obras(var Obras:Archivo_Obras; buscado:String;var Obr:Obra); // Con este procedure recorro el archivo, para mostrar las Obras que pertenecen a un determinado Museo.
+Procedure Buscar_Museo_en_Obras(var Obras:Archivo_Obras; buscado:String; var Obr:Obra; y:Byte; var posicion:int64); // Con este procedure recorro el archivo, para mostrar las Obras que pertenecen a un determinado Museo.
 var 
- 	posicion:integer;                                                                 //Solo muestra, no devuelve ninguna posicion o dato.
+ 	cont:integer;
+
+const
+	tam_lista=2;
 
 begin
-AbrirO(Obras);
- posicion:=0;
- while (not eof ( Obras)) do
+ cont:=0;
+ AbrirO(Obras);
+ textcolor(green);
+	If (posicion < Filesize(Obras)) and (posicion >= 0) then
 	begin
-	 LeerO (Obras,Obr, posicion);
-	 if (Obr.Nombre_Museo = buscado) and (Obr.Activo =True) then
+		repeat// controla si se llego al final del archivo o si se lleno la lista
+			begin
+			 LeerO(Obras, Obr, posicion);
+			 if (Obr.Nombre_Museo = buscado) then // controla la existencia del artista
+				begin
+				 Gotoxy(36,y);
+				 Writeln(Obr.Nombre); // nombre de la obra
+				 inc(y); //posicion del cursor
+				 inc(cont);
+				end;
+			 inc(posicion); // puntero del archivo
+			end;
+		until (posicion=Filesize(Obras)) or (cont=tam_lista);
+	End
+	Else
 		begin
-		 Writeln(Obr.Nombre); //Mostraria por ej enccontrado tal cosa...
+			posicion:=0;
 		end;
-	 inc(posicion)
-	end;	
-CerrarO(Obras);
+ CerrarO(Obras);
+
 End;
 
 
-Procedure Buscar_Artista_en_Obras(var Obras:Archivo_Obras; buscado:String ;var Obr:Obra; x:Byte; y:Byte);
+Procedure Buscar_Artista_en_Obras(var Obras:Archivo_Obras; buscado:String ;var Obr:Obra; y:Byte; var posicion:int64);
 {
 Con este procedure recorro el archivo Obras, para mostrar los Obras que pertenecen a un determinado Artista.
 }
 var 
-	posicion: Int64;
-
+	cont:integer;
 const
-	a=22;
-
+	tam_lista=2;
+	
 begin
+ cont:=0;
  AbrirO(Obras);
- posicion:=0; //puntero
  textcolor(green);
- while not eof (Obras) do // controla si se llego al final del archivo
+	If (posicion < Filesize(Obras)) and (posicion >= 0) then
 	begin
-	 LeerO(Obras, Obr, posicion);
-	 if (Obr.Artista = buscado) then // controla la existencia del artista
+		repeat// controla si se llego al final del archivo
+			begin
+			 LeerO(Obras, Obr, posicion);
+			 if (Obr.Artista = buscado) then // controla la existencia del artista
+				begin
+				 Gotoxy(30,y);
+				 Writeln(posicion);
+				 Gotoxy(36,y);
+				 Writeln(Obr.Nombre); // nombre de la obra
+				 Gotoxy(64,y);
+				 Writeln (Obr.Nombre_Museo); // museo en el que se encuentra la obra
+				 inc(y); //posicion del cursor
+				 inc(cont);
+				end;
+			 inc(posicion); // puntero del archivo
+			end;
+		until (posicion=Filesize(Obras)) or (cont=tam_lista);
+	End
+	Else
 		begin
-		 Gotoxy(36,y);
-		 Writeln(Obr.Nombre); // nombre de la obra
-		 Gotoxy(64,y);
-		 Writeln (Obr.Nombre_Museo); // museo en el que se encuentra la obra
-		 inc(y); //posicion del cursor
+			posicion:=0;
 		end;
-	 inc(posicion); // puntero del archivo
-	end;
-CerrarO(Obras);
+ CerrarO(Obras);
 end;
 
 
@@ -289,7 +315,7 @@ begin
 	 if (Obr.Artista = buscado) then // controla la existencia del artista
 		begin
 		 Obr.Artista := reemplazo;
-		 ModificarO(Obras,Obr,posicion)
+		 ModificarO(Obras,Obr,posicion);
 		end;
 	 inc(posicion); // puntero del archivo
 	end;
@@ -318,7 +344,6 @@ begin
 	end;
 CerrarO(Obras);
 end;
-
 
 
 Begin

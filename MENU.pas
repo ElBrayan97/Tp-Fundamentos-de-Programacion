@@ -19,13 +19,13 @@ Procedure Menu_Borrar;
 Procedure Menu_Estadisticas;
 
 //Cargar (verificar museo, las demas funcionan)
-Procedure MCargar_OBR (Var Obras:Archivo_Obras;Var Museos:Archivo_Museos;Var Artistas:Archivo_Artistas);
+Procedure MCargar_OBR (Var Obras:Archivo_Obras; Var Museos:Archivo_Museos; Var Artistas:Archivo_Artistas);
 Procedure MCargar_ART (Var Artistas:Archivo_Artistas);
 Procedure MCargar_MUS (Var Museos:Archivo_Museos; Var Directores:Archivo_Directores);
 Procedure MCargar_Director (Var Directores:Archivo_Directores);
 
 //Modificar (verificar que los carteles y marcos no se superponen)
-Procedure MModificar_Obra(Var Obras:Archivo_Obras;  var Museos:Archivo_Museos; var Artistas:Archivo_Artistas; var Directores:Archivo_Directores);
+Procedure MModificar_Obra(Var Obras:Archivo_Obras; var Museos:Archivo_Museos; var Artistas:Archivo_Artistas; var Directores:Archivo_Directores);
 Procedure MModificar_Artista(Var Artistas:Archivo_Artistas; var Obras:Archivo_Obras);
 Procedure MModificar_Museo(Var Museos:Archivo_Museos; var Obras:Archivo_Obras );
 Procedure MModificar_Director(Var Directores:Archivo_Directores; var Museos:Archivo_Museos);
@@ -40,17 +40,19 @@ Procedure MBajar_Dir (Var Directores:Archivo_Directores);
 {Procedure ProcesarArchivos(var ARCH_Obras:Archivo_Obras; var ARCH_Artistas:Archivo_Artistas); }// Comparar los artistas con las obras (1 artista := n obras)
 Procedure Segun_Obra_MuseoArtista(var Obras:Archivo_Obras);
 procedure Estadistica_Artistas_Obras(var ARCH_Artistas:Archivo_Artistas; var ARCH_Obras:Archivo_Obras);
-Procedure Atras(var ARCH_Artistas:Archivo_Artistas; var ARCH_Obras:Archivo_Obras; var PunteroArt:int64; var Lim:Int64);
+Procedure Segun_ArtistaObras(var Obras:Archivo_Obras; var Artistas:Archivo_Artistas);
+Procedure Segun_Museo_DirectorObras(var Museos:Archivo_Museos; var Obras:Archivo_Obras);
+
+{REVISAR}
+{Procedure Atras(var ARCH_Artistas:Archivo_Artistas; var ARCH_Obras:Archivo_Obras; var PunteroArt:int64; var Lim:Int64);
 Procedure Adelante(var ARCH_Artistas:Archivo_Artistas; var ARCH_Obras:Archivo_Obras; var PunteroArt:int64; var Lim:Int64);
 
-{Procedure artistas_con_mas_obras();
+Procedure artistas_con_mas_obras();
 *
 Procedure Segun_Obra_Mostrar_Artista_Museo (var Obras:Archivo_Obras);
 Procedure Segun_Museo_Mostrar_Director_Obras (var Museos:Archivo_Museos;Var Obras:Archivo_Obras);
-
 }
-Procedure Segun_ArtistaObras(var Obras:Archivo_Obras; var Artistas:Archivo_Artistas);
-Procedure Segun_Museo_DirectorObras(var Museos:Archivo_Museos; var Obras:Archivo_Obras);
+
 ///////////////////////////////////////
 
 Implementation
@@ -154,7 +156,7 @@ Opc := '0';
 				 clrscr;
                 End;
 
-			'3':Begin // Esto esta de adorno V:
+			'3':Begin // Esto esta de adorno(ya no lo esta)
 				 Segun_ArtistaObras(Obras, Artistas); // Caracteristica 3
 				 readkey;
 				 clrscr;
@@ -729,8 +731,7 @@ Begin
     Buscar_Obra_Nombre (Obras, Pos, Nombre, Obr);
     If (Pos <> -1) Then
         Begin
-            AbrirO(Obras);
-            // Apertura del Archivo Obras
+            AbrirO(Obras); // Apertura del Archivo Obras
             LeerO(Obras, Obr, Pos);
             If (Obr.Activo = True) Then
                 Begin
@@ -745,8 +746,7 @@ Begin
                         Begin
                             Menu_Baja_Obra_Inexistente;
                             Readkey;
-                            CerrarO(Obras);
-                            // Cierre del Archivo Obras
+                            CerrarO(Obras); // Cierre del Archivo Obras
                         End;
                 End;
         End
@@ -1346,7 +1346,8 @@ Begin
 End;
 }
 Procedure Segun_ArtistaObras(var Obras:Archivo_Obras; var Artistas:Archivo_Artistas);
-var
+var	
+	opcion:char;
     artist :Artista;
     Obr :Obra;
     busc :String;
@@ -1357,144 +1358,65 @@ Menu_Estadistica_Artista(busc);
 Buscar_Artista(Artistas, pos, busc, artist);
 If (pos <> -1) then //si el artista existe
     Begin
+     pos:=0;
      Clrscr;
      textcolor(green);
      Menu_Estadistica_ObrasdelAutor(busc); // cuadro grafico
-     Buscar_Artista_en_Obras(Obras, busc, Obr, 66, 6); //busca en el archivo las obras del artista {busc}
-     readkey;
-     clrscr;
-    End
+     Buscar_Artista_en_Obras(Obras, busc, Obr, 6, pos); //busca en el archivo las obras del artista {busc}
+		repeat
+		 opcion:=readkey;
+			case (opcion) of
+				'1':begin
+						Menu_Estadistica_ObrasdelAutor(busc); // cuadro grafico
+						pos:=(pos-4);
+						Buscar_Artista_en_Obras(Obras, busc, Obr, 6, pos); // Atras / Anterior
+					End;
+				'2':Begin
+						Menu_Estadistica_ObrasdelAutor(busc); // cuadro grafico
+						Buscar_Artista_en_Obras(Obras, busc, Obr, 6, pos); // Adelante / Siguiente
+					End;
+			end;
+		until (opcion='0');
+	end
     Else // si el artista no existe
         Begin
          Menu_Obra_Inexistente(); // Notifica que el artista buscado no existe {hay que modificarlo, no pega ni con la gotita xD}
         End;
 End;
 
-{ hay que borrar esto}
-
-
-procedure Estadistica_Artistas_Obras(var ARCH_Artistas:Archivo_Artistas; var ARCH_Obras:Archivo_Obras);
-var
-	PunteroArt, Cant, Lim: Int64;
-	Artista : String;
-	
-	// para control de la lista
-	count : byte;
-	pressed : char;
-
-const
-	y = 6; // fila de datos
-	x = 37; // columna de artistas
-	x2 = 85; // columna de cantidad
-
-begin
-AbrirA(ARCH_Artistas);
-Lim := Filesize(ARCH_Artistas);
-CerrarA(ARCH_Artistas);
-PunteroArt := 0;
-Count := 0;
-	Repeat
-		// Busqueda en archivos
-		Artista:='';
-		Secuencia_Artistas(ARCH_Artistas, Artista, PunteroArt); // Carga la variable artistas de forma consecutiva
-		Secuencia_Obras(ARCH_Obras, Artista, Cant); // utiliza la variable Artista para encontrar la cantidad correspondiente de obras con esa Variable
-		
-		// Impresion en menu
-		Gotoxy(x,(y+count));
-		Writeln(Artista);
-		Gotoxy(x2,(y+count)); 
-		Writeln(Cant);
-		Inc(count);
-	Until (Lim = PunteroArt) or (count = 6);
-
-	Repeat // La lista siguiente y anterior
-		pressed := readkey;
-		If (Lim > 25) then // solo ingresa si el archivo tiene mas de 25 registros
-		Begin
-			case (pressed) of // 1 artistas que siguen con sus obras - 2 artistas de la lista anterior 
-				'1':Atras(ARCH_Artistas, ARCH_Obras, PunteroArt, Lim); // Archivos - Puntero - Tamaño
-				'2':Adelante(ARCH_Artistas, ARCH_Obras, PunteroArt, Lim); // Archivos - Puntero - Tamaño
-			End;
-		End;
-	Until (pressed = '0')
-End;
-
-
-Procedure Atras(var ARCH_Artistas:Archivo_Artistas; var ARCH_Obras:Archivo_Obras; var PunteroArt:int64; var Lim:Int64); // Archivos - Puntero - Tamaño
-var
-	Cant: Int64; // contador de obras
-	Artista: String; // almacena el nombre de un artista
-	count: byte; // cantidad de artistas mostrados en la lista
-
-const
-	y = 6; // fila de datos
-	x = 37; // columna de artistas
-	x2 = 85; // columna de cantidad
-
-Begin
-Menu_Estadistica_ObrasxAutor();
-PunteroArt := (PunteroArt-25);
-count := 0;
-	Repeat
-		// Busqueda en archivos
-		Artista:='';
-		Secuencia_Artistas(ARCH_Artistas, Artista, PunteroArt); // Carga la variable artistas de forma consecutiva
-		Secuencia_Obras(ARCH_Obras, Artista, Cant); // utiliza la variable Artista para encontrar la cantidad correspondiente de obras con esa Variable
-		
-		// Impresion en menu
-		Gotoxy(x,(y+count));
-		Writeln(Artista);
-		Gotoxy(x2,(y+count)); 
-		Writeln(Cant);
-		Inc(count);
-	Until (PunteroArt=Lim) or (count=25);
-End;
-
-Procedure Adelante(var ARCH_Artistas:Archivo_Artistas; var ARCH_Obras:Archivo_Obras; var PunteroArt:int64; var Lim:Int64); // Archivos - Puntero - Tamaño
-var
-	Cant: Int64; // contador de obras
-	Artista : String; // almacena el nombre de un artista
-	count: byte; // para control de la lista
-
-const
-	y = 6; // fila de datos
-	x = 37; // columna de artistas
-	x2 = 85; // columna de cantidad
-
-Begin
-Menu_Estadistica_ObrasxAutor();
-count :=0;
-	Repeat
-		// Busqueda en archivos
-		Artista:='';
-		Secuencia_Artistas(ARCH_Artistas, Artista, PunteroArt); // Carga la variable artistas de forma consecutiva
-		Secuencia_Obras(ARCH_Obras, Artista, Cant); // utiliza la variable Artista para encontrar la cantidad correspondiente de obras con esa Variable
-		
-		// Impresion en menu
-		Gotoxy(x,(y+count));
-		Writeln(Artista);
-		Gotoxy(x2,(y+count));
-		Writeln(Cant);
-		Inc(count);
-	Until (PunteroArt=Lim) or (count=25);
-End;
 
 Procedure Segun_Museo_DirectorObras(var Museos:Archivo_Museos; var Obras:Archivo_Obras);
 var
 	Mus: Museo;
     Obr :Obra;
     busc :String;
-    pos :int64;
+    pos, puntero :int64;
 
 Begin
-Menu_Estadistica_Artista(busc); //parte grafica
+Menu_Estadistica_Museo(busc); //parte grafica
 Buscar_Museo_Nombre(Museos, pos, busc, Mus);
 If (pos <> -1) then //si el artista existe
     Begin
+     puntero:=0;
      Clrscr;
      textcolor(green);
      Writeln('El director del museo ',busc,' es: ', Mus.Name_Director);
-     Buscar_Museo_en_Obras(Obras, busc, Obr); //busca en el archivo las obras del artista {busc}
+     Menu_Estadistica_ObrasdelAutor(busc);
+     Buscar_Museo_en_Obras(Obras, busc, Obr, 6, puntero); //busca en el archivo las obras del artista {busc}
+     	repeat
+		 opcion:=readkey;
+			case (opcion) of
+				'1':begin
+						Menu_Estadistica_ObrasdelAutor(busc); // cuadro grafico
+						pos:=(pos-4);
+						Buscar_Museo_en_Obras(Obras, busc, Obr, 6, puntero);//(Obras, busc, Obr, 6, pos); // Atras / Anterior
+					End;
+				'2':Begin
+						Menu_Estadistica_ObrasdelAutor(busc); // cuadro grafico
+						Buscar_Museo_en_Obras(Obras, busc, Obr, 6, puntero);//(Obras, busc, Obr, 6, pos); // Adelante / Siguiente
+					End;
+			end;
+		until (opcion='0');
      readkey;
      clrscr;
     End
@@ -1604,5 +1526,119 @@ PunteroArt:= 1;
 			End;
 		Until (Opc='3');
 	End;}
+
+{ hay que borrar esto}
+
+
+procedure Estadistica_Artistas_Obras(var ARCH_Artistas:Archivo_Artistas; var ARCH_Obras:Archivo_Obras);
+var
+	PunteroArt, Cant, Lim: Int64;
+	Artista : String;
+	
+	// para control de la lista
+	count : byte;
+	pressed : char;
+
+const
+	y = 6; // fila de datos
+	x = 37; // columna de artistas
+	x2 = 85; // columna de cantidad
+
+begin
+AbrirA(ARCH_Artistas);
+Lim := Filesize(ARCH_Artistas);
+CerrarA(ARCH_Artistas);
+PunteroArt := 0;
+Count := 0;
+	Repeat
+		// Busqueda en archivos
+		Artista:='';
+		Secuencia_Artistas(ARCH_Artistas, Artista, PunteroArt); // Carga la variable artistas de forma consecutiva
+		Secuencia_Obras(ARCH_Obras, Artista, Cant); // utiliza la variable Artista para encontrar la cantidad correspondiente de obras con esa Variable
+		
+		// Impresion en menu
+		Gotoxy(x,(y+count));
+		Writeln(Artista);
+		Gotoxy(x2,(y+count)); 
+		Writeln(Cant);
+		Inc(count);
+	Until (Lim = PunteroArt) or (count = 6);
+
+	Repeat // La lista siguiente y anterior
+		pressed := readkey;
+		If (Lim > 25) then // solo ingresa si el archivo tiene mas de 25 registros
+		Begin
+			case (pressed) of // 1 artistas que siguen con sus obras - 2 artistas de la lista anterior 
+				'1':writeln('');//Atras(ARCH_Artistas, ARCH_Obras, PunteroArt, Lim); // Archivos - Puntero - Tamaño
+				'2':writeln('');//Adelante(ARCH_Artistas, ARCH_Obras, PunteroArt, Lim); // Archivos - Puntero - Tamaño
+			End;
+		End;
+	Until (pressed = '0')
+End;
+
+{
+Procedure Atras(var Artistas:Archivo_Artistas; var Obras:Archivo_Obras; var Puntero:int64); // Archivos - Puntero - Tamaño
+const
+	cant=2;
+var
+	Artista: String; // almacena el nombre de un artista
+	count: byte; // cantidad de artistas mostrados en la lista
+
+const
+	y = 6; // fila de datos
+	x = 37; // columna de artistas
+	x2 = 85; // columna de cantidad
+
+Begin
+Menu_Estadistica_ObrasxAutor();
+PunteroArt := (PunteroArt-25);
+count := 0;
+	Repeat
+		// Busqueda en archivos
+		Artista:='';
+		Secuencia_Artistas(ARCH_Artistas, Artista, PunteroArt); // Carga la variable artistas de forma consecutiva
+		Secuencia_Obras(ARCH_Obras, Artista, Cant); // utiliza la variable Artista para encontrar la cantidad correspondiente de obras con esa Variable
+		
+		// Impresion en menu
+		Gotoxy(x,(y+count));
+		Writeln(Artista);
+		Gotoxy(x2,(y+count)); 
+		Writeln(Cant);
+		Inc(count);
+	Until (PunteroArt=Lim) or (count=25);
+End;
+
+Procedure Adelante(var ARCH_Artistas:Archivo_Artistas; var ARCH_Obras:Archivo_Obras; var PunteroArt:int64; var Lim:Int64); // Archivos - Puntero - Tamaño
+var
+	Cant: Int64; // contador de obras
+	Artista : String; // almacena el nombre de un artista
+	count: byte; // para control de la lista
+
+const
+	y = 6; // fila de datos
+	x = 37; // columna de artistas
+	x2 = 85; // columna de cantidad
+
+Begin
+Menu_Estadistica_ObrasxAutor();
+count :=0;
+	Repeat
+		// Busqueda en archivos
+		Artista:='';
+		Secuencia_Artistas(ARCH_Artistas, Artista, PunteroArt); // Carga la variable artistas de forma consecutiva
+		Secuencia_Obras(ARCH_Obras, Artista, Cant); // utiliza la variable Artista para encontrar la cantidad correspondiente de obras con esa Variable
+		
+		// Impresion en menu
+		Gotoxy(x,(y+count));
+		Writeln(Artista);
+		Gotoxy(x2,(y+count));
+		Writeln(Cant);
+		Inc(count);
+	Until (PunteroArt=Lim) or (count=25);
+End;}
+
+	
+	
+	
 Begin
 End.

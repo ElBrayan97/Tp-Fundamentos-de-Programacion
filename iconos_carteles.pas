@@ -4,6 +4,24 @@ Unit iconos_carteles;
 Interface
 uses crt;
 
+const
+{coloeres menu}
+color1=11;
+color2=12;
+
+{colores de texto ingresado}
+color3=1;
+color4=9;
+
+{colores todo bien}
+color5=2;
+color6=10;
+
+{colores todo mal}
+color7=4;
+color8=12;
+
+
 //Menues de Opciones  //////////////////////////////////////////////////
 Procedure Menu_Principal_Graph;
 Procedure Menu_Cargar_Graph;
@@ -109,6 +127,7 @@ Procedure Dato_Encontrado_Artista;
 Procedure Dato_Encontrado_Museo;
 Procedure Dato_Encontrado_Director;
 Procedure Tick;
+procedure noexiste();
 
 
 ///////////////////////////////////////////////////////////////////////
@@ -126,10 +145,10 @@ A partir de aqui se declaran los menues
 Procedure Menu_Principal_Graph;
 Begin
     Clrscr;
-    TextColor (Green);
+    TextColor (color1);
     Writeln (' ________________________');
     Writeln ('|----MENU PRINCIPAL------\\');
-    TextColor (Blue);
+    TextColor (color2);
     Writeln ('|========================\\');
     Writeln ('|                        \\');
     Writeln ('|     1: CARGAR          \\');
@@ -149,10 +168,10 @@ End;
 Procedure Menu_Cargar_Graph;
 Begin
     Clrscr;
-    TextColor (Green);
+    TextColor (color1);
     Writeln (' ________________________');
     Writeln ('|----MENU DE CARGA-------\\');
-    TextColor (Blue);
+    TextColor (color2);
     Writeln ('|========================\\');
     Writeln ('|                        \\');
     Writeln ('|     1: OBRA            \\');
@@ -172,10 +191,10 @@ End;
 Procedure Menu_Editar_Graph;
 Begin
     Clrscr;
-    TextColor (Green);
+    TextColor (color1);
     Writeln (' ________________________');
     Writeln ('|--MENU DE MODIFICACION--\\');
-    TextColor (Blue);
+    TextColor (color2);
     Writeln ('|========================\\');
     Writeln ('|                        \\');
     Writeln ('|     1: OBRA            \\');
@@ -195,10 +214,10 @@ End;
 Procedure Menu_Borrar_Graph;
 Begin
     Clrscr;
-    TextColor (Green);
+    TextColor (color1);
     Writeln (' ________________________');
     Writeln ('|----- MENU BORRAR ------\\');
-    TextColor (Blue);
+    TextColor (color2);
     Writeln ('|========================\\');
     Writeln ('|                        \\');
     Writeln ('|     1: OBRA            \\');
@@ -218,11 +237,11 @@ End;
 Procedure Menu_Estadisticas_Graph;
 Begin
     Clrscr;
-    TextColor (Green);
+    TextColor (color1);
     Writeln (' ____________________________');
     Writeln ('|--- MENU DE ESTADISTICAS ---\\');
     //X = (1 A 31)
-    TextColor (Blue);
+    TextColor (color2);
     Writeln ('|============================\\');
     //Y = (1 A 16)
     Writeln ('|                            \\');
@@ -244,14 +263,14 @@ End;
 Procedure Menu_Estadistica_Artista(Var busc:string);
 Begin
     busc := '';
-    Textcolor(blue);
+    Textcolor(color3);
     Gotoxy (34,4);
     Writeln ('/////////////////////////////////////////////////////////////////////////////////////');
     Gotoxy (34,5);
     Writeln ('//Ingrese el Nombre del Artista:                                                   //');
     Gotoxy (34,6);
     Writeln ('/////////////////////////////////////////////////////////////////////////////////////');
-    textcolor(green);
+    textcolor(color4);
     Gotoxy (68,5);
     Readln(busc);
     Gotoxy (68,5);
@@ -260,14 +279,14 @@ End;
 Procedure Menu_Estadistica_Obra(Var busc:string);
 Begin
     busc := '';
-    Textcolor(blue);
+    Textcolor(color3);
     Gotoxy (34,4);
     Writeln ('/////////////////////////////////////////////////////////////////////////////////////');
     Gotoxy (34,5);
     Writeln ('//Ingrese el Nombre de la Obra:                                                    //');
     Gotoxy (34,6);
     Writeln ('/////////////////////////////////////////////////////////////////////////////////////');
-    textcolor(green);
+    textcolor(color4);
     Gotoxy (67,5);
     Readln(busc);
     Gotoxy (67,5);
@@ -276,19 +295,28 @@ End;
 Procedure Menu_Estadistica_Museo(Var busc:string);
 Begin
     busc := '';
-    Textcolor(blue);
+    Textcolor(color3);
     Gotoxy (34,4);
     Writeln ('/////////////////////////////////////////////////////////////////////////////////////');
     Gotoxy (34,5);
     Writeln ('//Ingrese el Nombre del Museo:                                                     //');
     Gotoxy (34,6);
     Writeln ('/////////////////////////////////////////////////////////////////////////////////////');
-    textcolor(green);
+    textcolor(color4);
     Gotoxy (66,5);
     Readln(busc);
 	Gotoxy (66,5);
 End;
 
+procedure noexiste();
+begin
+    Gotoxy (64,11);
+    Writeln('///////////////');
+    Gotoxy (64,12);
+    Writeln('// NO EXISTE //');
+    Gotoxy (64,13);
+    Writeln('///////////////');
+end;
 //MENUES DE CARGA
 {
 A partir de aqui se declaran los menues
@@ -297,14 +325,14 @@ A partir de aqui se declaran los menues
 Procedure Menu_Cargar_Obra();
 Begin
     Clrscr;
-    TextColor(Blue);
+    TextColor(color1);
     Writeln (' ________________________________');
     Writeln ('|                                \\');
     Writeln ('|     ');
     Gotoxy(6,3);
-    TextColor(Green);
+    TextColor(color2);
     Writeln('MENU DE CARGA DE OBRA');
-    TextColor(Blue);
+    TextColor(color1);
     Gotoxy(28,3);
     Writeln ('      \\');
     Writeln ('|________________________________\\__________________________');
@@ -343,14 +371,14 @@ End;
 Procedure Menu_Cargar_Artista_Part1();
 Begin
     Clrscr;
-    Textcolor(Blue);
+    Textcolor(color1);
     Writeln (' _________________________________');
     Writeln ('|                                 \\');
     Writeln ('|     ');
     Gotoxy(6,3);
-    TextColor(Green);
+    TextColor(color2);
     Writeln('MENU DE CARGA DE ARTISTAS');
-    TextColor(Blue);
+    TextColor(color1);
     Gotoxy(32,3);
     Writeln ('   \\');
     Writeln ('|_________________________________\\___________________');
@@ -360,7 +388,7 @@ Begin
 End;
 Procedure Menu_Cargar_Artista_Part2();
 Begin
-    TextColor(Blue);
+    TextColor(color1);
     Writeln ('|------------------------------------------------------\\');
     Writeln ('| Ingrese el DNI del Artista:                          \\');
     Writeln ('|------------------------------------------------------\\');
@@ -376,14 +404,14 @@ End;
 Procedure Menu_Cargar_Museo();
 Begin
     Clrscr;
-    TextColor(Blue);
+    TextColor(color1);
     Writeln (' ________________________________');
     Writeln ('|                                \\');
     Writeln ('|    ');
-    TextColor(Green);
+    TextColor(color2);
     Gotoxy(5,3);
     Writeln('MENU DE CARGA DE MUSEO');
-    TextColor(Blue);
+    TextColor(color1);
     Gotoxy(28,3);
     Writeln ('      \\');
     Writeln ('|________________________________\\___________________________');
@@ -410,14 +438,14 @@ End;
 Procedure Menu_Cargar_Director_Part1();
 Begin
     Clrscr;
-    Textcolor(Blue);
+    Textcolor(color1);
     Writeln (' _________________________________');
     Writeln ('|                                 \\');
     Writeln ('|   ');
-    TextColor(Green);
+    TextColor(color2);
     Gotoxy (5,3);
     Writeln('MENU DE CARGA DE DIRECTORES');
-    TextColor(Blue);
+    TextColor(color1);
     Gotoxy(32,3);
     Writeln ('   \\');
     Writeln ('|_________________________________\\___________________');
@@ -427,7 +455,7 @@ Begin
 End;
 Procedure Menu_Cargar_Director_Part2();
 Begin
-    Textcolor (Blue);
+    Textcolor (color1);
     Gotoxy (1,8);
     Writeln ('|Ingrese el D.N.I. del Director:                       \\');
     Writeln ('|------------------------------------------------------\\');
@@ -452,7 +480,7 @@ A partir de aqui se declaran los menus de edicion
 //GENERAL
 Procedure Cuadro_Edicion_Museo();
 Begin
-    TextColor(Green);
+    TextColor(color3);
     Gotoxy (1,19);
     Writeln ('\\------------------------------------------------------------------------\\');
     Gotoxy (1,20);
@@ -467,7 +495,7 @@ End;
 
 Procedure Cuadro_Edicion_Obra();
 Begin
-    TextColor(Blue);
+    TextColor(color3);
     Gotoxy(70,16);
     Writeln ('                                       \\');
     Gotoxy(70,17);
@@ -487,7 +515,7 @@ Begin
     Gotoxy(70,24);
     Writeln ('\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\');
     Window(70,16,108,23);
-    TextColor(Green);
+    TextColor(color4);
 End;
 
 //OBRA
@@ -495,7 +523,7 @@ Procedure Menu_Editar_Obra_Part1(Var Bus:String);
 Begin
     Bus := '';
     Clrscr;
-    TextColor(Blue);
+    TextColor(color3);
     Gotoxy (30,1);
     Writeln ('/////////////////////////////////////////////////////////');
     Gotoxy (30,2);
@@ -506,25 +534,25 @@ Begin
     Writeln ('//                                                     //');
     Gotoxy (30,5);
     Writeln ('/////////////////////////////////////////////////////////');
-    TextColor(Green);
+    TextColor(color4);
     Gotoxy (34,2);
     Writeln ('Ingrese el Nombre de la obra que desea modificar');
-    TextColor(Green);
+    TextColor(color4);
     Gotoxy (33,4);
     Readln(Bus);
 End;
 
 Procedure Menu_Editar_Obra_Part2();
 Begin
-    TextColor(Blue);
+    TextColor(color3);
     Writeln ('|\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\');
     Writeln ('|                        ');
-    TextColor (Green);
+    TextColor (color4);
     Gotoxy(25,2);
     Writeln('DATOS ENCONTRADOS');
-    TextColor (Blue);
+    TextColor (color3);
     Gotoxy(42,2);
-    Writeln('                         \\');
+    Writeln('                          \\');
     Writeln ('|------------------------------------------------------------------\\');
     Writeln ('| Artista:                                                         \\');
     Writeln ('|------------------------------------------------------------------\\');
@@ -547,7 +575,7 @@ Begin
     Writeln ('|   Obra:                        | Museo:                          \\');
     Writeln ('|                                                                  \\');
     Writeln ('|------------------------------------------------------------------\\');
-    TextColor(Green);
+    TextColor(color4);
     Gotoxy(70,1);
     Writeln ('\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\');
     Gotoxy(70,2);
@@ -576,7 +604,7 @@ Begin
     Writeln ('\\--> 00- Salir                        \\');
     Gotoxy(70,14);
     Writeln ('\\-------------------------------------\\');
-    TextColor(Blue);
+    TextColor(color3);
     Gotoxy(70,15);
     Writeln ('\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\');
 End;
@@ -586,7 +614,7 @@ Procedure Menu_Editar_Artista_Part1(Var Bus:String);
 Begin
     Bus := '';
     Clrscr;
-    TextColor(Blue);
+    TextColor(color3);
     Gotoxy (30,1);
     Writeln ('/////////////////////////////////////////////////////////');
     Gotoxy (30,2);
@@ -597,7 +625,7 @@ Begin
     Writeln ('//                                                     //');
     Gotoxy (30,5);
     Writeln ('/////////////////////////////////////////////////////////');
-    TextColor(Green);
+    TextColor(color4);
     Gotoxy (35,2);
     Writeln('Ingrese el Nombre del artista que desea modificar');
     Gotoxy (33,4);
@@ -606,7 +634,7 @@ End;
 
 Procedure Menu_Editar_Artista_Part2();
 Begin
-    TextColor(Blue);
+    TextColor(color3);
     Writeln ('|\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\');
     Writeln ('|                            DATOS ENCONTRADOS!                           \\');
     Writeln ('|\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\');
@@ -619,7 +647,7 @@ Begin
     Writeln ('| Fecha de nacimiento:                                                    \\');
     Writeln ('|-------------------------------------------------------------------------\\');
     Writeln ('\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\');
-    TextColor(Green);
+    TextColor(color4);
     Gotoxy (77,1 );
     Writeln ('////////////////////////////////');
     Gotoxy (77,2 );
@@ -653,7 +681,7 @@ Procedure Menu_Editar_Museo_Part1(Var Bus:String);
 Begin
     Bus := '';
     Clrscr;
-    TextColor(Blue);
+    TextColor(color3);
     Gotoxy (30,1);
     Writeln ('/////////////////////////////////////////////////////////');
     Gotoxy (30,2);
@@ -664,7 +692,7 @@ Begin
     Writeln ('//                                                     //');
     Gotoxy (30,5);
     Writeln ('/////////////////////////////////////////////////////////');
-    TextColor(Green);
+    TextColor(color4);
     Gotoxy (35,2);
     Writeln('Ingrese el Nombre del Museo que desea modificar');
     Gotoxy (33,4);
@@ -673,7 +701,7 @@ End;
 
 Procedure Menu_Editar_Museo_Part2();
 Begin
-    TextColor (Blue);
+    TextColor (color3);
     Writeln ('|\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\');
     Writeln ('|                            DATOS ENCONTRADOS                            \\');
     Writeln ('|\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\');
@@ -692,7 +720,7 @@ Begin
     Writeln ('| Telefono:                                                               \\');
     Writeln ('|-------------------------------------------------------------------------\\');
     Writeln ('\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\');
-    TextColor (Green);
+    TextColor (color4);
     Gotoxy (77,7 );
     Writeln ('//////////////////////////////////////');
     Gotoxy (77,8 );
@@ -724,7 +752,7 @@ Procedure Menu_Editar_Director_Part1(Var Bus : String);
 Begin
     Bus := '';
     Clrscr;
-    TextColor(Blue);
+    TextColor(color3);
     Gotoxy (30,1);
     Writeln ('//////////////////////////////////////////////////////////');
     Gotoxy (30,2);
@@ -735,7 +763,7 @@ Begin
     Writeln ('//                                                      //');
     Gotoxy (30,5);
     Writeln ('//////////////////////////////////////////////////////////');
-    TextColor(Green);
+    TextColor(color4);
     Gotoxy (34,2);
     Writeln ('Ingrese el Nombre del Director que desea modificar');
     Gotoxy (33,4);
@@ -745,13 +773,13 @@ End;
 Procedure Menu_Editar_Director_Part2();
 Begin
     Clrscr;
-    TextColor(Blue);
+    TextColor(color1);
     Writeln ('|\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\');
     Writeln ('|                  ');
-    TextColor (Green);
+    TextColor (color2);
     Gotoxy(19,2);
     Writeln ('DATOS ENCONTRADOS');
-    TextColor (Blue);
+    TextColor (color1);
     Gotoxy(36,2);
     Writeln('                         \\');
     Writeln ('|------------------------------------------------------------\\');
@@ -768,60 +796,60 @@ Begin
     Writeln ('|\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\');
     Writeln ('|\                                                                                                       \\');
     Writeln ('|\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\');
-    TextColor(Blue);
+    TextColor(color1);
     Gotoxy (1,18);
     Gotoxy (64,1);
     Writeln ('|\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\');
     Gotoxy (64,2);
     Writeln ('| ');
-    TextColor (Green);
+    TextColor (color2);
     Gotoxy(66,2);
     Writeln ('ELIJA EL CAMPO QUE DESEA MODIFICAR');
-    TextColor(Blue);
+    TextColor(color1);
     Gotoxy(100,2);
     Writeln('      \\');
     Gotoxy (64,3);
     Writeln ('|-----------------------------------------\\');
     Gotoxy (64,4);
     Writeln ('|   ');
-    TextColor (Green);
+    TextColor (color2);
     Gotoxy(68,4);
     Writeln ('--> 1- Periodo Asignacion');
-    TextColor(Blue);
+    TextColor(color1);
     Gotoxy(93,4);
     Writeln('             \\');
     Gotoxy (64,5);
     Writeln ('|   ');
-    TextColor (Green);
+    TextColor (color2);
     Gotoxy(68,5);
     Writeln ('--> 2- Nombre');
-    TextColor(Blue);
+    TextColor(color1);
     Gotoxy(81,5);
     Writeln('                         \\');
     Gotoxy (64,6);
     Writeln ('|   ');
-    TextColor (Green);
+    TextColor (color2);
     Gotoxy(68,6);
     Writeln ('--> 3- Direccion');
-    TextColor(Blue);
+    TextColor(color1);
     Gotoxy(84,6);
     Writeln('                      \\');
     Gotoxy (64,7);
     Writeln ('|   ');
-    TextColor (Green);
+    TextColor (color2);
     Gotoxy(68,7);
     Writeln ('--> 4- Telefono');
-    TextColor(Blue);
+    TextColor(color1);
     Gotoxy(83,7);
     Writeln('                       \\');
     Gotoxy (64,8);
     Writeln ('|-----------------------------------------\\');
     Gotoxy (64,9);
     Writeln ('|   ');
-    TextColor (Green);
+    TextColor (color2);
     Gotoxy(68,9);
     Writeln('--> 0- Salir <--');
-    TextColor(Blue);
+    TextColor(color1);
     Gotoxy(84,9);
     Writeln('                      \\');
     Gotoxy (64,10);
@@ -1516,6 +1544,7 @@ End;
 
 Procedure Dato_Encontrado_Obra;
 Begin
+	Textcolor(color5);
     Gotoxy (44,7);
     Writeln('\\\\\\\\\\\\\\\\\\\\\\\\\\\\');
     Gotoxy (44,8);
@@ -1639,6 +1668,8 @@ Begin
 	Writeln('//');
 	Gotoxy(119,6);
     Writeln('//');
+    
+    noexiste;
 End;
 
 Begin
