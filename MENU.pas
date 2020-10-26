@@ -1395,25 +1395,27 @@ var
 Begin
 Menu_Estadistica_Museo(busc); //parte grafica
 Buscar_Museo_Nombre(Museos, pos, busc, Mus);
-If (pos <> -1) then //si el artista existe
+If (pos <> -1) and (Mus.Activo=True) then //si el artista existe
     Begin
      puntero:=0;
      Clrscr;
      textcolor(green);
-     Writeln('El director del museo ',busc,' es: ', Mus.Name_Director);
-     Menu_Estadistica_ObrasdelAutor(busc);
-     Buscar_Museo_en_Obras(Obras, busc, Obr, 6, puntero); //busca en el archivo las obras del artista {busc}
+	 Menu_Museo_DirectorObras(busc,Mus.Name_Director);
+	 Buscar_Museo_en_Obras(Obras, busc, Obr, 6, puntero); //busca en el archivo las obras del artista {busc}
+	 gotoxy(1,1);Writeln(puntero);
      	repeat
 		 opcion:=readkey;
 			case (opcion) of
 				'1':begin
-						Menu_Estadistica_ObrasdelAutor(busc); // cuadro grafico
-						pos:=(pos-4);
+						Menu_Museo_DirectorObras(busc,Mus.Name_Director); // cuadro grafico
+						puntero:=(puntero-4);
 						Buscar_Museo_en_Obras(Obras, busc, Obr, 6, puntero);//(Obras, busc, Obr, 6, pos); // Atras / Anterior
+						gotoxy(1,1);Writeln(puntero);
 					End;
 				'2':Begin
-						Menu_Estadistica_ObrasdelAutor(busc); // cuadro grafico
+						Menu_Museo_DirectorObras(busc,Mus.Name_Director);// cuadro grafico
 						Buscar_Museo_en_Obras(Obras, busc, Obr, 6, puntero);//(Obras, busc, Obr, 6, pos); // Adelante / Siguiente
+						gotoxy(1,1);Writeln(puntero);
 					End;
 			end;
 		until (opcion='0');

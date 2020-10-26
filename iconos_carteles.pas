@@ -91,7 +91,7 @@ Procedure Menu_Estadistica_Museo(Var busc:string);
 Procedure Menu_Estadistica_ObrasdelAutor(autor:string);
 Procedure Obra_Museo_Artista ();
 Procedure Menu_Obra_Inexistente();
-Procedure Menu_Museo_DirectorObras();
+Procedure Menu_Museo_DirectorObras(museo:String; director:String);
 {Procedure Menu_Estadistica_Obra_Part2();
 
 //ARTISTA
@@ -1055,8 +1055,8 @@ Begin
     TextColor(Green);
     Gotoxy (39,4);
     Writeln ('////////////////////////////////////////////////////////');
-    Gotoxy (39,5);
-    Writeln ('// Ingrese el Nombre de la Obra que desea dar de baja //');
+    Gotoxy (38,5);
+    Writeln ('// Ingrese el Nombre del Director que desea dar de baja //');
     Gotoxy (32,6);
     Writeln ('//////////////////////////////////////////////////////////////////////');
     Gotoxy (32,7);
@@ -1253,7 +1253,7 @@ Begin
     Gotoxy(53,2); Writeln(autor);
 End;
 
-Procedure Menu_Museo_DirectorObras();
+Procedure Menu_Museo_DirectorObras(museo:String; director:String);
 Begin
     TextColor(Blue);
     Gotoxy(33,1);
@@ -1282,29 +1282,31 @@ Begin
     Writeln ('//                                                         //');
     Gotoxy(33,13);
     Writeln ('//                                                         //');
+    Gotoxy(33,14);
+    Writeln ('//                                                         //');
+    Gotoxy(33,15);
+    Writeln ('//                                                         //');
+    Gotoxy(33,16);
+    Writeln ('//                                                         //');
+    Gotoxy(33,17);
+    Writeln ('//                                                         //');
+    Gotoxy(33,18);
+    Writeln ('//                                                         //');
+    Gotoxy(33,19);
+    Writeln ('//                                                         //');
+    Gotoxy(33,20);
+    Writeln ('//                                                         //');
+    Gotoxy(33,21);
+    Writeln ('//                                                         //');
+    Gotoxy(33,22);
+    Writeln ('//                                                         //');
     Gotoxy(33,23);
-    Writeln ('//                                                         //');
-    Gotoxy(33,24);
-    Writeln ('//                                                         //');
-    Gotoxy(33,25);
-    Writeln ('//                                                         //');
-    Gotoxy(33,26);
-    Writeln ('//                                                         //');
-    Gotoxy(33,27);
-    Writeln ('//                                                         //');
-    Gotoxy(33,28);
-    Writeln ('//                                                         //');
-    Gotoxy(33,29);
-    Writeln ('//                                                         //');
-    Gotoxy(33,30);
-    Writeln ('//                                                         //');
-    Gotoxy(33,31);
-    Writeln ('//                                                         //');
-    Gotoxy(33,32);
     Writeln ('/////////////////////////////////////////////////////////////');
-    Gotoxy(34,33);
+    Gotoxy(34,24);
     Writeln (' 1-Pagina Anterior   0-Volver al Menu   2-Pagina Siguiente');
     Textcolor(green);
+    gotoxy(44,2); Writeln (museo);
+    gotoxy(47,4);Writeln (director);
 End;
 {Procedure Menu_Estadistica_Obra_Part2();
 Begin

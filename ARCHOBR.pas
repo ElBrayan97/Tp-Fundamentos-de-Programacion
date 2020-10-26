@@ -290,11 +290,7 @@ begin
 			 inc(posicion); // puntero del archivo
 			end;
 		until (posicion=Filesize(Obras)) or (cont=tam_lista);
-	End
-	Else
-		begin
-			posicion:=0;
-		end;
+	End;
  CerrarO(Obras);
 end;
 
