@@ -1,7 +1,7 @@
 # Tp-Fundamentos-de-Programacion
 
 Programa que administra archivos con datos de obras de arte, museos, artistas y directores de los museos.
-Programado en pascal en el ide Geany y con una UI en texto.
+Programado en pascal en el ide Geany y con una UI de estilo CLI, adaptada para un usuario inexperto
 
 Para que sea funcional se debe bajar Programa_Principal.exe y crear 4 archivos ARCHART.dat, ARCHDIR.dat, 
 ARCHMUS.dat y ARCHOBR.dat con el block de notas; Estos deben colocarse en un almacenamiento con letra de 
